@@ -595,7 +595,7 @@ const dashboardHTML = `<!DOCTYPE html>
   <div class="samlet-seksjon">
     <div class="samlet-score ${sk}">${snitt}</div>
     <div class="samlet-tekst">
-      <h2>Samlet gjennomsnittsscore på TEST: <a href="https://tilskudd.fiks.ks.no/" target="_blank" style="color:inherit;text-decoration:underline;">https://tilskudd.fiks.ks.no/</a></h2>
+      <h2>Samlet gjennomsnittsscore på PROD: <a href="https://tilskudd.fiks.ks.no/" target="_blank" style="color:inherit;text-decoration:underline;">https://tilskudd.fiks.ks.no/</a></h2>
       <p>${tekst}</p>
     </div>
   </div>`;
