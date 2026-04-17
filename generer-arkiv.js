@@ -327,9 +327,10 @@ const arkivHTML = `<!DOCTYPE html>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, -apple-system, sans-serif; background: #faf6f0; color: #0f0e17; }
 
-  header { background: #0a1355; color: white; padding: 1.6rem 2.5rem; }
+  header { background: #07604f; color: white; padding: 1.6rem 2.5rem; }
   .header-inner { max-width: 980px; margin: 0 auto; }
   .header-merkevare { font-size: 0.72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: 0.45; margin-bottom: .4rem; }
+  .env-badge { display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: rgba(255,255,255,.18); color: white; padding: .25rem .7rem; border-radius: 100px; margin-bottom: .4rem; }
   header h1 { font-size: 1.4rem; font-weight: 700; }
   header p { opacity: 0.5; font-size: 0.82rem; margin-top: 0.3rem; }
 
@@ -426,6 +427,7 @@ const arkivHTML = `<!DOCTYPE html>
 <header>
   <div class="header-inner">
     <div class="header-merkevare">KS Tilskudd · Testrapporter</div>
+    <div class="env-badge">PRODUKSJON</div>
     <h1>Arkiv</h1>
     <p>Historikk for alle testene</p>
   </div>
@@ -497,9 +499,10 @@ const dashboardHTML = `<!DOCTYPE html>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: system-ui, -apple-system, sans-serif; background: #faf6f0; color: #0f0e17; min-height: 100vh; }
 
-  header { background: #0a1355; color: white; padding: 1.6rem 2.5rem; }
+  header { background: #07604f; color: white; padding: 1.6rem 2.5rem; }
   .header-inner { max-width: 980px; margin: 0 auto; }
   .header-merkevare { font-size: 0.72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: 0.45; margin-bottom: .4rem; }
+  .env-badge { display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: rgba(255,255,255,.18); color: white; padding: .25rem .7rem; border-radius: 100px; margin-bottom: .4rem; }
   header h1 { font-size: 1.4rem; font-weight: 700; }
   header p { opacity: 0.5; font-size: 0.82rem; margin-top: 0.3rem; }
 
@@ -568,6 +571,7 @@ const dashboardHTML = `<!DOCTYPE html>
 <header>
   <div class="header-inner">
     <div class="header-merkevare">KS Tilskudd</div>
+    <div class="env-badge">PRODUKSJON</div>
     <h1>Testdashboard</h1>
     <p>${new Date().toLocaleDateString('nb-NO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
   </div>
