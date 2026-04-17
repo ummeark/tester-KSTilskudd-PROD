@@ -1,0 +1,54 @@
+name: Daglig testing – prod
+
+on:
+  schedule:
+    - cron: '30 6 * * 1-5'   # 08:30 CEST (UTC+2) – hverdager
+  workflow_dispatch:           # Tillat manuell kjøring
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sett opp Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Installer avhengigheter
+        run: npm ci
+
+      - name: Installer Playwright-nettlesere
+        run: npx playwright install --with-deps chromium
+
+      - name: Kjør UU-analyse
+        run: npm run rapport
+
+      - name: Kjør monkey-testing
+        run: npm run monkey
+
+      - name: Kjør sikkerhetstest
+        run: npm run sikkerhet
+
+      - name: Kjør negativ testing
+        run: npm run negativ
+
+      - name: Generer arkiv og dashboard
+        run: npm run arkiv
+
+      - name: Commit og push resultater
+        run: |
+          git config user.name "KSTilskudd-prod bot"
+          git config user.email "bot@github.com"
+          DATO=$(date +%Y-%m-%d)
+          git add rapporter/ docs/
+          git diff --staged --quiet || git commit -m "Daglig testing prod $DATO [skip ci]"
+          git push

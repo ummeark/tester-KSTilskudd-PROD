@@ -1,0 +1,700 @@
+=======================================
+[2026-04-14 08:30:03] Starter daglig UU-test
+[2026-04-14 08:30:03] Node: v24.12.0
+[2026-04-14 08:30:03] Kjører npm run rapport...
+
+> uu-tester@1.0.0 rapport
+> node uu-tester.js
+
+
+🔍 Starter UU-analyse av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-14
+📄 Maks antall sider: 20
+
+📄 [1/20] Analyserer: https://tilskudd.fiks.test.ks.no
+  📸 Tar skjermdumper av 0 brudd...
+📄 [2/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger
+  📸 Tar skjermdumper av 1 brudd...
+📄 [3/20] Analyserer: https://tilskudd.fiks.test.ks.no/minside
+  📸 Tar skjermdumper av 0 brudd...
+📄 [4/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/553b5d8c-209e-410e-88c6-a6cb79d714dc
+  📸 Tar skjermdumper av 0 brudd...
+📄 [5/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/7082abd8-4f23-43e9-adce-c4762b848b81
+  📸 Tar skjermdumper av 0 brudd...
+📄 [6/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/b39a60ca-08e4-476c-88a1-a78fe3cd7983
+  📸 Tar skjermdumper av 0 brudd...
+📄 [7/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0
+  📸 Tar skjermdumper av 0 brudd...
+📄 [8/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/72ad6a5b-3819-446b-881d-eed1d5dd9ed6
+  📸 Tar skjermdumper av 0 brudd...
+📄 [9/20] Analyserer: https://tilskudd.fiks.test.ks.no/soknad/opprett
+  📸 Tar skjermdumper av 0 brudd...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 RAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📄 Sider testet:     9
+♿ WCAG-brudd:       [33m1[0m   (kritiske: 0, alvorlige: 0)
+🔗 Døde lenker:      [31m5[0m
+🔘 Knapper testet:   7 ([32m0[0m uten label)
+🖼️  Bilder testet:    23 ([32m0[0m uten alt)
+📝 Skjemafelt:       2 ([32m0[0m uten label)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 HTML-rapport: /Users/ummearkhan/uu-tester/rapporter/2026-04-14/rapport.html
+
+[2026-04-14 08:30:25] Kjører npm run monkey...
+
+> uu-tester@1.0.0 monkey
+> node monkey-tester.js
+
+
+🐒 Starter monkey-testing av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-14
+🔄 Iterasjoner: 60
+
+  🏠 [1] Reset til startside
+  🖱️  [2] Klikket: "Søk"
+  🔗 [3] Klikket lenke: "Logg inn"
+  🖱️  [5] Klikket: "Søk"
+  🔗 [6] Klikket lenke: "KS Tilskudd"
+  🖱️  [7] Klikket: "Søk"
+  ✏️  [8] Fylte "0" i search-felt
+  ✏️  [9] Fylte "-1" i search-felt
+  ✏️  [10] Fylte "" i search-felt
+  🔗 [11] Klikket lenke: "Vissen Produktiv FjellrevArktis 2030"
+  🔗 [12] Klikket lenke: "Logg inn"
+  🏠 [14] Reset til startside
+  📤 [15] Send skjema: "Søk"
+  🔗 [16] Klikket lenke: "Punktlig Viktig Hund DaKommunalt næringsfond Kristiansund 20"
+  ✏️  [17] Fylte "!@#$%&*()" i search-felt
+  🏠 [18] Reset til startside
+  📤 [19] Send skjema: "Søk"
+  ✏️  [20] Fylte "-1" i search-felt
+  ⬅️  [22] Gikk tilbake (browser back)
+  🖱️  [23] Klikket: "Søk"
+  🏠 [24] Reset til startside
+  ✏️  [25] Fylte "æøå ÆØÅ" i search-felt
+  🖱️  [26] Klikket: "Søk"
+  🏠 [27] Reset til startside
+  🖱️  [28] Klikket: "Søk"
+  🔗 [30] Klikket lenke: "KS Tilskudd"
+  ✏️  [31] Fylte "" i search-felt
+  ✏️  [32] Fylte "0" i search-felt
+  ✏️  [33] Fylte "" i search-felt
+  🖱️  [34] Klikket: "Søk"
+  🔗 [35] Klikket lenke: "KS Tilskudd"
+  📤 [36] Send skjema: "Søk"
+  🔗 [37] Klikket lenke: "Kjærlig Entusiastisk Tiger AsBIO-midlar 2026"
+  🔗 [39] Klikket lenke: "Hjem"
+  🏠 [40] Reset til startside
+  🖱️  [41] Klikket: "Søk"
+  ✏️  [42] Fylte "2keafl4uklc 5sh03bv5l5y 0o2t1ml0izm kbsu" i search-felt
+  🖱️  [43] Klikket: "(ingen tekst)"
+  ⬅️  [45] Gikk tilbake (browser back)
+  ✏️  [46] Fylte "<b>bold</b>" i search-felt
+  ✏️  [47] Fylte "-1" i search-felt
+  🖱️  [48] Klikket: "(ingen tekst)"
+  🖱️  [49] Klikket: "Søk"
+  ✏️  [50] Fylte "!@#$%&*()" i search-felt
+  🖱️  [51] Klikket: "(ingen tekst)"
+  🏠 [52] Reset til startside
+  ✏️  [53] Fylte "38c2glrlyqc th7kndi3s2p fmec06evj5s andu" i search-felt
+  📤 [54] Send skjema: "Søk"
+  🖱️  [55] Klikket: "(ingen tekst)"
+  ✏️  [56] Fylte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" i search-felt
+  🖱️  [57] Klikket: "(ingen tekst)"
+  ⬅️  [59] Gikk tilbake (browser back)
+  ✏️  [60] Fylte "Test bruker" i search-felt
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🐒 MONKEY-RAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 Iterasjoner:      60
+📄 Sider besøkt:     9
+⚡ JS-feil:          0
+🖥️  Konsoll-feil:     0
+🌐 Nettverksfeil:    0
+💥 Kritiske funn:    1
+⏱️  Varighet:         34s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Monkey-rapport: /Users/ummearkhan/uu-tester/rapporter/2026-04-14/monkey-rapport.html
+[2026-04-14 08:31:00] Kjører npm run sikkerhet...
+
+> uu-tester@1.0.0 sikkerhet
+> node sikkerhet-tester.js
+
+
+🔐 Starter sikkerhetstest av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-14
+
+📋 Sjekker HTTP-sikkerhetshoder...
+  ✅ [OK] HSTS er satt
+  ✅ [OK] Content-Security-Policy er satt
+  ✅ [OK] X-Frame-Options er satt
+  ✅ [OK] X-Content-Type-Options er satt
+  🔵 [LAV] Manglende Referrer-Policy
+  🔵 [LAV] Manglende Permissions-Policy
+  🔵 [LAV] Manglende COOP
+  🔵 [LAV] Manglende CORP
+🕵️  Sjekker informasjonslekkasje i hoder...
+🔒 Sjekker HTTPS-håndhevelse...
+  ✅ [OK] HTTP omdirigerer til HTTPS
+📂 Sjekker sensitive stier...
+  🟠 [ALVORLIG] Sensitiv sti tilgjengelig: /api
+  🟠 [ALVORLIG] Sensitiv sti tilgjengelig: /robots.txt
+🍪 Sjekker cookie-sikkerhet...
+  🟡 [MIDDELS] Cookie "07c80249a0769e869d701c22923ad7d0" har svake sikkerhetsattributter
+🔀 Sjekker mixed content...
+  ✅ [OK] Ingen mixed content funnet
+💉 Sjekker input-refleksjon...
+  ✅ [OK] Søkefelt ser ut til å rense input
+🌐 Sjekker CORS-konfigurasjon...
+  ✅ [OK] Ingen CORS-hoder – standard same-origin-policy gjelder
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 SIKKERHETSRAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔴 Kritiske:   0
+🟠 Alvorlige:  2
+🟡 Moderate:   1
+🔵 Lave:       4
+✅ Bestått:    8
+📊 Score:      67/100
+⏱️  Varighet:   4s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Sikkerhetsrapport: /Users/ummearkhan/uu-tester/rapporter/2026-04-14/sikkerhet-rapport.html
+[2026-04-14 08:31:12] Kjører npm run negativ...
+
+> uu-tester@1.0.0 negativ
+> node negativ-tester.js
+
+
+🧪 Starter negativ testing av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-14
+
+
+📝 Kategori 1: Skjema-validering
+  ✅ Tom søkeinnsending
+  ✅ Søk med ekstremt lang tekst (2000 tegn)
+  ✅ Søk med spesialtegn
+  ✅ Søk med kun mellomrom
+  ✅ Søk med norske tegn (æøå)
+  ✅ SQL-lignende søketekst
+
+🔗 Kategori 2: URL-validering
+  ⚠️ Ukjent side
+  ⚠️ Ugyldig UUID i URL
+  ⚠️ Null-UUID
+  ✅ Path traversal-forsøk
+  ⚠️ Kodet path traversal
+  ✅ Ugyldig søknads-ID
+
+🔀 Kategori 3: Navigasjonsrekkefølge
+  ✅ Direkte tilgang til søknadsskjema uten forside
+  ✅ Browser tilbake fra søknadsskjema
+  ✅ Rask frem-og-tilbake-navigasjon (5x)
+  ✅ Dobbelt-klikk på handlingsknapp
+
+🌐 Kategori 4: Nettleserfunksjoner
+  ✅ Sideoppdatering (F5) under søknad
+  ✅ Siden uten JavaScript
+  ✅ Smal mobilvisning (320px bredde)
+  ✅ Stor skjerm (3840×2160)
+
+🔑 Kategori 5: Tilstand og sesjon
+  ✅ Last side etter sletting av alle cookies
+  ✅ Last side etter tømming av localStorage
+  ✅ Direkte tilgang til "Min side" uten innlogging
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 NEGATIV-TESTRAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bestått:   19
+⚠️  Advarsler: 4
+❌ Feil:      0
+📊 Score:     80/100
+⏱️  Varighet:  27s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Negativ-rapport: /Users/ummearkhan/uu-tester/rapporter/2026-04-14/negativ-rapport.html
+[2026-04-14 08:31:40] Kjører npm run arkiv...
+
+> uu-tester@1.0.0 arkiv
+> node generer-arkiv.js
+
+✅ Arkiv generert med 4 rapporter → docs/arkiv.html
+[2026-04-14 08:31:42] ✅ Ferdig og pushet til GitHub
+=======================================
+[2026-04-16 08:30:04] Starter daglig UU-test
+[2026-04-16 08:30:05] Node: v24.12.0
+[2026-04-16 08:30:05] Kjører npm run rapport...
+
+> uu-tester@1.0.0 rapport
+> node uu-tester.js
+
+
+🔍 Starter UU-analyse av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-16
+📄 Maks antall sider: 20
+
+📄 [1/20] Analyserer: https://tilskudd.fiks.test.ks.no
+  📸 Tar skjermdumper av 0 brudd...
+📄 [2/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger
+  📸 Tar skjermdumper av 1 brudd...
+📄 [3/20] Analyserer: https://tilskudd.fiks.test.ks.no/minside
+  📸 Tar skjermdumper av 0 brudd...
+📄 [4/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/553b5d8c-209e-410e-88c6-a6cb79d714dc
+  📸 Tar skjermdumper av 0 brudd...
+📄 [5/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/7082abd8-4f23-43e9-adce-c4762b848b81
+  📸 Tar skjermdumper av 0 brudd...
+📄 [6/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/b39a60ca-08e4-476c-88a1-a78fe3cd7983
+  📸 Tar skjermdumper av 0 brudd...
+📄 [7/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0
+  📸 Tar skjermdumper av 0 brudd...
+📄 [8/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/72ad6a5b-3819-446b-881d-eed1d5dd9ed6
+  📸 Tar skjermdumper av 0 brudd...
+📄 [9/20] Analyserer: https://tilskudd.fiks.test.ks.no/soknad/opprett
+  📸 Tar skjermdumper av 0 brudd...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 RAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📄 Sider testet:     9
+♿ WCAG-brudd:       [33m1[0m   (kritiske: 0, alvorlige: 0)
+🔗 Døde lenker:      [31m5[0m
+🔘 Knapper testet:   7 ([32m0[0m uten label)
+🖼️  Bilder testet:    23 ([32m0[0m uten alt)
+📝 Skjemafelt:       2 ([32m0[0m uten label)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 HTML-rapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-16/uu-rapport.html
+
+npm notice
+npm notice New minor version of npm available! 11.6.2 -> 11.12.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+npm notice To update run: npm install -g npm@11.12.1
+npm notice
+[2026-04-16 08:30:28] Kjører npm run monkey...
+
+> uu-tester@1.0.0 monkey
+> node monkey-tester.js
+
+
+🐒 Starter monkey-testing av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-16
+🔄 Iterasjoner: 60
+
+  🖱️  [1] Klikket: "Søk"
+  ✏️  [2] Fylte "!@#$%&*()" i search-felt
+  📤 [3] Send skjema: "Søk"
+  🏠 [4] Reset til startside
+  📤 [5] Send skjema: "Søk"
+  ✏️  [6] Fylte "   " i search-felt
+  🏠 [7] Reset til startside
+  🖱️  [8] Klikket: "Søk"
+  ✏️  [9] Fylte "null undefined NaN" i search-felt
+  🖱️  [10] Klikket: "(ingen tekst)"
+  ✏️  [11] Fylte "!@#$%&*()" i search-felt
+  ✏️  [12] Fylte "Test bruker" i search-felt
+  🖱️  [13] Klikket: "(ingen tekst)"
+  🔗 [14] Klikket lenke: "Kjærlig Entusiastisk Tiger AsBIO-midlar 2026"
+  🏠 [15] Reset til startside
+  🏠 [16] Reset til startside
+  🖱️  [17] Klikket: "Søk"
+  ⬅️  [18] Gikk tilbake (browser back)
+  ✏️  [19] Fylte "" i search-felt
+  ✏️  [20] Fylte "<b>bold</b>" i search-felt
+  🏠 [21] Reset til startside
+  🏠 [22] Reset til startside
+  ✏️  [23] Fylte "Test bruker" i search-felt
+  🖱️  [24] Klikket: "(ingen tekst)"
+  🖱️  [25] Klikket: "Søk"
+  ⬅️  [26] Gikk tilbake (browser back)
+  🏠 [27] Reset til startside
+  🖱️  [28] Klikket: "Søk"
+  ⬅️  [29] Gikk tilbake (browser back)
+  ✏️  [30] Fylte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" i search-felt
+  📤 [31] Send skjema: "Søk"
+  🖱️  [32] Klikket: "(ingen tekst)"
+  ⬅️  [33] Gikk tilbake (browser back)
+  ✏️  [34] Fylte "-1" i search-felt
+  🖱️  [35] Klikket: "Søk"
+  ⬅️  [36] Gikk tilbake (browser back)
+  🖱️  [37] Klikket: "Søk"
+  🏠 [41] Reset til startside
+  🖱️  [42] Klikket: "Søk"
+  🔗 [43] Klikket lenke: "KS Tilskudd"
+  ⬅️  [44] Gikk tilbake (browser back)
+  🏠 [47] Reset til startside
+  📤 [48] Send skjema: "Søk"
+  🔗 [49] Klikket lenke: "Logg inn"
+  🏠 [51] Reset til startside
+  🏠 [52] Reset til startside
+  📤 [53] Send skjema: "Søk"
+  🔗 [54] Klikket lenke: "KS Tilskudd"
+  🏠 [55] Reset til startside
+  ✏️  [56] Fylte "   " i search-felt
+  ✏️  [57] Fylte "Test bruker" i search-felt
+  🖱️  [58] Klikket: "Søk"
+  ✏️  [59] Fylte "99999999999999999999" i search-felt
+  🖱️  [60] Klikket: "(ingen tekst)"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🐒 MONKEY-RAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 Iterasjoner:      60
+📄 Sider besøkt:     10
+⚡ JS-feil:          0
+🖥️  Konsoll-feil:     0
+🌐 Nettverksfeil:    0
+💥 Kritiske funn:    0
+⏱️  Varighet:         31s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Monkey-rapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-16/monkey-rapport.html
+[2026-04-16 08:30:59] Kjører npm run sikkerhet...
+
+> uu-tester@1.0.0 sikkerhet
+> node sikkerhet-tester.js
+
+
+🔐 Starter sikkerhetstest av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-16
+
+📋 Sjekker HTTP-sikkerhetshoder...
+  ✅ [OK] HSTS er satt
+  ✅ [OK] Content-Security-Policy er satt
+  ✅ [OK] X-Frame-Options er satt
+  ✅ [OK] X-Content-Type-Options er satt
+  🔵 [LAV] Manglende Referrer-Policy
+  🔵 [LAV] Manglende Permissions-Policy
+  🔵 [LAV] Manglende COOP
+  🔵 [LAV] Manglende CORP
+🕵️  Sjekker informasjonslekkasje i hoder...
+🔒 Sjekker HTTPS-håndhevelse...
+  ✅ [OK] HTTP omdirigerer til HTTPS
+📂 Sjekker sensitive stier...
+  🟠 [ALVORLIG] Sensitiv sti tilgjengelig: /api
+  🟠 [ALVORLIG] Sensitiv sti tilgjengelig: /robots.txt
+🍪 Sjekker cookie-sikkerhet...
+  🟡 [MIDDELS] Cookie "07c80249a0769e869d701c22923ad7d0" har svake sikkerhetsattributter
+🔀 Sjekker mixed content...
+  ✅ [OK] Ingen mixed content funnet
+💉 Sjekker input-refleksjon...
+  ✅ [OK] Søkefelt ser ut til å rense input
+🌐 Sjekker CORS-konfigurasjon...
+  ✅ [OK] Ingen CORS-hoder – standard same-origin-policy gjelder
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 SIKKERHETSRAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔴 Kritiske:   0
+🟠 Alvorlige:  2
+🟡 Moderate:   1
+🔵 Lave:       4
+✅ Bestått:    8
+📊 Score:      67/100
+⏱️  Varighet:   5s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Sikkerhetsrapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-16/sikkerhet-rapport.html
+[2026-04-16 08:31:12] Kjører npm run negativ...
+
+> uu-tester@1.0.0 negativ
+> node negativ-tester.js
+
+
+🧪 Starter negativ testing av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-16
+
+
+📝 Kategori 1: Skjema-validering
+  ✅ Tom søkeinnsending
+  ✅ Søk med ekstremt lang tekst (2000 tegn)
+  ✅ Søk med spesialtegn
+  ✅ Søk med kun mellomrom
+  ✅ Søk med norske tegn (æøå)
+  ✅ SQL-lignende søketekst
+
+🔗 Kategori 2: URL-validering
+  ⚠️ Ukjent side
+  ⚠️ Ugyldig UUID i URL
+  ⚠️ Null-UUID
+  ✅ Path traversal-forsøk
+  ⚠️ Kodet path traversal
+  ✅ Ugyldig søknads-ID
+
+🔀 Kategori 3: Navigasjonsrekkefølge
+  ✅ Direkte tilgang til søknadsskjema uten forside
+  ✅ Browser tilbake fra søknadsskjema
+  ✅ Rask frem-og-tilbake-navigasjon (5x)
+  ✅ Dobbelt-klikk på handlingsknapp
+
+🌐 Kategori 4: Nettleserfunksjoner
+  ✅ Sideoppdatering (F5) under søknad
+  ✅ Siden uten JavaScript
+  ✅ Smal mobilvisning (320px bredde)
+  ✅ Stor skjerm (3840×2160)
+
+🔑 Kategori 5: Tilstand og sesjon
+  ✅ Last side etter sletting av alle cookies
+  ✅ Last side etter tømming av localStorage
+  ✅ Direkte tilgang til "Min side" uten innlogging
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 NEGATIV-TESTRAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bestått:   19
+⚠️  Advarsler: 4
+❌ Feil:      0
+📊 Score:     80/100
+⏱️  Varighet:  27s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Negativ-rapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-16/negativ-rapport.html
+[2026-04-16 08:31:40] Kjører npm run arkiv...
+
+> uu-tester@1.0.0 arkiv
+> node generer-arkiv.js
+
+✅ Siste rapporter og skjermdumper kopiert til docs/ (2026-04-16)
+✅ Arkiv generert → docs/arkiv.html
+   Datoer: 6 | UU: 11 | Monkey: 9 | Sikkerhet: 7 | Negativ: 7
+✅ Dashboard generert → docs/rapport.html
+=======================================
+[2026-04-17 08:33:52] Starter daglig UU-test
+[2026-04-17 08:33:53] Node: v24.12.0
+[2026-04-17 08:33:54] Kjører npm run rapport...
+
+> uu-tester@1.0.0 rapport
+> node uu-tester.js
+
+
+🔍 Starter UU-analyse av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-17
+📄 Maks antall sider: 20
+
+📄 [1/20] Analyserer: https://tilskudd.fiks.test.ks.no
+  📸 Tar skjermdumper av 0 brudd...
+📄 [2/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger
+  📸 Tar skjermdumper av 1 brudd...
+📄 [3/20] Analyserer: https://tilskudd.fiks.test.ks.no/minside
+  📸 Tar skjermdumper av 0 brudd...
+📄 [4/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/553b5d8c-209e-410e-88c6-a6cb79d714dc
+  📸 Tar skjermdumper av 0 brudd...
+📄 [5/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/7082abd8-4f23-43e9-adce-c4762b848b81
+  📸 Tar skjermdumper av 0 brudd...
+📄 [6/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/b39a60ca-08e4-476c-88a1-a78fe3cd7983
+  📸 Tar skjermdumper av 0 brudd...
+📄 [7/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0
+  📸 Tar skjermdumper av 0 brudd...
+📄 [8/20] Analyserer: https://tilskudd.fiks.test.ks.no/ordninger/72ad6a5b-3819-446b-881d-eed1d5dd9ed6
+  📸 Tar skjermdumper av 0 brudd...
+📄 [9/20] Analyserer: https://tilskudd.fiks.test.ks.no/soknad/opprett
+  📸 Tar skjermdumper av 0 brudd...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 RAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📄 Sider testet:     9
+♿ WCAG-brudd:       [33m1[0m   (kritiske: 0, alvorlige: 0)
+🔗 Døde lenker:      [31m5[0m
+🔘 Knapper testet:   7 ([32m0[0m uten label)
+🖼️  Bilder testet:    23 ([32m0[0m uten alt)
+📝 Skjemafelt:       2 ([32m0[0m uten label)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 HTML-rapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-17/uu-rapport.html
+
+[2026-04-17 08:34:19] Kjører npm run monkey...
+
+> uu-tester@1.0.0 monkey
+> node monkey-tester.js
+
+
+🐒 Starter monkey-testing av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-17
+🔄 Iterasjoner: 60
+
+  📤 [1] Send skjema: "Søk"
+  ✏️  [3] Fylte "Test bruker" i search-felt
+  ✏️  [4] Fylte "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" i search-felt
+  🖱️  [5] Klikket: "(ingen tekst)"
+  🔗 [7] Klikket lenke: "KS Tilskudd"
+  📤 [8] Send skjema: "Søk"
+  ⬅️  [10] Gikk tilbake (browser back)
+  🖱️  [11] Klikket: "Søk"
+  🏠 [12] Reset til startside
+  ⬅️  [13] Gikk tilbake (browser back)
+  🔗 [14] Klikket lenke: "Punktlig Viktig Hund DaStimuleringsmidler til internasjonalt"
+  🏠 [15] Reset til startside
+  🏠 [16] Reset til startside
+  ✏️  [17] Fylte "Test bruker" i search-felt
+  🏠 [18] Reset til startside
+  🖱️  [19] Klikket: "Søk"
+  🏠 [20] Reset til startside
+  🖱️  [21] Klikket: "Søk"
+  ✏️  [22] Fylte "æøå ÆØÅ" i search-felt
+  ⬅️  [23] Gikk tilbake (browser back)
+  ✏️  [24] Fylte "Test bruker" i search-felt
+  ⬅️  [25] Gikk tilbake (browser back)
+  🔗 [26] Klikket lenke: "Hjem"
+  📤 [27] Send skjema: "Søk"
+  🔗 [29] Klikket lenke: "Kjærlig Entusiastisk Tiger AsBIO-midlar 2026"
+  🏠 [30] Reset til startside
+  🏠 [31] Reset til startside
+  ✏️  [32] Fylte "" i search-felt
+  🖱️  [33] Klikket: "Søk"
+  🔗 [34] Klikket lenke: "Punktlig Viktig Hund DaStimuleringsmidler til internasjonalt"
+  🖱️  [35] Klikket: "Søk"
+  🔗 [36] Klikket lenke: "Kjærlig Entusiastisk Tiger AsBIO-midlar 2026"
+  🏠 [37] Reset til startside
+  ✏️  [38] Fylte "" i search-felt
+  📤 [39] Send skjema: "Søk"
+  🔗 [40] Klikket lenke: "KS Tilskudd"
+  📤 [41] Send skjema: "Søk"
+  ⬅️  [42] Gikk tilbake (browser back)
+  🏠 [43] Reset til startside
+  🏠 [44] Reset til startside
+  📤 [45] Send skjema: "Søk"
+  🔗 [46] Klikket lenke: "Logg inn"
+  🖱️  [48] Klikket: "Søk"
+  🔗 [49] Klikket lenke: "KS Tilskudd"
+  🖱️  [50] Klikket: "Søk"
+  ✏️  [52] Fylte "<b>bold</b>" i search-felt
+  ✏️  [53] Fylte "æøå ÆØÅ" i search-felt
+  🖱️  [55] Klikket: "(ingen tekst)"
+  🔗 [56] Klikket lenke: "Punktlig Viktig Hund DaKommunalt næringsfond Kristiansund 20"
+  🏠 [57] Reset til startside
+  ⬅️  [58] Gikk tilbake (browser back)
+  ⚡ JS-feil: Minified React error #419; visit https://react.dev/errors/419 for the full messa
+  ⬅️  [59] Gikk tilbake (browser back)
+  ⚡ JS-feil: Minified React error #419; visit https://react.dev/errors/419 for the full messa
+  📤 [60] Send skjema: "Søk"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🐒 MONKEY-RAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 Iterasjoner:      60
+📄 Sider besøkt:     8
+⚡ JS-feil:          2
+🖥️  Konsoll-feil:     0
+🌐 Nettverksfeil:    0
+💥 Kritiske funn:    5
+⏱️  Varighet:         35s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Monkey-rapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-17/monkey-rapport.html
+[2026-04-17 08:34:57] Kjører npm run sikkerhet...
+
+> uu-tester@1.0.0 sikkerhet
+> node sikkerhet-tester.js
+
+
+🔐 Starter sikkerhetstest av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-17
+
+📋 Sjekker HTTP-sikkerhetshoder...
+  ✅ [OK] HSTS er satt
+  ✅ [OK] Content-Security-Policy er satt
+  ✅ [OK] X-Frame-Options er satt
+  ✅ [OK] X-Content-Type-Options er satt
+  🔵 [LAV] Manglende Referrer-Policy
+  🔵 [LAV] Manglende Permissions-Policy
+  🔵 [LAV] Manglende COOP
+  🔵 [LAV] Manglende CORP
+🕵️  Sjekker informasjonslekkasje i hoder...
+🔒 Sjekker HTTPS-håndhevelse...
+  ✅ [OK] HTTP omdirigerer til HTTPS
+📂 Sjekker sensitive stier...
+  🟠 [ALVORLIG] Sensitiv sti tilgjengelig: /api
+  🟠 [ALVORLIG] Sensitiv sti tilgjengelig: /robots.txt
+🍪 Sjekker cookie-sikkerhet...
+  🟡 [MIDDELS] Cookie "07c80249a0769e869d701c22923ad7d0" har svake sikkerhetsattributter
+🔀 Sjekker mixed content...
+  ✅ [OK] Ingen mixed content funnet
+💉 Sjekker input-refleksjon...
+  ✅ [OK] Søkefelt ser ut til å rense input
+🌐 Sjekker CORS-konfigurasjon...
+  ✅ [OK] Ingen CORS-hoder – standard same-origin-policy gjelder
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 SIKKERHETSRAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔴 Kritiske:   0
+🟠 Alvorlige:  2
+🟡 Moderate:   1
+🔵 Lave:       4
+✅ Bestått:    8
+📊 Score:      67/100
+⏱️  Varighet:   5s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Sikkerhetsrapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-17/sikkerhet-rapport.html
+[2026-04-17 08:35:10] Kjører npm run negativ...
+
+> uu-tester@1.0.0 negativ
+> node negativ-tester.js
+
+
+🧪 Starter negativ testing av: https://tilskudd.fiks.test.ks.no/
+📅 Dato: 2026-04-17
+
+
+📝 Kategori 1: Skjema-validering
+  ✅ Tom søkeinnsending
+  ✅ Søk med ekstremt lang tekst (2000 tegn)
+  ✅ Søk med spesialtegn
+  ✅ Søk med kun mellomrom
+  ✅ Søk med norske tegn (æøå)
+  ✅ SQL-lignende søketekst
+
+🔗 Kategori 2: URL-validering
+  ⚠️ Ukjent side
+  ⚠️ Ugyldig UUID i URL
+  ⚠️ Null-UUID
+  ✅ Path traversal-forsøk
+  ⚠️ Kodet path traversal
+  ✅ Ugyldig søknads-ID
+
+🔀 Kategori 3: Navigasjonsrekkefølge
+  ✅ Direkte tilgang til søknadsskjema uten forside
+  ✅ Browser tilbake fra søknadsskjema
+  ✅ Rask frem-og-tilbake-navigasjon (5x)
+  ✅ Dobbelt-klikk på handlingsknapp
+
+🌐 Kategori 4: Nettleserfunksjoner
+  ✅ Sideoppdatering (F5) under søknad
+  ✅ Siden uten JavaScript
+  ✅ Smal mobilvisning (320px bredde)
+  ✅ Stor skjerm (3840×2160)
+
+🔑 Kategori 5: Tilstand og sesjon
+  ✅ Last side etter sletting av alle cookies
+  ✅ Last side etter tømming av localStorage
+  ✅ Direkte tilgang til "Min side" uten innlogging
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 NEGATIV-TESTRAPPORT – https://tilskudd.fiks.test.ks.no/
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Bestått:   19
+⚠️  Advarsler: 4
+❌ Feil:      0
+📊 Score:     80/100
+⏱️  Varighet:  29s
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Negativ-rapport: /Users/ummearkhan/tester-KSTilskudd/rapporter/2026-04-17/negativ-rapport.html
+[2026-04-17 08:35:39] Kjører npm run arkiv...
+
+> uu-tester@1.0.0 arkiv
+> node generer-arkiv.js
+
+✅ Siste rapporter og skjermdumper kopiert til docs/ (2026-04-17)
+✅ Arkiv generert → docs/arkiv.html
+   Datoer: 7 | UU: 12 | Monkey: 10 | Sikkerhet: 8 | Negativ: 8
+✅ Dashboard generert → docs/rapport.html
+[2026-04-17 08:35:41] ✅ Ferdig og pushet til GitHub

@@ -1,0 +1,17 @@
+{
+  "name": "uu-tester",
+  "version": "1.0.0",
+  "description": "Daglig WCAG og universell utforming-testing",
+  "type": "module",
+  "scripts": {
+    "rapport": "node uu-tester.js",
+    "monkey": "node monkey-tester.js",
+    "sikkerhet": "node sikkerhet-tester.js",
+    "negativ": "node negativ-tester.js",
+    "arkiv": "node generer-arkiv.js"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "^4.10.1",
+    "playwright": "^1.52.0"
+  }
+}
