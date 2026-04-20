@@ -128,6 +128,8 @@ for (const dato of datoer) {
     let html = fs.readFileSync(path.join(kildedir, fil), 'utf-8');
     html = html.replace(/src="skjermbilder\//g, `src="../${dato}/skjermbilder/`);
     html = html.replace(/href="skjermbilder\//g, `href="../${dato}/skjermbilder/`);
+    html = html.replace(/href="rapport\.html"/g, 'href="../../rapport.html"');
+    html = html.replace(/href="arkiv\.html"/g, 'href="../../arkiv.html"');
     fs.writeFileSync(path.join(måldir, fil), html);
   });
 
