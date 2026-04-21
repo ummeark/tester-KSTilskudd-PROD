@@ -195,6 +195,19 @@ for (const { sti, beskrivelse } of SENSITIVE_STIER) {
 console.log('🍪 Sjekker cookie-sikkerhet...');
 const browser = await chromium.launch();
 const context = await browser.newContext({ ignoreHTTPSErrors: true });
+
+// Hent versjonsnummer fra siden
+async function hentVersjon(ctx) {
+  const p = await ctx.newPage();
+  try {
+    await p.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const tekst = await p.evaluate(() => document.body.innerText);
+    const match = tekst.match(/v\d+\.\d+\.\d+/);
+    return match ? match[0] : null;
+  } catch { return null; } finally { await p.close(); }
+}
+const versjon = await hentVersjon(context);
+
 const page = await context.newPage();
 
 try {
@@ -358,7 +371,7 @@ console.log('━'.repeat(60));
 // Lagre JSON
 fs.writeFileSync(
   path.join(rapportDir, 'sikkerhet-resultat.json'),
-  JSON.stringify({ url: START_URL, dato, score, totalt: { kritiske, alvorlige, middels, lave, ok, varighet }, funn }, null, 2)
+  JSON.stringify({ url: START_URL, dato, versjon, score, totalt: { kritiske, alvorlige, middels, lave, ok, varighet }, funn }, null, 2)
 );
 
 // ── HTML-rapport ──────────────────────────────────────────────────────────────
@@ -509,7 +522,7 @@ const html = `<!DOCTYPE html>
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Sikkerhetstester</div>
-    <div class="env-badge">PRODUKSJON</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Sikkerhetsrapport <span>${dato} ${tidspunkt}</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>

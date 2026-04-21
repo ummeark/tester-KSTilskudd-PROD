@@ -35,6 +35,19 @@ const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 NegativTester/1.0',
   viewport: { width: 1280, height: 900 },
 });
+
+// Hent versjonsnummer fra siden
+async function hentVersjon(ctx) {
+  const p = await ctx.newPage();
+  try {
+    await p.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const tekst = await p.evaluate(() => document.body.innerText);
+    const match = tekst.match(/v\d+\.\d+\.\d+/);
+    return match ? match[0] : null;
+  } catch { return null; } finally { await p.close(); }
+}
+const versjon = await hentVersjon(context);
+
 const page = await context.newPage();
 
 const jsErrors = [];
@@ -462,7 +475,7 @@ console.log('━'.repeat(60));
 
 fs.writeFileSync(
   path.join(rapportDir, 'negativ-resultat.json'),
-  JSON.stringify({ url: START_URL, dato, score, totalt: { bestått, feil, advarsel, totalt: tester.length, varighet }, tester }, null, 2)
+  JSON.stringify({ url: START_URL, dato, versjon, score, totalt: { bestått, feil, advarsel, totalt: tester.length, varighet }, tester }, null, 2)
 );
 
 // ── HTML-rapport ──────────────────────────────────────────────────────────────
@@ -608,7 +621,7 @@ const html = `<!DOCTYPE html>
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
-    <div class="env-badge">PRODUKSJON</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Negativ testrapport <span>${dato} ${tidspunkt} · ${tester.length} tester</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>

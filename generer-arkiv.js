@@ -111,6 +111,21 @@ const monkey    = datoer.flatMap(lesAlleMonkey);
 const sikkerhet = datoer.flatMap(lesAlleSikkerhet);
 const negativ   = datoer.flatMap(lesAlleNegativ);
 
+// Hent versjonsnummer fra nyeste tilgjengelige JSON-resultat
+function lesVersjon() {
+  for (const dato of datoer) {
+    for (const fil of ['resultat.json', 'monkey-resultat.json', 'sikkerhet-resultat.json', 'negativ-resultat.json']) {
+      const fp = path.join(rapportDir, dato, fil);
+      if (fs.existsSync(fp)) {
+        const json = JSON.parse(fs.readFileSync(fp, 'utf-8'));
+        if (json.versjon) return json.versjon;
+      }
+    }
+  }
+  return null;
+}
+const versjon = lesVersjon();
+
 // --- Kopier rapporter til docs/arkiv/ ---
 
 const arkivDir = path.join(docsDir, 'arkiv');
@@ -429,7 +444,7 @@ const arkivHTML = `<!DOCTYPE html>
 <header>
   <div class="header-inner">
     <div class="header-merkevare">KS Tilskudd · Testrapporter</div>
-    <div class="env-badge">PRODUKSJON</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Arkiv</h1>
     <p>Historikk for alle testene</p>
   </div>
@@ -573,7 +588,7 @@ const dashboardHTML = `<!DOCTYPE html>
 <header>
   <div class="header-inner">
     <div class="header-merkevare">KS Tilskudd</div>
-    <div class="env-badge">PRODUKSJON</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Testdashboard</h1>
     <p>${new Date().toLocaleDateString('nb-NO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
   </div>

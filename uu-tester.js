@@ -26,6 +26,18 @@ const context = await browser.newContext({
   viewport: { width: 1280, height: 900 }
 });
 
+// Hent versjonsnummer fra siden
+async function hentVersjon(ctx) {
+  const p = await ctx.newPage();
+  try {
+    await p.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const tekst = await p.evaluate(() => document.body.innerText);
+    const match = tekst.match(/v\d+\.\d+\.\d+/);
+    return match ? match[0] : null;
+  } catch { return null; } finally { await p.close(); }
+}
+const versjon = await hentVersjon(context);
+
 const besøkte = new Set();
 const kø = [START_URL];
 const sideResultater = [];
@@ -336,10 +348,10 @@ const totalt = {
 };
 
 // Lagre JSON (uten bildedata for å holde størrelsen nede)
-fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, totalt, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
+fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, totalt, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -380,7 +392,7 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider) {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
@@ -657,7 +669,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider) {
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · UU-tester</div>
-    <div class="env-badge">PRODUKSJON</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Tilgjengelighetsrapport <span>${dato} ${tidspunkt} · ${totalt.sider} sider</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>

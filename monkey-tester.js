@@ -57,6 +57,19 @@ const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 MonkeyTester/1.0',
   viewport: { width: 1280, height: 900 },
 });
+
+// Hent versjonsnummer fra siden
+async function hentVersjon(ctx) {
+  const p = await ctx.newPage();
+  try {
+    await p.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const tekst = await p.evaluate(() => document.body.innerText);
+    const match = tekst.match(/v\d+\.\d+\.\d+/);
+    return match ? match[0] : null;
+  } catch { return null; } finally { await p.close(); }
+}
+const versjon = await hentVersjon(context);
+
 const page = await context.newPage();
 
 page.on('pageerror', err => {
@@ -272,7 +285,7 @@ console.log('━'.repeat(60));
 // Lagre JSON-resultater
 fs.writeFileSync(
   path.join(rapportDir, 'monkey-resultat.json'),
-  JSON.stringify({ url: START_URL, dato, totalt, score, jsErrors, konsollFeil, nettverksFeil, interaksjoner, besøkte: [...besøkte] }, null, 2)
+  JSON.stringify({ url: START_URL, dato, versjon, totalt, score, jsErrors, konsollFeil, nettverksFeil, interaksjoner, besøkte: [...besøkte] }, null, 2)
 );
 
 // ── HTML-rapport ─────────────────────────────────────────────────────────────
@@ -410,7 +423,7 @@ const html = `<!DOCTYPE html>
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
-    <div class="env-badge">PRODUKSJON</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Monkey-testrapport <span>${dato} ${tidspunkt} · ${ITERASJONER} iterasjoner</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>
