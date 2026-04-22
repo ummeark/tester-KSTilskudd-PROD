@@ -542,6 +542,10 @@ function farge(n, grønn, gul, rød) {
   return `\x1b[31m${n}\x1b[0m`;
 }
 
+function escapeHtml(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 function scoreBeregn(t) {
   return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5);
 }
@@ -592,15 +596,15 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
                 <div>
                   <span class="badge ${v.impact}">${v.impact}</span>
                   <code class="regel-id">${v.id}</code>
-                  <span class="regel-desc">${v.description}</span>
+                  <span class="regel-desc">${escapeHtml(v.description)}</span>
                 </div>
                 <span class="brudd-teller">${v.nodes.length} element${v.nodes.length !== 1 ? 'er' : ''}</span>
               </div>
-              ${v.help ? `<p class="brudd-hjelp">💡 ${v.help} — <a href="${v.helpUrl}" target="_blank">Les mer</a></p>` : ''}
+              ${v.help ? `<p class="brudd-hjelp">💡 ${escapeHtml(v.help)} — <a href="${v.helpUrl}" target="_blank">Les mer</a></p>` : ''}
               ${v.nodes.slice(0, 3).map(n => `
                 <div class="node-info">
                   <code class="node-selector">${Array.isArray(n.target) ? n.target.join(' > ') : n.target}</code>
-                  ${n.failureSummary ? `<p class="failure-summary">${n.failureSummary.replace('Fix any of the following:\n', '').replace('Fix all of the following:\n', '').trim()}</p>` : ''}
+                  ${n.failureSummary ? `<p class="failure-summary">${escapeHtml(n.failureSummary.replace('Fix any of the following:\n', '').replace('Fix all of the following:\n', '').trim())}</p>` : ''}
                 </div>`).join('')}
               ${v.bilder?.nærbilde || v.bilder?.helside ? `
               <div class="skjermdump-gruppe">
