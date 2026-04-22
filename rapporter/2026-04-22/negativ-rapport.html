@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Negativ testrapport – 2026-04-22 13:36</title>
+<title>Negativ testrapport – 2026-04-22 13:43</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -71,17 +71,17 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
     <div class="env-badge">TEST-MILJØ · v0.4.3</div>
-    <h1>Negativ testrapport <span>2026-04-22 13:36 · 23 tester</span></h1>
+    <h1>Negativ testrapport <span>2026-04-22 13:43 · 23 tester</span></h1>
   </div>
-  <ul><li><a href="#skjema" class="sidenav-link ok">
+  <ul><li><a href="#skjema" class="sidenav-link har-kritiske">
     <span class="sidenavn">📝 Skjema-validering</span>
-    <span class="side-badge">6 tester · ✅ alle bestått</span>
+    <span class="side-badge">6 tester · 5 feil/adv.</span>
   </a></li><li><a href="#url" class="sidenav-link har-brudd">
     <span class="sidenavn">🔗 URL-validering</span>
     <span class="side-badge">6 tester · 4 feil/adv.</span>
-  </a></li><li><a href="#navigasjon" class="sidenav-link ok">
+  </a></li><li><a href="#navigasjon" class="sidenav-link har-kritiske">
     <span class="sidenavn">🔀 Navigasjonsrekkefølge</span>
-    <span class="side-badge">4 tester · ✅ alle bestått</span>
+    <span class="side-badge">4 tester · 2 feil/adv.</span>
   </a></li><li><a href="#nettleser" class="sidenav-link ok">
     <span class="sidenavn">🌐 Nettleserfunksjoner</span>
     <span class="side-badge">4 tester · ✅ alle bestått</span>
@@ -94,7 +94,7 @@
   <div class="rapport-header">
     <div>
       <h1>Negativ testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.test.ks.no/" target="_blank">https://tilskudd.fiks.test.ks.no/</a> · 2026-04-22 13:36 · 23 tester · 27s · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 13:43 · 23 tester · 30s · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -147,23 +147,23 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel god">80</div>
+    <div class="score-sirkel dårlig">0</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>19 av 23 tester bestått. 0 feil og 4 advarsler på tvers av 5 testkategorier.</p>
+      <p>12 av 23 tester bestått. 7 feil og 4 advarsler på tvers av 5 testkategorier.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">23</div><div class="etikett">Tester totalt</div></div>
-    <div class="kort ok"><div class="tall">19</div><div class="etikett">Bestått</div></div>
+    <div class="kort ok"><div class="tall">12</div><div class="etikett">Bestått</div></div>
     <div class="kort advarsel"><div class="tall">4</div><div class="etikett">Advarsler</div></div>
-    <div class="kort ok"><div class="tall">0</div><div class="etikett">Feil</div></div>
+    <div class="kort kritisk"><div class="tall">7</div><div class="etikett">Feil</div></div>
   </div>
 
   
   <div class="seksjon" id="skjema">
-    <div class="seksjon-tittel">📝 Skjema-validering – 6/6 bestått</div>
+    <div class="seksjon-tittel">📝 Skjema-validering – 1/6 bestått</div>
     
   <div class="brudd-kort" style="border-left-color:#07604f">
     <div class="brudd-header">
@@ -185,10 +185,10 @@
     
     
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Søk med ekstremt lang tekst (2000 tegn)</span>
       </div>
     </div>
@@ -197,18 +197,26 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Håndterte lang tekst uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Siden krasjet</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-lang-tekst-krasj-1.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-lang-tekst-krasj-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Søk med spesialtegn</span>
       </div>
     </div>
@@ -217,18 +225,26 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">!@#$%^&*()<>{}[]|\;:'",.?/`~</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Håndterte spesialtegn uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Siden krasjet</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-spesialtegn-krasj-2.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-spesialtegn-krasj-2.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Søk med kun mellomrom</span>
       </div>
     </div>
@@ -237,18 +253,26 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">     </div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Håndterte mellomrom uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Siden krasjet</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-mellomrom-krasj-3.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-mellomrom-krasj-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Søk med norske tegn (æøå)</span>
       </div>
     </div>
@@ -257,18 +281,26 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">æøå ÆØÅ tilskudd</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Håndterte norske tegn uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Siden krasjet</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-norske-tegn-krasj-4.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-norske-tegn-krasj-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">SQL-lignende søketekst</span>
       </div>
     </div>
@@ -277,13 +309,21 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">' OR '1'='1</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">SQL-lignende input håndtert uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Siden krasjet – mulig SQL-feil i svar</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-sql-krasj-5.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-sql-krasj-5.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
   </div>
   <div class="seksjon" id="url">
@@ -299,7 +339,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
       <div style="background:#f4ecdf;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
-        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.test.ks.no/finnesikke</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/finnesikke</div>
       </div>
       <div style="background:#fff9db;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
@@ -311,8 +351,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-1.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-6.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-6.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -327,7 +367,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
       <div style="background:#f4ecdf;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
-        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.test.ks.no/ordninger/ikke-en-gyldig-uuid</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger/ikke-en-gyldig-uuid</div>
       </div>
       <div style="background:#fff9db;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
@@ -339,8 +379,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-2.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-2.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-7.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-7.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -355,7 +395,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
       <div style="background:#f4ecdf;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
-        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.test.ks.no/ordninger/00000000-0000-0000-0000-000000000000</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger/00000000-0000-0000-0000-000000000000</div>
       </div>
       <div style="background:#fff9db;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
@@ -367,8 +407,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-3.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-8.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-8.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -383,11 +423,11 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
       <div style="background:#f4ecdf;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
-        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.test.ks.no/ordninger/../admin</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger/../admin</div>
       </div>
       <div style="background:#ecfdf5;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Omdirigerte til: https://tilskudd.fiks.test.ks.no/admin</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til: https://tilskudd.fiks.ks.no/admin</div>
       </div>
     </div>
     
@@ -403,7 +443,7 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
       <div style="background:#f4ecdf;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
-        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.test.ks.no/%2e%2e%2fadmin</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/%2e%2e%2fadmin</div>
       </div>
       <div style="background:#fff9db;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
@@ -415,8 +455,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-4.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-9.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-9.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -431,11 +471,11 @@
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
       <div style="background:#f4ecdf;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
-        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.test.ks.no/søknad/opprett/ugyldigid</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/søknad/opprett/ugyldigid</div>
       </div>
       <div style="background:#ecfdf5;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Omdirigerte til: https://tilskudd.fiks.test.ks.no/s%C3%B8knad/opprett/ugyldigid</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til: https://tilskudd.fiks.ks.no/s%C3%B8knad/opprett/ugyldigid</div>
       </div>
     </div>
     
@@ -443,7 +483,7 @@
   </div>
   </div>
   <div class="seksjon" id="navigasjon">
-    <div class="seksjon-tittel">🔀 Navigasjonsrekkefølge – 4/4 bestått</div>
+    <div class="seksjon-tittel">🔀 Navigasjonsrekkefølge – 2/4 bestått</div>
     
   <div class="brudd-kort" style="border-left-color:#07604f">
     <div class="brudd-header">
@@ -459,7 +499,7 @@
       </div>
       <div style="background:#ecfdf5;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Lastet uten krasj (URL: https://login.test.idporten.no/authorize/selector)</div>
+        <div style="color:#374151;word-break:break-all">Lastet uten krasj (URL: https://login.idporten.no/authorize/selector)</div>
       </div>
     </div>
     
@@ -485,10 +525,10 @@
     
     
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Rask frem-og-tilbake-navigasjon (5x)</span>
       </div>
     </div>
@@ -497,18 +537,26 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">5x goBack/goForward</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Rask navigasjon håndtert uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Krasjet under rask navigasjon</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-rask-nav-krasj-10.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-rask-nav-krasj-10.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Dobbelt-klikk på handlingsknapp</span>
       </div>
     </div>
@@ -517,13 +565,21 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">dblclick</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Dobbelt-klikk håndtert uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Krasjet ved dobbelt-klikk</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-dblclick-krasj-11.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-dblclick-krasj-11.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
   </div>
   <div class="seksjon" id="nettleser">
@@ -591,8 +647,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-mobil-5.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-mobil-5.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-mobil-12.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-mobil-12.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -635,7 +691,7 @@
       </div>
       <div style="background:#ecfdf5;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Siden lastet uten cookies (URL: https://tilskudd.fiks.test.ks.no/)</div>
+        <div style="color:#374151;word-break:break-all">Siden lastet uten cookies (URL: https://tilskudd.fiks.ks.no/)</div>
       </div>
     </div>
     
@@ -675,7 +731,7 @@
       </div>
       <div style="background:#ecfdf5;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Omdirigerte til innlogging: https://login.test.idporten.no/authorize/selector</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til innlogging: https://login.idporten.no/authorize/selector</div>
       </div>
     </div>
     
@@ -727,7 +783,7 @@
           </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-04-22 13:36</footer>
+  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-04-22 13:43</footer>
 </div>
 </body>
 </html>

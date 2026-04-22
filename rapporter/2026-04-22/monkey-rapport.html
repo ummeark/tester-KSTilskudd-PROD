@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Monkey-testrapport – 2026-04-22 13:36</title>
+<title>Monkey-testrapport – 2026-04-22 13:42</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -80,7 +80,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
     <div class="env-badge">TEST-MILJØ · v0.4.3</div>
-    <h1>Monkey-testrapport <span>2026-04-22 13:36 · 60 iterasjoner</span></h1>
+    <h1>Monkey-testrapport <span>2026-04-22 13:42 · 60 iterasjoner</span></h1>
   </div>
   <ul><li><a href="#sammendrag" class="sidenav-link ">
     <span class="sidenavn">Sammendrag</span>
@@ -88,25 +88,25 @@
   </a></li><li><a href="#js-feil" class="sidenav-link ok">
     <span class="sidenavn">JS-feil</span>
     <span class="side-badge">0 funn</span>
-  </a></li><li><a href="#konsoll" class="sidenav-link ok">
+  </a></li><li><a href="#konsoll" class="sidenav-link har-brudd">
     <span class="sidenavn">Konsoll-feil</span>
-    <span class="side-badge">0 funn</span>
-  </a></li><li><a href="#nettverk" class="sidenav-link ok">
+    <span class="side-badge">30 funn</span>
+  </a></li><li><a href="#nettverk" class="sidenav-link har-brudd">
     <span class="sidenavn">Nettverksfeil</span>
-    <span class="side-badge">0 funn</span>
+    <span class="side-badge">4 funn</span>
   </a></li><li><a href="#interaksjoner" class="sidenav-link har-kritiske">
     <span class="sidenavn">Interaksjonsfunn</span>
-    <span class="side-badge">1 funn</span>
+    <span class="side-badge">25 funn</span>
   </a></li><li><a href="#sider" class="sidenav-link ">
     <span class="sidenavn">Sider besøkt</span>
-    <span class="side-badge">7 funn</span>
+    <span class="side-badge">3 funn</span>
   </a></li></ul>
 </nav>
 <div class="hoveddel">
   <div class="rapport-header">
     <div>
       <h1>Monkey-testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.test.ks.no/" target="_blank">https://tilskudd.fiks.test.ks.no/</a> · 2026-04-22 13:36 · 31s · 60 tilfeldige handlinger · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 13:42 · 39s · 60 tilfeldige handlinger · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -159,20 +159,20 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel god">80</div>
+    <div class="score-sirkel dårlig">0</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 7 sider. Lavere score indikerer ustabilitet.</p>
+      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 3 sider. Lavere score indikerer ustabilitet.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">60</div><div class="etikett">Iterasjoner</div></div>
-    <div class="kort ok"><div class="tall">7</div><div class="etikett">Sider besøkt</div></div>
+    <div class="kort ok"><div class="tall">3</div><div class="etikett">Sider besøkt</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">JS-feil</div></div>
-    <div class="kort ok"><div class="tall">0</div><div class="etikett">Konsoll-feil</div></div>
-    <div class="kort ok"><div class="tall">0</div><div class="etikett">Nettverksfeil</div></div>
-    <div class="kort kritisk"><div class="tall">1</div><div class="etikett">Kritiske funn</div></div>
+    <div class="kort advarsel"><div class="tall">30</div><div class="etikett">Konsoll-feil</div></div>
+    <div class="kort advarsel"><div class="tall">4</div><div class="etikett">Nettverksfeil</div></div>
+    <div class="kort kritisk"><div class="tall">25</div><div class="etikett">Kritiske funn</div></div>
   </div>
 
   <!-- JS-feil -->
@@ -183,36 +183,656 @@
 
   <!-- Konsoll-feil -->
   <div class="seksjon" id="konsoll">
-    <div class="seksjon-tittel">Konsoll-feil (0)</div>
-    <div class="wcag-ok">Ingen console.error()-kall oppdaget</div>
+    <div class="seksjon-tittel">Konsoll-feil (30)</div>
+    <table><thead><tr><th>Tidspunkt</th><th>Melding</th><th>URL</th></tr></thead><tbody>
+          <tr>
+            <td style="white-space:nowrap">11:42:52</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:42:54</td>
+            <td>Failed to load resource: the server responded with a status of 500 (Internal Server Error)</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:42:54</td>
+            <td>Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordni</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:42:55</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:42:56</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:42:57</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:00</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:01</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:02</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:03</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:04</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:05</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:06</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:08</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:09</td>
+            <td>Failed to load resource: the server responded with a status of 500 (Internal Server Error)</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:09</td>
+            <td>Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordni</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:12</td>
+            <td>Failed to load resource: the server responded with a status of 500 (Internal Server Error)</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:12</td>
+            <td>Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordni</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:13</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:13</td>
+            <td>Failed to load resource: the server responded with a status of 500 (Internal Server Error)</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:13</td>
+            <td>Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordni</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:15</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?searchString=%2299999999999999999999%22&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:18</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:21</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:22</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:24</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:25</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:26</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:28</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">11:43:29</td>
+            <td>TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/opp</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+          </tr>
+        </tbody></table>
   </div>
 
   <!-- Nettverksfeil -->
   <div class="seksjon" id="nettverk">
-    <div class="seksjon-tittel">Nettverksfeil (0)</div>
-    <div class="wcag-ok">Ingen HTTP 4xx/5xx-svar oppdaget</div>
+    <div class="seksjon-tittel">Nettverksfeil (4)</div>
+    <table><thead><tr><th>Status</th><th>URL</th><th>Fra side</th></tr></thead><tbody>
+          <tr>
+            <td><span class="badge kritisk">500</span></td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
+          </tr><tr>
+            <td><span class="badge kritisk">500</span></td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
+          </tr><tr>
+            <td><span class="badge kritisk">500</span></td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
+          </tr><tr>
+            <td><span class="badge kritisk">500</span></td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
+          </tr>
+        </tbody></table>
   </div>
 
   <!-- Interaksjonsfunn -->
   <div class="seksjon" id="interaksjoner">
-    <div class="seksjon-tittel">Interaksjonsfunn (1)</div>
+    <div class="seksjon-tittel">Interaksjonsfunn (25)</div>
     
   <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
         <span class="badge kritisk">kritisk</span>
-        <span class="regel-desc">Feilside etter klikk: inneholder "500"</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
       </div>
-      <span class="brudd-teller">11:36:11</span>
+      <span class="brudd-teller">11:42:53</span>
     </div>
-    <p class="brudd-hjelp">Handling: Klikket lenke: "Punktlig Viktig Hund DaKommunalt næringsfond Kristiansund 20"</p>
-    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.test.ks.no/ordninger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0</span></div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
     
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump ved funn</p>
-        <a href="skjermbilder-monkey/monkey-feilside-1.png" target="_blank">
-          <img src="skjermbilder-monkey/monkey-feilside-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-monkey/monkey-feilside-2.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-2.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter navigasjon: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:42:54</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Gikk tilbake (browser back)</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-3.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:42:55</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-4.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:42:56</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-5.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-5.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:42:58</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-7.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-7.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:00</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-8.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-8.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:01</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-9.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-9.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:03</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-11.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-11.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:03</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-12.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-12.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:05</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-14.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-14.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:06</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-15.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-15.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:07</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-17.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-17.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:09</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-19.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-19.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter navigasjon: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:10</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Gikk tilbake (browser back)</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-20.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-20.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter navigasjon: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:12</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Gikk tilbake (browser back)</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-21.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-21.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:13</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-22.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-22.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter navigasjon: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:14</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Gikk tilbake (browser back)</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-23.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-23.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:16</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?searchString=%2299999999999999999999%22&currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-25.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-25.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:19</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-26.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-26.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:23</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-29.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-29.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:24</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-30.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-30.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:25</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-31.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-31.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:26</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-32.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-32.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:29</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-34.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-34.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">11:43:30</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-35.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-35.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -221,9 +841,9 @@
 
   <!-- Sider besøkt -->
   <div class="seksjon" id="sider">
-    <div class="seksjon-tittel">Sider besøkt (7)</div>
+    <div class="seksjon-tittel">Sider besøkt (3)</div>
     <ul class="url-liste">
-      <li title="https://login.test.idporten.no/authorize/selector">https://login.test.idporten.no/authorize/selector</li><li title="https://tilskudd.fiks.test.ks.no/">https://tilskudd.fiks.test.ks.no/</li><li title="https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10">https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10&searchString=%22-1%22">https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10&searchString=%22-1%22</li><li title="https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10&searchString=7m8n69w91qn+lqc58fr2jbi+pm56jlxb6y+s40o2vtma6g+oq8o9i49lkb+ilrs0bjnxkn+lsfxdoy1q5+lewj5nrxrie">https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10&searchString=7m8n69w91qn+lqc58fr2jbi+pm56jlxb6y+s40o2vtma6g+oq8o9i49lkb+ilrs0bjnxkn+lsfxdoy1q5+lewj5nrxrie</li><li title="https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10&searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">https://tilskudd.fiks.test.ks.no/ordninger?currentPage=1&pageSize=10&searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</li><li title="https://tilskudd.fiks.test.ks.no/ordninger?searchString=%220%22&currentPage=1&pageSize=10">https://tilskudd.fiks.test.ks.no/ordninger?searchString=%220%22&currentPage=1&pageSize=10</li>
+      <li title="https://login.idporten.no/authorize/selector">https://login.idporten.no/authorize/selector</li><li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10</li>
     </ul>
   </div>
 
@@ -255,7 +875,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-04-22 13:36</footer>
+  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-04-22 13:42</footer>
 </div>
 </body>
 </html>
