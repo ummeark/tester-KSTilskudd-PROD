@@ -559,7 +559,7 @@ const html = `<!DOCTYPE html>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
-  .sidemeny{width:272px;min-width:272px;background:#0a1355;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny{width:272px;min-width:272px;background:#07604f;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
   .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
   .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
   .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
@@ -579,7 +579,7 @@ const html = `<!DOCTYPE html>
   .rapport-header .meta{font-size:.85rem;color:#6b7280;margin-top:.4rem}
   .rapport-header .meta a{color:#07604f;text-decoration:none}
   .nav-knapper{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-start}
-  .knapp{display:inline-block;padding:.5rem 1.2rem;background:#0a1355;color:white;border-radius:100px;font-size:.82rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s}
+  .knapp{display:inline-block;padding:.5rem 1.2rem;background:#07604f;color:white;border-radius:100px;font-size:.82rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s}
   .knapp:hover{background:#2b3285}
   .knapp.aktiv{background:#07604f;pointer-events:none}
   .knapp.sekundær{background:transparent;border:1px solid #0a1355;color:#0a1355}
@@ -622,7 +622,7 @@ const html = `<!DOCTYPE html>
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
-    <div class="env-badge">TEST-MILJØ${versjon ? ` · ${versjon}` : ''}</div>
+    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Negativ testrapport <span>${dato} ${tidspunkt} · ${tester.length} tester</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>
