@@ -31,6 +31,7 @@ function logg(resultat, navn, detalj = '') {
 // ── Browser ───────────────────────────────────────────────────────────────────
 
 const browser = await chromium.launch();
+const nettleser = browser.version();
 const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 NegativTester/1.0',
   viewport: { width: 1280, height: 900 },
@@ -475,7 +476,7 @@ console.log('━'.repeat(60));
 
 fs.writeFileSync(
   path.join(rapportDir, 'negativ-resultat.json'),
-  JSON.stringify({ url: START_URL, dato, versjon, score, totalt: { bestått, feil, advarsel, totalt: tester.length, varighet }, tester }, null, 2)
+  JSON.stringify({ url: START_URL, dato, versjon, nettleser, score, totalt: { bestått, feil, advarsel, totalt: tester.length, varighet }, tester }, null, 2)
 );
 
 // ── HTML-rapport ──────────────────────────────────────────────────────────────
@@ -630,7 +631,7 @@ const html = `<!DOCTYPE html>
   <div class="rapport-header">
     <div>
       <h1>Negativ testrapport</h1>
-      <div class="meta"><a href="${START_URL}" target="_blank">${START_URL}</a> · ${dato} ${tidspunkt} · ${tester.length} tester · ${varighet}s</div>
+      <div class="meta"><a href="${START_URL}" target="_blank">${START_URL}</a> · ${dato} ${tidspunkt} · ${tester.length} tester · ${varighet}s · Chromium ${nettleser.split('.')[0]}</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>

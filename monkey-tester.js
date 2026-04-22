@@ -53,6 +53,7 @@ let startTid       = Date.now();
 
 // ── Browser ─────────────────────────────────────────────────────────────────
 const browser = await chromium.launch();
+const nettleser = browser.version();
 const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 MonkeyTester/1.0',
   viewport: { width: 1280, height: 900 },
@@ -285,7 +286,7 @@ console.log('━'.repeat(60));
 // Lagre JSON-resultater
 fs.writeFileSync(
   path.join(rapportDir, 'monkey-resultat.json'),
-  JSON.stringify({ url: START_URL, dato, versjon, totalt, score, jsErrors, konsollFeil, nettverksFeil, interaksjoner, besøkte: [...besøkte] }, null, 2)
+  JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, score, jsErrors, konsollFeil, nettverksFeil, interaksjoner, besøkte: [...besøkte] }, null, 2)
 );
 
 // ── HTML-rapport ─────────────────────────────────────────────────────────────
@@ -432,7 +433,7 @@ const html = `<!DOCTYPE html>
   <div class="rapport-header">
     <div>
       <h1>Monkey-testrapport</h1>
-      <div class="meta"><a href="${START_URL}" target="_blank">${START_URL}</a> · ${dato} ${tidspunkt} · ${varighet}s · ${ITERASJONER} tilfeldige handlinger</div>
+      <div class="meta"><a href="${START_URL}" target="_blank">${START_URL}</a> · ${dato} ${tidspunkt} · ${varighet}s · ${ITERASJONER} tilfeldige handlinger · Chromium ${nettleser.split('.')[0]}</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>

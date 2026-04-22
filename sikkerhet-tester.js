@@ -194,6 +194,7 @@ for (const { sti, beskrivelse } of SENSITIVE_STIER) {
 
 console.log('🍪 Sjekker cookie-sikkerhet...');
 const browser = await chromium.launch();
+const nettleser = browser.version();
 const context = await browser.newContext({ ignoreHTTPSErrors: true });
 
 // Hent versjonsnummer fra siden
@@ -371,7 +372,7 @@ console.log('━'.repeat(60));
 // Lagre JSON
 fs.writeFileSync(
   path.join(rapportDir, 'sikkerhet-resultat.json'),
-  JSON.stringify({ url: START_URL, dato, versjon, score, totalt: { kritiske, alvorlige, middels, lave, ok, varighet }, funn }, null, 2)
+  JSON.stringify({ url: START_URL, dato, versjon, nettleser, score, totalt: { kritiske, alvorlige, middels, lave, ok, varighet }, funn }, null, 2)
 );
 
 // ── HTML-rapport ──────────────────────────────────────────────────────────────
@@ -531,7 +532,7 @@ const html = `<!DOCTYPE html>
   <div class="rapport-header">
     <div>
       <h1>Sikkerhetsrapport</h1>
-      <div class="meta"><a href="${START_URL}" target="_blank">${START_URL}</a> · ${dato} ${tidspunkt} · ${varighet}s</div>
+      <div class="meta"><a href="${START_URL}" target="_blank">${START_URL}</a> · ${dato} ${tidspunkt} · ${varighet}s · Chromium ${nettleser.split('.')[0]}</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
