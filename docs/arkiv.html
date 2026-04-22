@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testrapporter – Arkiv – KS Tilskudd</title>
 <style>
@@ -10,7 +10,7 @@
   body { font-family: system-ui, -apple-system, sans-serif; background: #faf6f0; color: #0f0e17; }
 
   header { background: #07604f; color: white; padding: 1.6rem 2.5rem; }
-  .header-inner { max-width: 980px; margin: 0 auto; }
+  .header-inner { max-width: 1200px; margin: 0 auto; }
   .header-merkevare { font-size: 0.72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: 0.45; margin-bottom: .4rem; }
   .env-badge { display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: rgba(255,255,255,.18); color: white; padding: .25rem .7rem; border-radius: 100px; margin-bottom: .4rem; }
   header h1 { font-size: 1.4rem; font-weight: 700; }
@@ -24,7 +24,7 @@
   .knapp.sekundær { background: transparent; border: 1px solid #0a1355; color: #0a1355; }
   .knapp.sekundær:hover { background: #f4ecdf; }
 
-  .container { max-width: 980px; margin: 2.5rem auto; padding: 0 3rem; display: flex; flex-direction: column; gap: 2.5rem; }
+  .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; display: flex; flex-direction: column; gap: 2.5rem; }
 
   /* Seksjon per testtype */
   .testtype-seksjon { background: white; border: 1px solid #f1f0ee; box-shadow: 0 1px 4px rgba(10,19,85,.06); }
@@ -123,6 +123,7 @@
       <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
       <a href="arkiv.html" class="knapp aktiv">Arkiv</a>
     </div>
   </div>
@@ -789,6 +790,22 @@
         <div class="åpne-knapp">Se rapport →</div>
       </a>
     </details>
+    </div>
+  </section>
+  
+  <section class="testtype-seksjon">
+    <div class="seksjon-header">
+      <span class="seksjon-ikon">🚀</span>
+      <h2>Ytelsestest</h2>
+      <span class="seksjon-antall">0 kjøringer</span>
+      <a href="ytelse-rapport.html" class="seksjon-lenke">Siste rapport →</a>
+    </div>
+    <div class="trend-graf">
+      <div class="graf-tittel">Score-utvikling</div>
+      <p style="color:#9ca3af;font-size:0.82rem">Ingen data ennå.</p>
+    </div>
+    <div class="rapport-liste">
+      <p style="color:#9ca3af;font-size:0.82rem;padding:1rem 0">Ingen rapporter ennå.</p>
     </div>
   </section>
 

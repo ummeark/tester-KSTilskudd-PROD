@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="no">
 <head>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KS Tilskudd – Testdashboard</title>
 <style>
@@ -10,7 +10,7 @@
   body { font-family: system-ui, -apple-system, sans-serif; background: #faf6f0; color: #0f0e17; min-height: 100vh; }
 
   header { background: #07604f; color: white; padding: 1.6rem 2.5rem; }
-  .header-inner { max-width: 980px; margin: 0 auto; }
+  .header-inner { max-width: 1200px; margin: 0 auto; }
   .header-merkevare { font-size: 0.72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: 0.45; margin-bottom: .4rem; }
   .env-badge { display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: rgba(255,255,255,.18); color: white; padding: .25rem .7rem; border-radius: 100px; margin-bottom: .4rem; }
   header h1 { font-size: 1.4rem; font-weight: 700; }
@@ -26,22 +26,22 @@
   .knapp.sekundær { background: transparent; border: 1px solid #0a1355; color: #0a1355; }
   .knapp.sekundær:hover { background: #f4ecdf; }
 
-  .container { max-width: 980px; margin: 2.5rem auto; padding: 0 3rem; }
+  .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
 
   /* Total score-rad */
-  .total-rad { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+  .total-rad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
 
   /* Dashboard-kort */
-  .dash-kort { background: white; border: 1px solid #f1f0ee; border-top: 5px solid #e5e3de; padding: 1.6rem; box-shadow: 0 1px 4px rgba(10,19,85,.06); text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.7rem; transition: box-shadow .15s, transform .15s; }
+  .dash-kort { background: white; border: 1px solid #f1f0ee; border-top: 5px solid #e5e3de; padding: 1.8rem; box-shadow: 0 1px 4px rgba(10,19,85,.06); text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.7rem; min-height: 260px; transition: box-shadow .15s, transform .15s; }
   .dash-kort:hover { box-shadow: 0 6px 20px rgba(10,19,85,.12); transform: translateY(-2px); }
   .dash-kort.god { border-top-color: #07604f; }
   .dash-kort.middels { border-top-color: #b8860b; }
   .dash-kort.dårlig { border-top-color: #c53030; }
   .dash-kort.ingen-data { opacity: 0.5; cursor: default; }
 
-  .dash-topp { display: flex; align-items: center; gap: 0.5rem; }
-  .dash-ikon { font-size: 1.3rem; }
-  .dash-tittel { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #6b7280; }
+  .dash-topp { display: flex; align-items: flex-start; gap: 0.5rem; min-height: 2.6rem; }
+  .dash-ikon { font-size: 1.3rem; line-height: 1.15rem; }
+  .dash-tittel { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #6b7280; overflow-wrap: break-word; }
 
   .dash-score { font-size: 3rem; font-weight: 800; line-height: 1; color: #0a1355; }
   .dash-score.god { color: #07604f; }
@@ -81,12 +81,8 @@
   .commit-melding { color: #0f0e17; flex: 1; }
   .commit-melding a { color: #0a1355; text-decoration: none; }
   .commit-melding a:hover { text-decoration: underline; }
-  .endringslogg-laster { font-size: 0.83rem; color: #9ca3af; margin-top: .8rem; }
 
-  @media (max-width: 720px) {
-    .total-rad { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 420px) {
+  @media (max-width: 700px) {
     .total-rad { grid-template-columns: 1fr; }
   }
 </style>
@@ -109,6 +105,7 @@
       <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
       <a href="arkiv.html" class="knapp sekundær">Arkiv</a>
     </div>
   </div>
@@ -155,7 +152,7 @@
   <a class="dash-kort middels" href="sikkerhet-rapport.html">
     <div class="dash-topp">
       <span class="dash-ikon">🔐</span>
-      <span class="dash-tittel">Sikkerhetstest</span>
+      <span class="dash-tittel">Sikkerhets-test</span>
     </div>
     <div class="dash-score middels">67<span class="dash-score-enhet">/100</span></div>
     <div class="dash-dato">onsdag 22. april 2026</div>
@@ -179,6 +176,12 @@
       <span><b class="rød">8 feil</b></span></div>
     <div class="dash-lenke">Se full rapport →</div>
   </a>
+    
+    <div class="dash-kort ingen-data">
+      <div class="dash-ikon">🚀</div>
+      <div class="dash-tittel">Ytelses-test</div>
+      <div class="dash-ingen">Ingen data ennå</div>
+    </div>
   </div>
 
   <div class="endringslogg">

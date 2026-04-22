@@ -8,6 +8,7 @@
     "monkey": "node monkey-tester.js",
     "sikkerhet": "node sikkerhet-tester.js",
     "negativ": "node negativ-tester.js",
+    "ytelse": "node ytelse-tester.js",
     "arkiv": "node generer-arkiv.js",
     "valider": "bash valider-miljø.sh",
     "prepare": "git config core.hooksPath .githooks"

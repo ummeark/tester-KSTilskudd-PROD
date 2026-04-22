@@ -713,6 +713,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
 <html lang="no">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>UU-rapport – ${dato} ${tidspunkt}</title>
 <style>
@@ -853,6 +854,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
       <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
       <a href="arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
     </div>
   </div>
