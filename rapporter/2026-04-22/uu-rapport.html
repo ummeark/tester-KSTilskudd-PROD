@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UU-rapport – 2026-04-22 08:17</title>
+<title>UU-rapport – 2026-04-22 13:16</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -126,7 +126,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · UU-tester</div>
     <div class="env-badge">PRODUKSJON · v0.4.3</div>
-    <h1>Tilgjengelighetsrapport <span>2026-04-22 08:17 · 3 sider</span></h1>
+    <h1>Tilgjengelighetsrapport <span>2026-04-22 13:16 · 3 sider</span></h1>
   </div>
   <ul><li><a href="#side-0" class="sidenav-link ok">
       <span class="sidenavn">KS Tilskudd - Hjem</span>
@@ -146,7 +146,7 @@
   <div class="rapport-header">
     <div>
       <h1>Tilgjengelighetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 08:17 · 3 sider testet</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 13:16 · 3 sider testet · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -155,6 +155,7 @@
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
       <a href="arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
+      <a href="#tastatur" class="knapp sekundær">Tastaturtest ↓</a>
     </div>
   </div>
   <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
@@ -198,7 +199,7 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel middels">70</div>
+    <div class="score-sirkel middels">60</div>
     <div class="score-tekst"><strong>UU-score</strong><p>Basert på WCAG-brudd, døde lenker og manglende labels på tvers av 3 sider. Klikk på skjermdumper for å forstørre.</p></div>
   </div>
 
@@ -295,7 +296,7 @@
           <table><thead><tr><th>Type</th><th>ID</th><th>Label</th><th>Status</th></tr></thead><tbody>
           <tr>
             <td><code>search</code></td>
-            <td><code>:mo9s5fc8ios</code></td>
+            <td><code>:mo9yjynsi8w</code></td>
             <td>Finn tilskuddsordning(er) ved å søke på navn, sted og type osv.</td>
             <td>✅</td>
           </tr></tbody></table>
@@ -626,6 +627,61 @@
       </div>
     </div>
   
+  <div class="seksjon" id="tastatur" style="margin-top:2rem">
+    <div class="seksjon-tittel">⌨️ Tastaturnavigasjon (WCAG 2.1 A/AA)</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Automatisk sjekk av om siden kan betjenes fullt ut med kun tastatur.
+      Dekker WCAG 2.1.1, 2.1.2, 2.4.1, 2.4.3 og 2.4.7.
+    </p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
+      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ 4 bestått</span>
+      <span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ 2 advarsler</span>
+      
+    </div>
+    <table>
+      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+      <tbody>
+        
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">2.4.7</code></td>
+          <td style="font-size:.83rem">Synlig fokus på interaktive elementer</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">—</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">2.4.3</code></td>
+          <td style="font-size:.83rem">Ingen tabindex > 0</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">—</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">2.1.1</code></td>
+          <td style="font-size:.83rem">Interaktive elementer nåbare via Tab</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">5 elementer nådd (6 i DOM)</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">2.1.2</code></td>
+          <td style="font-size:.83rem">Ingen tastaturfelle</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">—</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">2.4.1</code></td>
+          <td style="font-size:.83rem">Hopplenke til hovedinnhold</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#f3dda2;color:#713f12">⚠️ advarsel</span></td>
+          <td style="font-size:.78rem;color:#6b7280">Første Tab: A "ks tilskudd"</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">2.1.1</code></td>
+          <td style="font-size:.83rem">Enter aktiverer navigasjonslenke</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#f3dda2;color:#713f12">⚠️ advarsel</span></td>
+          <td style="font-size:.78rem;color:#6b7280">Ingen navigasjonslenke aktivert i de første 15 Tab-stegene</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="seksjon" style="margin-top:2rem">
     <div class="seksjon-tittel">Slik beregnes UU-scoren</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
@@ -637,10 +693,12 @@
       <span style="color:#374151">Knapp uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
       <span style="color:#374151">Bilde uten alt-tekst</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
       <span style="color:#374151">Skjemafelt uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
+      <span style="color:#374151">Tastatur-feil (WCAG-brudd)</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
+      <span style="color:#374151">Tastatur-advarsel</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
-  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-04-22 08:17</footer>
+  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-04-22 13:16</footer>
 </div>
 </body>
 </html>

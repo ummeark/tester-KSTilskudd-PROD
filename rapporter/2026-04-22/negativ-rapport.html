@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Negativ testrapport – 2026-04-22 08:19</title>
+<title>Negativ testrapport – 2026-04-22 13:18</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -71,11 +71,11 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
     <div class="env-badge">PRODUKSJON · v0.4.3</div>
-    <h1>Negativ testrapport <span>2026-04-22 08:19 · 23 tester</span></h1>
+    <h1>Negativ testrapport <span>2026-04-22 13:18 · 23 tester</span></h1>
   </div>
   <ul><li><a href="#skjema" class="sidenav-link har-kritiske">
     <span class="sidenavn">📝 Skjema-validering</span>
-    <span class="side-badge">6 tester · 5 feil/adv.</span>
+    <span class="side-badge">6 tester · 6 feil/adv.</span>
   </a></li><li><a href="#url" class="sidenav-link har-brudd">
     <span class="sidenavn">🔗 URL-validering</span>
     <span class="side-badge">6 tester · 4 feil/adv.</span>
@@ -94,7 +94,7 @@
   <div class="rapport-header">
     <div>
       <h1>Negativ testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 08:19 · 23 tester · 40s</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 13:18 · 23 tester · 29s · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -150,25 +150,25 @@
     <div class="score-sirkel dårlig">0</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>12 av 23 tester bestått. 7 feil og 4 advarsler på tvers av 5 testkategorier.</p>
+      <p>11 av 23 tester bestått. 8 feil og 4 advarsler på tvers av 5 testkategorier.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">23</div><div class="etikett">Tester totalt</div></div>
-    <div class="kort ok"><div class="tall">12</div><div class="etikett">Bestått</div></div>
+    <div class="kort ok"><div class="tall">11</div><div class="etikett">Bestått</div></div>
     <div class="kort advarsel"><div class="tall">4</div><div class="etikett">Advarsler</div></div>
-    <div class="kort kritisk"><div class="tall">7</div><div class="etikett">Feil</div></div>
+    <div class="kort kritisk"><div class="tall">8</div><div class="etikett">Feil</div></div>
   </div>
 
   
   <div class="seksjon" id="skjema">
-    <div class="seksjon-tittel">📝 Skjema-validering – 1/6 bestått</div>
+    <div class="seksjon-tittel">📝 Skjema-validering – 0/6 bestått</div>
     
-  <div class="brudd-kort" style="border-left-color:#07604f">
+  <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
-        <span class="badge bestått">✅ bestått</span>
+        <span class="badge feil">❌ feil</span>
         <span class="regel-desc">Tom søkeinnsending</span>
       </div>
     </div>
@@ -177,13 +177,21 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">(tomt)</div>
       </div>
-      <div style="background:#ecfdf5;padding:.4rem .6rem">
+      <div style="background:#fee2e2;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Siden håndterte tom søk uten krasj</div>
+        <div style="color:#374151;word-break:break-all">Siden krasjet</div>
       </div>
     </div>
     
     
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-tom-søk-krasj-1.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-tom-søk-krasj-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
   </div>
   <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
@@ -207,8 +215,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-lang-tekst-krasj-1.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-lang-tekst-krasj-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-lang-tekst-krasj-2.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-lang-tekst-krasj-2.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -235,8 +243,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-spesialtegn-krasj-2.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-spesialtegn-krasj-2.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-spesialtegn-krasj-3.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-spesialtegn-krasj-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -263,8 +271,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-mellomrom-krasj-3.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-mellomrom-krasj-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-mellomrom-krasj-4.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-mellomrom-krasj-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -291,8 +299,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-norske-tegn-krasj-4.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-norske-tegn-krasj-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-norske-tegn-krasj-5.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-norske-tegn-krasj-5.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -319,8 +327,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-sql-krasj-5.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-sql-krasj-5.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-sql-krasj-6.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-sql-krasj-6.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -351,8 +359,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-6.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-6.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-7.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-7.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -379,8 +387,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-7.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-7.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-8.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-8.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -407,8 +415,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-8.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-8.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-9.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-9.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -455,8 +463,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-9.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-9.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-10.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-10.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -547,8 +555,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-rask-nav-krasj-10.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-rask-nav-krasj-10.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-rask-nav-krasj-11.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-rask-nav-krasj-11.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -575,8 +583,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-dblclick-krasj-11.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-dblclick-krasj-11.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-dblclick-krasj-12.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-dblclick-krasj-12.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -647,8 +655,8 @@
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump</p>
-        <a href="skjermbilder-negativ/negativ-mobil-12.png" target="_blank">
-          <img src="skjermbilder-negativ/negativ-mobil-12.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-negativ/negativ-mobil-13.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-mobil-13.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -747,7 +755,7 @@
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
-  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-04-22 08:19</footer>
+  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-04-22 13:18</footer>
 </div>
 </body>
 </html>
