@@ -29,6 +29,9 @@ jobs:
       - name: Installer Playwright-nettlesere
         run: npx playwright install --with-deps chromium
 
+      - name: Valider miljøseparasjon
+        run: npm run valider
+
       - name: Kjør UU-analyse
         run: npm run rapport
 
