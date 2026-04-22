@@ -850,7 +850,6 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
       <a href="arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
-      <a href="#tastatur" class="knapp sekundær">Tastaturtest ↓</a>
     </div>
   </div>
   <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
