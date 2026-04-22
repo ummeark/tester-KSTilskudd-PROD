@@ -41,6 +41,9 @@ jobs:
       - name: Kjør negativ testing
         run: npm run negativ
 
+      - name: Kjør tastaturnavigasjonstest
+        run: npm run tastatur
+
       - name: Generer arkiv og dashboard
         run: npm run arkiv
 
