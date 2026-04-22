@@ -309,6 +309,163 @@ async function analyserSide(url, indeks) {
   }
 }
 
+// ── Tastaturnavigasjonstest ───────────────────────────────────────────────────
+
+async function kjørTastaturSjekker(ctx, url) {
+  console.log('\n⌨️  Kjører tastaturnavigasjonstest...');
+  const tester = [];
+  const page = await ctx.newPage();
+
+  function add(kategori, wcag, navn, resultat, detalj = '') {
+    tester.push({ kategori, wcag, navn, resultat, detalj });
+    const ikon = { bestått: '✅', feil: '❌', advarsel: '⚠️' }[resultat] || '⚪';
+    console.log(`  ${ikon} [${wcag}] ${navn}${detalj ? ` – ${detalj}` : ''}`);
+  }
+
+  try {
+    // 2.4.7 Synlig fokus
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const utenFokus = [];
+    let forrigeKey = null;
+    for (let i = 0; i < 15; i++) {
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(100);
+      const info = await page.evaluate(() => {
+        const el = document.activeElement;
+        if (!el || el === document.body) return null;
+        const st = window.getComputedStyle(el);
+        const harOutline = st.outlineStyle !== 'none' && parseFloat(st.outlineWidth) > 0;
+        const harBoxShadow = st.boxShadow !== 'none' && st.boxShadow !== '';
+        const key = `${el.tagName}|${(el.textContent?.trim() || el.getAttribute('aria-label') || '').slice(0, 40)}`;
+        return { key, synlig: harOutline || harBoxShadow,
+          tag: el.tagName, tekst: (el.textContent?.trim() || el.getAttribute('aria-label') || '').slice(0, 50) };
+      });
+      if (!info || info.key === forrigeKey) continue;
+      forrigeKey = info.key;
+      if (!info.synlig) utenFokus.push(`${info.tag} "${info.tekst}"`);
+    }
+    if (utenFokus.length > 0) {
+      add('synligfokus', '2.4.7', 'Synlig fokus på interaktive elementer', 'advarsel',
+        `${utenFokus.length} element(er) uten synlig fokus: ${utenFokus.slice(0, 2).join(', ')}`);
+    } else {
+      add('synligfokus', '2.4.7', 'Synlig fokus på interaktive elementer', 'bestått');
+    }
+
+    // 2.4.3 Tabindeks-misbruk
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const misbruk = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('[tabindex]'))
+        .filter(el => parseInt(el.getAttribute('tabindex'), 10) > 0)
+        .map(el => `${el.tagName}[tabindex=${el.getAttribute('tabindex')}]`)
+    );
+    if (misbruk.length > 0) {
+      add('tabindeks', '2.4.3', 'Elementer med tabindex > 0', 'advarsel',
+        `${misbruk.length} element(er): ${misbruk.slice(0, 3).join(', ')}`);
+    } else {
+      add('tabindeks', '2.4.3', 'Ingen tabindex > 0', 'bestått');
+    }
+
+    // 2.1.1 Tastaturrekkevidde
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const interaktiveDOM = await page.evaluate(() =>
+      document.querySelectorAll('a[href]:not([tabindex="-1"]),button:not([tabindex="-1"]):not([disabled]),input:not([type=hidden]):not([tabindex="-1"])').length
+    );
+    const nådd = new Set();
+    for (let i = 0; i < 50; i++) {
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(50);
+      const id = await page.evaluate(() => {
+        const el = document.activeElement;
+        if (!el || el === document.body) return null;
+        return `${el.tagName}|${el.getAttribute('href') || el.textContent?.trim().slice(0, 25) || ''}`;
+      });
+      if (id) nådd.add(id);
+    }
+    if (nådd.size === 0) {
+      add('rekkevidden', '2.1.1', 'Interaktive elementer nåbare via Tab', 'feil', 'Ingen elementer fokusert med Tab');
+    } else if (nådd.size < 3 && interaktiveDOM > 5) {
+      add('rekkevidden', '2.1.1', 'Interaktive elementer nåbare via Tab', 'advarsel',
+        `Kun ${nådd.size} av ~${interaktiveDOM} elementer nådd`);
+    } else {
+      add('rekkevidden', '2.1.1', 'Interaktive elementer nåbare via Tab', 'bestått',
+        `${nådd.size} elementer nådd (${interaktiveDOM} i DOM)`);
+    }
+
+    // 2.1.2 Ingen tastaturfelle
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    let forrigeId = null, konsekutive = 0, felle = null;
+    for (let i = 0; i < 40; i++) {
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(70);
+      const id = await page.evaluate(() => {
+        const el = document.activeElement;
+        return el ? `${el.tagName}|${el.getAttribute('href') || el.id || el.textContent?.trim().slice(0, 20)}` : null;
+      });
+      if (id === forrigeId) { if (++konsekutive >= 3) { felle = id; break; } }
+      else { konsekutive = 0; forrigeId = id; }
+    }
+    if (felle) {
+      add('tastaturfelle', '2.1.2', 'Ingen tastaturfelle', 'feil', `Fokus fast ved: "${felle}"`);
+    } else {
+      add('tastaturfelle', '2.1.2', 'Ingen tastaturfelle', 'bestått');
+    }
+
+    // 2.4.1 Hopplenke til hovedinnhold
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await page.evaluate(() => document.body.focus());
+    await page.waitForTimeout(100);
+    await page.keyboard.press('Tab');
+    await page.waitForTimeout(200);
+    const hoppInfo = await page.evaluate(() => {
+      const el = document.activeElement;
+      if (!el) return null;
+      const tekst = (el.textContent?.trim() || el.getAttribute('aria-label') || '').toLowerCase();
+      const href = el.getAttribute('href') || '';
+      return { tag: el.tagName, tekst,
+        erHopp: tekst.includes('hopp') || tekst.includes('skip') || tekst.includes('innhold') || (href.startsWith('#') && el.tagName === 'A') };
+    });
+    if (!hoppInfo || !hoppInfo.erHopp) {
+      add('hopplenke', '2.4.1', 'Hopplenke til hovedinnhold', 'advarsel',
+        hoppInfo ? `Første Tab: ${hoppInfo.tag} "${hoppInfo.tekst}"` : 'Ingen element fokusert etter første Tab');
+    } else {
+      add('hopplenke', '2.4.1', 'Hopplenke til hovedinnhold', 'bestått', `"${hoppInfo.tekst}"`);
+    }
+
+    // 2.1.1 Enter aktiverer lenker
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    const utgangsUrl = page.url();
+    let aktivert = false;
+    for (let i = 0; i < 15 && !aktivert; i++) {
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(70);
+      const erNavLenke = await page.evaluate(() => {
+        const el = document.activeElement;
+        if (el?.tagName !== 'A') return false;
+        const href = el.getAttribute('href') || '';
+        return href.length > 0 && !href.startsWith('#') && !href.startsWith('javascript') && !href.startsWith('mailto');
+      });
+      if (erNavLenke) {
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(1500);
+        aktivert = page.url() !== utgangsUrl;
+        break;
+      }
+    }
+    add('aktivering', '2.1.1', 'Enter aktiverer navigasjonslenke', aktivert ? 'bestått' : 'advarsel',
+      aktivert ? '' : 'Ingen navigasjonslenke aktivert i de første 15 Tab-stegene');
+
+  } catch (e) {
+    console.log(`  ⚠️  Tastatursjekk feilet: ${e.message.slice(0, 80)}`);
+  } finally {
+    await page.close();
+  }
+
+  const bestått = tester.filter(t => t.resultat === 'bestått').length;
+  const feil    = tester.filter(t => t.resultat === 'feil').length;
+  const advarsel = tester.filter(t => t.resultat === 'advarsel').length;
+  return { tester, bestått, feil, advarsel };
+}
+
 // Crawl alle sider
 while (kø.length > 0 && besøkte.size < MAX_SIDER) {
   const url = kø.shift();
@@ -328,6 +485,8 @@ while (kø.length > 0 && besøkte.size < MAX_SIDER) {
   }
 }
 
+const tastatur = await kjørTastaturSjekker(context, START_URL);
+
 await browser.close();
 
 // Aggregert oppsummering
@@ -345,13 +504,15 @@ const totalt = {
   bilderUtenAlt: sideResultater.reduce((s, r) => s + r.bilder.filter(b => !b.harAlt).length, 0),
   skjemafelt: sideResultater.reduce((s, r) => s + r.skjemafelt.length, 0),
   feltUtenLabel: sideResultater.reduce((s, r) => s + r.skjemafelt.filter(f => !f.harLabel).length, 0),
+  tastaturFeil: tastatur.feil,
+  tastaturAdvarsel: tastatur.advarsel,
 };
 
 // Lagre JSON (uten bildedata for å holde størrelsen nede)
-fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, totalt, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
+fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, totalt, tastatur, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -368,6 +529,7 @@ console.log(`🔗 Døde lenker:      ${farge(totalt.dødelenker, 0, 1, 5)}`);
 console.log(`🔘 Knapper testet:   ${totalt.knapper} (${farge(totalt.knappUtenLabel, 0, 1, 3)} uten label)`);
 console.log(`🖼️  Bilder testet:    ${totalt.bilder} (${farge(totalt.bilderUtenAlt, 0, 1, 3)} uten alt)`);
 console.log(`📝 Skjemafelt:       ${totalt.skjemafelt} (${farge(totalt.feltUtenLabel, 0, 1, 3)} uten label)`);
+console.log(`⌨️  Tastatur:         ${tastatur.bestått} bestått · ${farge(tastatur.advarsel, 0, 0, 2)} adv. · ${farge(tastatur.feil, 0, 0, 1)} feil`);
 console.log('━'.repeat(60));
 console.log(`\n📁 HTML-rapport: ${path.join(rapportDir, 'uu-rapport.html')}\n`);
 const { exec } = await import('child_process');
@@ -380,7 +542,7 @@ function farge(n, grønn, gul, rød) {
 }
 
 function scoreBeregn(t) {
-  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4);
+  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5);
 }
 
 function badge(n, klasse, tekst) {
@@ -392,7 +554,7 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null) {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
@@ -687,6 +849,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null) {
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
       <a href="arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
+      <a href="#tastatur" class="knapp sekundær">Tastaturtest ↓</a>
     </div>
   </div>
   <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
@@ -743,6 +906,31 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null) {
     <div class="kort ${totalt.feltUtenLabel === 0 ? 'ok' : 'advarsel'}"><div class="tall">${totalt.skjemafelt}</div><div class="etikett">Skjemafelt</div><div class="undertekst">${totalt.feltUtenLabel} uten label</div></div>
   </div>
   ${sideDetaljer}
+  <div class="seksjon" id="tastatur" style="margin-top:2rem">
+    <div class="seksjon-tittel">⌨️ Tastaturnavigasjon (WCAG 2.1 A/AA)</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Automatisk sjekk av om siden kan betjenes fullt ut med kun tastatur.
+      Dekker WCAG 2.1.1, 2.1.2, 2.4.1, 2.4.3 og 2.4.7.
+    </p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
+      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${tastatur.bestått} bestått</span>
+      ${tastatur.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${tastatur.advarsel} advarsler</span>` : ''}
+      ${tastatur.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${tastatur.feil} feil</span>` : ''}
+    </div>
+    <table>
+      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+      <tbody>
+        ${tastatur.tester.map(t => `
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
+          <td style="font-size:.83rem">${t.navn}</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
+          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+
   <div class="seksjon" style="margin-top:2rem">
     <div class="seksjon-tittel">Slik beregnes UU-scoren</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
@@ -754,6 +942,8 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null) {
       <span style="color:#374151">Knapp uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
       <span style="color:#374151">Bilde uten alt-tekst</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
       <span style="color:#374151">Skjemafelt uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
+      <span style="color:#374151">Tastatur-feil (WCAG-brudd)</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
+      <span style="color:#374151">Tastatur-advarsel</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>

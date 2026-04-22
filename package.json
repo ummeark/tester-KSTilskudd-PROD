@@ -8,7 +8,6 @@
     "monkey": "node monkey-tester.js",
     "sikkerhet": "node sikkerhet-tester.js",
     "negativ": "node negativ-tester.js",
-    "tastatur": "node tastatur-tester.js",
     "arkiv": "node generer-arkiv.js"
   },
   "dependencies": {

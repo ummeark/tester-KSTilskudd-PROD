@@ -30,6 +30,7 @@ function parseUUJson(json) {
   const score = Math.max(0, 100
     - (totalt.kritiske || 0) * 15 - (totalt.alvorlige || 0) * 8 - (totalt.moderate || 0) * 3 - (totalt.mindre || 0)
     - (totalt.dødelenker || 0) * 5 - (totalt.knappUtenLabel || 0) * 4 - (totalt.bilderUtenAlt || 0) * 4 - (totalt.feltUtenLabel || 0) * 4
+    - (totalt.tastaturFeil || 0) * 15 - (totalt.tastaturAdvarsel || 0) * 5
   );
   return { score, totalt };
 }
@@ -106,34 +107,15 @@ function lesAlleNegativ(dato) {
   });
 }
 
-function lesAlleTastatur(dato) {
-  const datoDir = path.join(rapportDir, dato);
-  const tidsfiler = fs.readdirSync(datoDir)
-    .filter(f => /^tastatur-resultat-\d{2}-\d{2}\.json$/.test(f))
-    .sort().reverse();
-  if (tidsfiler.length === 0) {
-    const fil = path.join(datoDir, 'tastatur-resultat.json');
-    if (!fs.existsSync(fil)) return [];
-    const json = JSON.parse(fs.readFileSync(fil, 'utf-8'));
-    return [{ dato, tidspunkt: null, score: json.score, totalt: json.totalt, rapportFil: 'tastatur-rapport.html' }];
-  }
-  return tidsfiler.map(filnavn => {
-    const tidFil = filnavn.replace('tastatur-resultat-', '').replace('.json', '');
-    const json = JSON.parse(fs.readFileSync(path.join(datoDir, filnavn), 'utf-8'));
-    return { dato, tidspunkt: tidFil.replace('-', ':'), score: json.score, totalt: json.totalt, rapportFil: `tastatur-rapport-${tidFil}.html` };
-  });
-}
-
 const uu        = datoer.flatMap(lesAlleUU);
 const monkey    = datoer.flatMap(lesAlleMonkey);
 const sikkerhet = datoer.flatMap(lesAlleSikkerhet);
 const negativ   = datoer.flatMap(lesAlleNegativ);
-const tastatur  = datoer.flatMap(lesAlleTastatur);
 
 // Hent versjonsnummer fra nyeste tilgjengelige JSON-resultat
 function lesVersjon() {
   for (const dato of datoer) {
-    for (const fil of ['resultat.json', 'monkey-resultat.json', 'sikkerhet-resultat.json', 'negativ-resultat.json', 'tastatur-resultat.json']) {
+    for (const fil of ['resultat.json', 'monkey-resultat.json', 'sikkerhet-resultat.json', 'negativ-resultat.json']) {
       const fp = path.join(rapportDir, dato, fil);
       if (fs.existsSync(fp)) {
         const json = JSON.parse(fs.readFileSync(fp, 'utf-8'));
@@ -150,7 +132,7 @@ const versjon = lesVersjon();
 const arkivDir = path.join(docsDir, 'arkiv');
 fs.mkdirSync(arkivDir, { recursive: true });
 
-const rapportFiler = ['uu-rapport.html', 'monkey-rapport.html', 'sikkerhet-rapport.html', 'negativ-rapport.html', 'tastatur-rapport.html'];
+const rapportFiler = ['uu-rapport.html', 'monkey-rapport.html', 'sikkerhet-rapport.html', 'negativ-rapport.html'];
 
 for (const dato of datoer) {
   const kildedir = path.join(rapportDir, dato);
@@ -168,7 +150,7 @@ for (const dato of datoer) {
   });
 
   // Kopier skjermbilder
-  for (const skjermNavn of ['skjermbilder', 'skjermbilder-monkey', 'skjermbilder-negativ', 'skjermbilder-sikkerhet', 'skjermbilder-tastatur']) {
+  for (const skjermNavn of ['skjermbilder', 'skjermbilder-monkey', 'skjermbilder-negativ', 'skjermbilder-sikkerhet']) {
     const src = path.join(kildedir, skjermNavn);
     const mål = path.join(arkivDir, dato, skjermNavn);
     if (fs.existsSync(src)) {
@@ -193,7 +175,7 @@ if (sisteDato) {
   }
 
   // Kopier skjermdumper
-  for (const skjermNavn of ['skjermbilder', 'skjermbilder-monkey', 'skjermbilder-negativ', 'skjermbilder-sikkerhet', 'skjermbilder-tastatur']) {
+  for (const skjermNavn of ['skjermbilder', 'skjermbilder-monkey', 'skjermbilder-negativ', 'skjermbilder-sikkerhet']) {
     const src = path.join(kildedir, skjermNavn);
     const mål = path.join(docsDir, skjermNavn);
     if (fs.existsSync(src)) {
@@ -276,11 +258,6 @@ const sikkerhetNøkkel = r => `
   <span>${r.totalt.ok} bestått</span>`;
 
 const negativNøkkel = r => `
-  <span><span class="grønn">Bestått ${r.totalt.bestått}</span></span>
-  <span>${r.totalt.advarsel > 0 ? `<b class="rød">Advarsler ${r.totalt.advarsel}</b>` : '<span class="grønn">Ingen advarsler</span>'}</span>
-  <span>${r.totalt.feil > 0 ? `<b class="rød">Feil ${r.totalt.feil}</b>` : '<span class="grønn">Ingen feil</span>'}</span>`;
-
-const tastaturNøkkel = r => `
   <span><span class="grønn">Bestått ${r.totalt.bestått}</span></span>
   <span>${r.totalt.advarsel > 0 ? `<b class="rød">Advarsler ${r.totalt.advarsel}</b>` : '<span class="grønn">Ingen advarsler</span>'}</span>
   <span>${r.totalt.feil > 0 ? `<b class="rød">Feil ${r.totalt.feil}</b>` : '<span class="grønn">Ingen feil</span>'}</span>`;
@@ -482,7 +459,6 @@ const arkivHTML = `<!DOCTYPE html>
       <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
-      <a href="tastatur-rapport.html" class="knapp sekundær">Tastaturtest</a>
       <a href="arkiv.html" class="knapp aktiv">Arkiv</a>
     </div>
   </div>
@@ -491,7 +467,6 @@ const arkivHTML = `<!DOCTYPE html>
   ${seksjonHTML('Monkey-test', '🐒', monkey, 'monkey-rapport.html', monkeyNøkkel)}
   ${seksjonHTML('Sikkerhetstest', '🔐', sikkerhet, 'sikkerhet-rapport.html', sikkerhetNøkkel)}
   ${seksjonHTML('Negativ test', '🧪', negativ, 'negativ-rapport.html', negativNøkkel)}
-  ${seksjonHTML('Tastaturtest (WCAG 2.1)', '⌨️', tastatur, 'tastatur-rapport.html', tastaturNøkkel)}
 
 </div>
 <footer>KS Tilskudd · Testrapporter · axe-core + Playwright</footer>
@@ -531,7 +506,6 @@ const sisteUU       = uu[0]       || null;
 const sisteMonkey   = monkey[0]   || null;
 const sisteSikk     = sikkerhet[0] || null;
 const sisteNegativ  = negativ[0]  || null;
-const sisteTastatur = tastatur[0] || null;
 
 const dashboardHTML = `<!DOCTYPE html>
 <html lang="no">
@@ -629,13 +603,12 @@ const dashboardHTML = `<!DOCTYPE html>
       <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
-      <a href="tastatur-rapport.html" class="knapp sekundær">Tastaturtest</a>
       <a href="arkiv.html" class="knapp sekundær">Arkiv</a>
     </div>
   </div>
 
   ${(() => {
-    const scores = [sisteUU, sisteMonkey, sisteSikk, sisteNegativ, sisteTastatur].filter(Boolean).map(d => d.score);
+    const scores = [sisteUU, sisteMonkey, sisteSikk, sisteNegativ].filter(Boolean).map(d => d.score);
     if (scores.length === 0) return '';
     const snitt = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
     const sk = scoreKlasse(snitt);
@@ -664,10 +637,6 @@ const dashboardHTML = `<!DOCTYPE html>
       <span>${r.totalt.alvorlige > 0 ? `<b class="rød">${r.totalt.alvorlige} alvorlige</b>` : '<span class="grønn">Ingen alvorlige</span>'}</span>
       <span>${r.totalt.ok} sjekker bestått</span>`)}
     ${dashboardKort('Negativ test', '🧪', 'negativ-rapport.html', sisteNegativ, r => `
-      <span><span class="grønn">${r.totalt.bestått} bestått</span></span>
-      <span>${r.totalt.advarsel > 0 ? `<b class="rød">${r.totalt.advarsel} advarsler</b>` : '<span class="grønn">Ingen advarsler</span>'}</span>
-      <span>${r.totalt.feil > 0 ? `<b class="rød">${r.totalt.feil} feil</b>` : '<span class="grønn">Ingen feil</span>'}</span>`)}
-    ${dashboardKort('Tastaturtest', '⌨️', 'tastatur-rapport.html', sisteTastatur, r => `
       <span><span class="grønn">${r.totalt.bestått} bestått</span></span>
       <span>${r.totalt.advarsel > 0 ? `<b class="rød">${r.totalt.advarsel} advarsler</b>` : '<span class="grønn">Ingen advarsler</span>'}</span>
       <span>${r.totalt.feil > 0 ? `<b class="rød">${r.totalt.feil} feil</b>` : '<span class="grønn">Ingen feil</span>'}</span>`)}
