@@ -1,0 +1,580 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-04-22",
+  "versjon": "v0.4.3",
+  "totalt": {
+    "iterasjoner": 60,
+    "siderBesøkt": 2,
+    "jsErrors": 0,
+    "konsollFeil": 41,
+    "nettverksFeil": 7,
+    "kritiske": 34,
+    "alvorlige": 0,
+    "varighet": 53
+  },
+  "score": 0,
+  "jsErrors": [],
+  "konsollFeil": [
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:04.818Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:05.336Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:05.371Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:06.576Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:07.242Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:07.267Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:08.729Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:12.719Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:14.008Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:16.043Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:17.765Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:19.291Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:20.556Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:22.858Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:23.957Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:25.127Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:26.448Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:27.456Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:27.482Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:29.083Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:29.941Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:29.967Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:31.351Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:32.473Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:34.081Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:34.109Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:35.499Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=0 feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?searchString=%220%22&currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:36.714Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:39.374Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:40.465Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:40.922Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:40.953Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:42.346Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:43.707Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:45.182Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:46.792Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:48.836Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:50.385Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:50.784Z"
+    },
+    {
+      "melding": "Error: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:1:8276\n    at https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10:30:597",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:50.812Z"
+    },
+    {
+      "melding": "TRPCClientError: Kall til http://tilskudd-register-service.fiks-prod.svc.cluster.local:8080/tilskuddsregister/api/v1/oppslag/ordning?sidenummer=1&ordningerPrSide=10&sok=undefined feilet\n    at Ql.from (https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:3988)\n    at https://tilskudd.fiks.ks.no/assets/main-ZpYEru-o.js:19:14161",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "tid": "2026-04-22T08:18:52.217Z"
+    }
+  ],
+  "nettverksFeil": [
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:05.333Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:07.234Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:27.449Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:29.933Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:34.078Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:40.914Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-04-22T08:18:50.775Z"
+    }
+  ],
+  "interaksjoner": [
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-1.png",
+      "tid": "2026-04-22T08:18:04.940Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-2.png",
+      "tid": "2026-04-22T08:18:05.705Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-3.png",
+      "tid": "2026-04-22T08:18:06.821Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-4.png",
+      "tid": "2026-04-22T08:18:07.805Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-5.png",
+      "tid": "2026-04-22T08:18:08.910Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-6.png",
+      "tid": "2026-04-22T08:18:12.943Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-8.png",
+      "tid": "2026-04-22T08:18:14.660Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-10.png",
+      "tid": "2026-04-22T08:18:16.699Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-12.png",
+      "tid": "2026-04-22T08:18:18.429Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-13.png",
+      "tid": "2026-04-22T08:18:19.526Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-14.png",
+      "tid": "2026-04-22T08:18:20.636Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-15.png",
+      "tid": "2026-04-22T08:18:23.109Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-16.png",
+      "tid": "2026-04-22T08:18:24.208Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-17.png",
+      "tid": "2026-04-22T08:18:25.335Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-19.png",
+      "tid": "2026-04-22T08:18:27.059Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-20.png",
+      "tid": "2026-04-22T08:18:28.021Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-22.png",
+      "tid": "2026-04-22T08:18:29.743Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-23.png",
+      "tid": "2026-04-22T08:18:30.504Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-24.png",
+      "tid": "2026-04-22T08:18:31.591Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-25.png",
+      "tid": "2026-04-22T08:18:32.708Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-26.png",
+      "tid": "2026-04-22T08:18:34.638Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-27.png",
+      "tid": "2026-04-22T08:18:35.744Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?searchString=%220%22&currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-29.png",
+      "tid": "2026-04-22T08:18:37.768Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-30.png",
+      "tid": "2026-04-22T08:18:39.608Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-31.png",
+      "tid": "2026-04-22T08:18:40.720Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-32.png",
+      "tid": "2026-04-22T08:18:41.497Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-33.png",
+      "tid": "2026-04-22T08:18:42.594Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-35.png",
+      "tid": "2026-04-22T08:18:44.307Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-36.png",
+      "tid": "2026-04-22T08:18:45.391Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-37.png",
+      "tid": "2026-04-22T08:18:47.036Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-39.png",
+      "tid": "2026-04-22T08:18:49.474Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-40.png",
+      "tid": "2026-04-22T08:18:50.584Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-41.png",
+      "tid": "2026-04-22T08:18:51.322Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter klikk: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?currentPage=1&pageSize=10",
+      "handling": "Klikket: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-42.png",
+      "tid": "2026-04-22T08:18:52.431Z"
+    }
+  ],
+  "besøkte": [
+    "https://tilskudd.fiks.ks.no/",
+    "https://tilskudd.fiks.ks.no/ordninger?searchString=&currentPage=1&pageSize=10"
+  ]
+}

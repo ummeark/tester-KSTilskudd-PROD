@@ -1,0 +1,145 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-04-22",
+  "versjon": "v0.4.3",
+  "score": 65,
+  "totalt": {
+    "bestått": 8,
+    "feil": 1,
+    "advarsel": 4,
+    "totalt": 13,
+    "varighet": 27
+  },
+  "tester": [
+    {
+      "kategori": "synligfokus",
+      "navn": "Synlig fokus på interaktive elementer (Tab ×15)",
+      "input": "Tab (15 ganger)",
+      "forventet": "Hvert element har synlig fokusmarkering",
+      "faktisk": "Alle kontrollerte elementer har synlig fokus",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "synligfokus",
+      "navn": "outline:none uten erstatning (global CSS)",
+      "input": "getComputedStyle etter focus",
+      "forventet": "Ingen elementer der focus-outline er fjernet uten box-shadow",
+      "faktisk": "3 element(er) uten outline/box-shadow: A._homeLink_1w8mm_23, A._navLink_1w8mm_24, INPUT#:mo9s8aherai.ds-input",
+      "resultat": "advarsel",
+      "detalj": "Sjekk at disse har tydelig fokusmarkering via :focus eller :focus-visible",
+      "skjerm": null
+    },
+    {
+      "kategori": "tabindeks",
+      "navn": "Elementer med tabindex > 0 (forstyrrer naturlig rekkefølge)",
+      "input": "querySelectorAll(\"[tabindex]\")",
+      "forventet": "Ingen elementer med tabindex > 0",
+      "faktisk": "Ingen elementer med tabindex > 0 funnet",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "tabindeks",
+      "navn": "Synlige interaktive elementer med tabindex=-1",
+      "input": "querySelectorAll(\"a,button[tabindex=-1]\")",
+      "forventet": "Ingen synlige interaktive elementer skjult fra tastaturrekkefølgen",
+      "faktisk": "Ingen synlige interaktive elementer er ekskludert fra tastaturrekkefølgen",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "rekkevidden",
+      "navn": "Interaktive elementer nåbare via Tab (×50)",
+      "input": "Tab (50 ganger)",
+      "forventet": "Minst én lenke/knapp/felt er fokusert",
+      "faktisk": "5 unike elementer fokusert via Tab (6 interaktive i DOM)",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "rekkevidden",
+      "navn": "Shift+Tab for bakovernavigasjon",
+      "input": "Shift+Tab (5 ganger)",
+      "forventet": "Fokus beveger seg bakover i siden",
+      "faktisk": "Shift+Tab fungerer – fokus gikk fra \"Søk\" bakover",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "tastaturfelle",
+      "navn": "Ingen tastaturfelle – Tab beveger seg fritt (×40)",
+      "input": "Tab (40 ganger)",
+      "forventet": "Fokus avanserer jevnt – ikke samme element 3× på rad",
+      "faktisk": "Ingen tastaturfelle funnet – fokus avanserte fritt",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "tastaturfelle",
+      "navn": "Escape-tast håndteres (lukker overlay/modal)",
+      "input": "Escape",
+      "forventet": "Siden krasjer ikke og fokus flyttes ikke uventet",
+      "faktisk": "Escape håndtert uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "hopplenke",
+      "navn": "Hopplenke til hovedinnhold ved første Tab",
+      "input": "Tab (1 gang fra topp)",
+      "forventet": "Første fokuserte element er en hopplenke",
+      "faktisk": "Første fokuserte element er A \"ks tilskudd\" – ikke en hopplenke",
+      "resultat": "advarsel",
+      "detalj": "En synlig hopplenke øverst på siden hjelper tastaturbrukere (WCAG 2.4.1)",
+      "skjerm": "skjermbilder-tastatur/tastatur-hopplenke-1.png"
+    },
+    {
+      "kategori": "hopplenke",
+      "navn": "Hopplenke aktivert med Enter setter fokus i main",
+      "input": "Tab + Enter på hopplenke",
+      "forventet": "Fokus flyttes til hoved-/main-element",
+      "faktisk": "Ingen hopplenke å aktivere (se forrige test)",
+      "resultat": "advarsel",
+      "detalj": "Testen avhenger av at hopplenke finnes (WCAG 2.4.1)",
+      "skjerm": null
+    },
+    {
+      "kategori": "aktivering",
+      "navn": "Enter aktiverer navigasjonslenke",
+      "input": "Tab til lenke + Enter",
+      "forventet": "Siden navigerer til ny URL",
+      "faktisk": "Enter trykket på lenke, men URL endret seg ikke",
+      "resultat": "advarsel",
+      "detalj": "Sjekk at lenken er riktig registrert med href (WCAG 2.1.1)",
+      "skjerm": null
+    },
+    {
+      "kategori": "aktivering",
+      "navn": "Enter/Space aktiverer knapper",
+      "input": "Tab til knapp + Space",
+      "forventet": "Knappen utfører sin handling uten krasj",
+      "faktisk": "Space aktiverte knapp uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null
+    },
+    {
+      "kategori": "aktivering",
+      "navn": "Enter sender inn søkefelt",
+      "input": "Tab til søkefelt + Enter",
+      "forventet": "Siden håndterer søket uten krasj",
+      "faktisk": "Siden krasjet etter Enter i søkefelt",
+      "resultat": "feil",
+      "detalj": "",
+      "skjerm": "skjermbilder-tastatur/tastatur-søk-krasj-2.png"
+    }
+  ]
+}
