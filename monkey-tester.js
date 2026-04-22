@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const START_URL = process.argv[2] || 'https://tilskudd.fiks.ks.no/';
+const START_URL = process.argv[2] || 'https://tilskudd.fiks.test.ks.no/';
 const ITERASJONER = parseInt(process.argv[3]) || 60;
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
@@ -352,7 +352,7 @@ const html = `<!DOCTYPE html>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
-  .sidemeny{width:272px;min-width:272px;background:#07604f;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny{width:272px;min-width:272px;background:#0a1355;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
   .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
   .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
   .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
@@ -424,7 +424,7 @@ const html = `<!DOCTYPE html>
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
-    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
+    <div class="env-badge">TEST-MILJØ${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Monkey-testrapport <span>${dato} ${tidspunkt} · ${ITERASJONER} iterasjoner</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>
@@ -574,6 +574,23 @@ const html = `<!DOCTYPE html>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres (${ITERASJONER} tilfeldige handlinger) ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;font-size:.82rem">
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🖱️ Interaksjon</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          ${['Klikk på tilfeldig lenke','Klikk på tilfeldig knapp','Dobbeltklikk på element','Høyreklikk på element','Utfylling av skjemafelt (tilfeldig tekst, tall, spesialtegn, lang tekst)'].map(n => `<li style="color:#374151">· ${n}</li>`).join('')}
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🧭 Navigasjon &amp; layout</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          ${['Frem- og tilbake-navigasjon (browser back/forward)','Skrolling (opp og ned)','Endring av vindusstørrelse','Sjekk for JS-feil og nettverksfeil etter handling','Sjekk for feilsider (4xx / 5xx) etter navigasjon'].map(n => `<li style="color:#374151">· ${n}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  </details>
   <footer>KS Tilskudd · Monkey-tester · Playwright · ${dato} ${tidspunkt}</footer>
 </div>
 </body>

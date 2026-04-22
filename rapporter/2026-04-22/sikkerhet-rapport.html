@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sikkerhetsrapport – 2026-04-22 13:17</title>
+<title>Sikkerhetsrapport – 2026-04-22 13:36</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -72,7 +72,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Sikkerhetstester</div>
     <div class="env-badge">PRODUKSJON · v0.4.3</div>
-    <h1>Sikkerhetsrapport <span>2026-04-22 13:17</span></h1>
+    <h1>Sikkerhetsrapport <span>2026-04-22 13:36</span></h1>
   </div>
   <ul><li><a href="#hoder" class="sidenav-link ok">
     <span class="sidenavn">📋 HTTP-sikkerhetshoder</span>
@@ -104,7 +104,7 @@
   <div class="rapport-header">
     <div>
       <h1>Sikkerhetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 13:17 · 4s · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-22 13:36 · 4s · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -320,7 +320,30 @@
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
-  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-04-22 13:17</footer>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.2rem;font-size:.82rem">
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">📋 HTTP-sikkerhetshoder</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· HSTS (Strict-Transport-Security)</li><li style="color:#374151">· Content-Security-Policy</li><li style="color:#374151">· X-Frame-Options</li><li style="color:#374151">· X-Content-Type-Options</li><li style="color:#374151">· Referrer-Policy</li><li style="color:#374151">· Permissions-Policy</li><li style="color:#374151">· COOP (Cross-Origin-Opener-Policy)</li><li style="color:#374151">· CORP (Cross-Origin-Resource-Policy)</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🔒 HTTPS &amp; stier</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· HTTP → HTTPS-omdirigering</li><li style="color:#374151">· Sensitive stier: /api, /admin, /env, /.git</li><li style="color:#374151">· Sensitive stier: /robots.txt, /backup, /config</li><li style="color:#374151">· Mixed content (HTTP-ressurser på HTTPS)</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🍪 Cookies &amp; klient</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Cookie: SameSite-attributt</li><li style="color:#374151">· Cookie: Secure-flagg</li><li style="color:#374151">· Cookie: HttpOnly-flagg</li><li style="color:#374151">· Input-refleksjon / XSS i søkefelt</li><li style="color:#374151">· CORS: Access-Control-Allow-Origin</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-04-22 13:36</footer>
 </div>
 </body>
 </html>

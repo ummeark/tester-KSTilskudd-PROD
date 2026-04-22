@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const START_URL = process.argv[2] || 'https://tilskudd.fiks.ks.no/';
+const START_URL = process.argv[2] || 'https://tilskudd.fiks.test.ks.no/';
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
 const rapportDir = path.join(__dirname, 'rapporter', dato);
@@ -559,7 +559,7 @@ const html = `<!DOCTYPE html>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
-  .sidemeny{width:272px;min-width:272px;background:#07604f;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny{width:272px;min-width:272px;background:#0a1355;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
   .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
   .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
   .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
@@ -622,7 +622,7 @@ const html = `<!DOCTYPE html>
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
-    <div class="env-badge">PRODUKSJON${versjon ? ` · ${versjon}` : ''}</div>
+    <div class="env-badge">TEST-MILJØ${versjon ? ` · ${versjon}` : ''}</div>
     <h1>Negativ testrapport <span>${dato} ${tidspunkt} · ${tester.length} tester</span></h1>
   </div>
   <ul>${sidenavigasjon}</ul>
@@ -708,6 +708,22 @@ const html = `<!DOCTYPE html>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres (${tester.length}) ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;font-size:.82rem">
+      ${(() => {
+        const navnMap = { skjema:'Skjema', url:'URL-manipulering', navigasjon:'Navigasjon', nettleser:'Nettleser', sesjon:'Sesjon' };
+        const kategorier = [...new Set(tester.map(t => t.kategori))];
+        return kategorier.map(kat => `
+          <div>
+            <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">${navnMap[kat] || kat}</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+              ${tester.filter(t => t.kategori === kat).map(t => `<li style="color:#374151">· ${t.navn}</li>`).join('')}
+            </ul>
+          </div>`).join('');
+      })()}
+    </div>
+  </details>
   <footer>KS Tilskudd · Negativ testing · Playwright · ${dato} ${tidspunkt}</footer>
 </div>
 </body>

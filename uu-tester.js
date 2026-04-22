@@ -947,6 +947,27 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;font-size:.82rem">
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">♿ WCAG / axe-core (per side)</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          ${['Bilder uten alt-tekst (1.1.1)','Fargekontrast (1.4.3, 1.4.11)','Skjemafelt uten label (1.3.1)','Knapper uten tilgjengelig navn (4.1.2)','Overskriftshierarki (1.3.1)','Landmarks og regionstruktur (1.3.6)','Lenker uten forståelig tekst (2.4.4)','ARIA-roller og -attributter','Sidespråk (3.1.1)','Fokusmarkering (2.4.7)','Tittel på siden (2.4.2)','… og øvrige axe-core-regler (90+)'].map(n => `<li style="color:#374151">· ${n}</li>`).join('')}
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🔗 Lenker</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          ${['Døde lenker (HTTP-statuskode)','Lenker uten synlig tekst'].map(n => `<li style="color:#374151">· ${n}</li>`).join('')}
+        </ul>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem;margin-top:1rem">⌨️ Tastaturnavigasjon</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          ${tastatur.tester.map(t => `<li style="color:#374151">· ${t.navn} <span style="color:#9ca3af;font-size:.75rem">(WCAG ${t.wcag})</span></li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  </details>
   <footer>KS Tilskudd · UU-tester · axe-core + Playwright · ${dato} ${tidspunkt}</footer>
 </div>
 </body>
