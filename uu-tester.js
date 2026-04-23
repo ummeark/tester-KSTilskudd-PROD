@@ -467,6 +467,159 @@ async function kjørTastaturSjekker(ctx, url) {
   return { tester, bestått, feil, advarsel };
 }
 
+// ── Reflow-test (WCAG 1.4.10) ────────────────────────────────────────────────
+
+async function kjørReflowSjekk(ctx, url) {
+  console.log('\n📱 Kjører Reflow-sjekk (WCAG 1.4.10)...');
+  const tester = [];
+  const page = await ctx.newPage();
+
+  function add(kategori, wcag, navn, resultat, detalj = '') {
+    tester.push({ kategori, wcag, navn, resultat, detalj });
+    const ikon = { bestått: '✅', feil: '❌', advarsel: '⚠️' }[resultat] || '⚪';
+    console.log(`  ${ikon} [${wcag}] ${navn}${detalj ? ` – ${detalj}` : ''}`);
+  }
+
+  try {
+    // 320px tilsvarer 400 % zoom på 1280px-skjerm
+    await page.setViewportSize({ width: 320, height: 780 });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await page.waitForTimeout(500);
+
+    // Horisontal rulling
+    const horisontalScroll = await page.evaluate(() =>
+      document.documentElement.scrollWidth > document.documentElement.clientWidth
+    );
+    if (horisontalScroll) {
+      const overflows = await page.evaluate(() => {
+        const funnet = [];
+        document.querySelectorAll('*').forEach(el => {
+          if (el.getBoundingClientRect().right > window.innerWidth + 5) {
+            const tag = el.tagName.toLowerCase();
+            const id = el.id ? `#${el.id}` : '';
+            const cls = el.className && typeof el.className === 'string'
+              ? `.${el.className.trim().split(/\s+/)[0]}` : '';
+            funnet.push(`${tag}${id || cls}`);
+          }
+        });
+        return [...new Set(funnet)].slice(0, 5);
+      });
+      add('reflow', '1.4.10', 'Ingen horisontal rulling ved 320px (400 % zoom)', 'feil',
+        `Horisontal rulling nødvendig. Elementer: ${overflows.join(', ')}`);
+    } else {
+      add('reflow', '1.4.10', 'Ingen horisontal rulling ved 320px (400 % zoom)', 'bestått',
+        'Ingen horisontal rulling ved 320px bredde');
+    }
+
+    // Avskåret innhold
+    const klippet = await page.evaluate(() => {
+      const funnet = [];
+      document.querySelectorAll('*').forEach(el => {
+        const st = window.getComputedStyle(el);
+        const tag = el.tagName.toLowerCase();
+        if (['html', 'body', 'script', 'style', 'noscript'].includes(tag)) return;
+        if ((st.overflow === 'hidden' || st.overflowX === 'hidden') &&
+            el.scrollWidth > el.clientWidth + 4 &&
+            el.textContent.trim().length > 10) {
+          const id = el.id ? `#${el.id}` : '';
+          const cls = el.className && typeof el.className === 'string'
+            ? `.${el.className.trim().split(/\s+/)[0]}` : '';
+          funnet.push(`${tag}${id || cls}`);
+        }
+      });
+      return [...new Set(funnet)].slice(0, 5);
+    });
+    if (klippet.length > 0) {
+      add('klipping', '1.4.10', 'Innhold ikke avskåret ved 320px', 'advarsel',
+        `Mulig avskåret innhold: ${klippet.join(', ')}`);
+    } else {
+      add('klipping', '1.4.10', 'Innhold ikke avskåret ved 320px', 'bestått');
+    }
+
+  } catch (e) {
+    console.log(`  ⚠️  Reflow-sjekk feilet: ${e.message.slice(0, 80)}`);
+  } finally {
+    await page.close();
+  }
+
+  const bestått = tester.filter(t => t.resultat === 'bestått').length;
+  const feil    = tester.filter(t => t.resultat === 'feil').length;
+  const advarsel = tester.filter(t => t.resultat === 'advarsel').length;
+  return { tester, bestått, feil, advarsel };
+}
+
+// ── Tekstmellomrom-test (WCAG 1.4.12) ────────────────────────────────────────
+
+async function kjørTekstmellomromSjekk(ctx, url) {
+  console.log('\n📐 Kjører tekstmellomrom-sjekk (WCAG 1.4.12)...');
+  const tester = [];
+  const page = await ctx.newPage();
+
+  function add(kategori, wcag, navn, resultat, detalj = '') {
+    tester.push({ kategori, wcag, navn, resultat, detalj });
+    const ikon = { bestått: '✅', feil: '❌', advarsel: '⚠️' }[resultat] || '⚪';
+    console.log(`  ${ikon} [${wcag}] ${navn}${detalj ? ` – ${detalj}` : ''}`);
+  }
+
+  try {
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 15000 });
+    await page.waitForTimeout(500);
+
+    // Injiser WCAG 1.4.12-stilregler
+    await page.addStyleTag({ content: `
+      * { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; }
+      p  { margin-bottom: 2em !important; }
+    ` });
+    await page.waitForTimeout(400);
+
+    // Sjekk for klipping (overflow:hidden + scrollHeight > clientHeight)
+    const klippet = await page.evaluate(() => {
+      const funnet = [];
+      document.querySelectorAll('*').forEach(el => {
+        const st = window.getComputedStyle(el);
+        const tag = el.tagName.toLowerCase();
+        if (['html', 'body', 'script', 'style', 'noscript'].includes(tag)) return;
+        if ((st.overflow === 'hidden' || st.overflowY === 'hidden') &&
+            el.scrollHeight > el.clientHeight + 4 &&
+            el.textContent.trim().length > 10) {
+          const id = el.id ? `#${el.id}` : '';
+          const cls = el.className && typeof el.className === 'string'
+            ? `.${el.className.trim().split(/\s+/)[0]}` : '';
+          funnet.push(`${tag}${id || cls}`);
+        }
+      });
+      return [...new Set(funnet)].slice(0, 5);
+    });
+    if (klippet.length > 0) {
+      add('klipping', '1.4.12', 'Ingen tekstklipping ved økt linjehøyde og bokstavmellomrom', 'advarsel',
+        `Mulig avskåret tekst etter stilinjeksjon: ${klippet.join(', ')}`);
+    } else {
+      add('klipping', '1.4.12', 'Ingen tekstklipping ved økt linjehøyde og bokstavmellomrom', 'bestått');
+    }
+
+    // Sjekk for horisontal overflyt etter stilinjeksjon
+    const horisontalOverflyt = await page.evaluate(() =>
+      document.documentElement.scrollWidth > document.documentElement.clientWidth + 10
+    );
+    if (horisontalOverflyt) {
+      add('overflyt', '1.4.12', 'Ingen horisontal overflyt etter økt tekstmellomrom', 'advarsel',
+        'Horisontal rulling observert etter injeksjon av WCAG 1.4.12-stiler');
+    } else {
+      add('overflyt', '1.4.12', 'Ingen horisontal overflyt etter økt tekstmellomrom', 'bestått');
+    }
+
+  } catch (e) {
+    console.log(`  ⚠️  Tekstmellomrom-sjekk feilet: ${e.message.slice(0, 80)}`);
+  } finally {
+    await page.close();
+  }
+
+  const bestått = tester.filter(t => t.resultat === 'bestått').length;
+  const feil    = tester.filter(t => t.resultat === 'feil').length;
+  const advarsel = tester.filter(t => t.resultat === 'advarsel').length;
+  return { tester, bestått, feil, advarsel };
+}
+
 // Crawl alle sider
 while (kø.length > 0 && besøkte.size < MAX_SIDER) {
   const url = kø.shift();
@@ -487,6 +640,8 @@ while (kø.length > 0 && besøkte.size < MAX_SIDER) {
 }
 
 const tastatur = await kjørTastaturSjekker(context, START_URL);
+const reflow = await kjørReflowSjekk(context, START_URL);
+const tekstmellomrom = await kjørTekstmellomromSjekk(context, START_URL);
 
 await browser.close();
 
@@ -507,13 +662,17 @@ const totalt = {
   feltUtenLabel: sideResultater.reduce((s, r) => s + r.skjemafelt.filter(f => !f.harLabel).length, 0),
   tastaturFeil: tastatur.feil,
   tastaturAdvarsel: tastatur.advarsel,
+  reflowFeil: reflow.feil,
+  reflowAdvarsel: reflow.advarsel,
+  tekstmellomromFeil: tekstmellomrom.feil,
+  tekstmellomromAdvarsel: tekstmellomrom.advarsel,
 };
 
 // Lagre JSON (uten bildedata for å holde størrelsen nede)
-fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
+fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -531,6 +690,8 @@ console.log(`🔘 Knapper testet:   ${totalt.knapper} (${farge(totalt.knappUtenL
 console.log(`🖼️  Bilder testet:    ${totalt.bilder} (${farge(totalt.bilderUtenAlt, 0, 1, 3)} uten alt)`);
 console.log(`📝 Skjemafelt:       ${totalt.skjemafelt} (${farge(totalt.feltUtenLabel, 0, 1, 3)} uten label)`);
 console.log(`⌨️  Tastatur:         ${tastatur.bestått} bestått · ${farge(tastatur.advarsel, 0, 0, 2)} adv. · ${farge(tastatur.feil, 0, 0, 1)} feil`);
+console.log(`📱 Reflow (1.4.10):  ${reflow.bestått} bestått · ${farge(reflow.advarsel, 0, 0, 2)} adv. · ${farge(reflow.feil, 0, 0, 1)} feil`);
+console.log(`📐 Tekstmellomrom:   ${tekstmellomrom.bestått} bestått · ${farge(tekstmellomrom.advarsel, 0, 0, 2)} adv. · ${farge(tekstmellomrom.feil, 0, 0, 1)} feil`);
 console.log('━'.repeat(60));
 console.log(`\n📁 HTML-rapport: ${path.join(rapportDir, 'uu-rapport.html')}\n`);
 const { exec } = await import('child_process');
@@ -547,7 +708,7 @@ function escapeHtml(str) {
 }
 
 function scoreBeregn(t) {
-  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5);
+  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5 - (t.reflowFeil || 0) * 10 - (t.reflowAdvarsel || 0) * 3 - (t.tekstmellomromFeil || 0) * 8 - (t.tekstmellomromAdvarsel || 0) * 2);
 }
 
 function badge(n, klasse, tekst) {
@@ -559,7 +720,7 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '') {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
@@ -874,6 +1035,8 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
           <li>🖼️ Bilder uten alt-tekst</li>
           <li>📝 Skjemafelt uten label</li>
           <li>🔗 Døde og ødelagte lenker</li>
+          <li>📱 Reflow ved 320px (1.4.10)</li>
+          <li>📐 Tekstmellomrom-klipping (1.4.12)</li>
         </ul>
       </div>
       <div>
@@ -937,6 +1100,56 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     </table>
   </div>
 
+  <div class="seksjon" id="reflow" style="margin-top:2rem">
+    <div class="seksjon-tittel">📱 Reflow – 320px / 400 % zoom (WCAG 1.4.10)</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Sjekker at innhold ikke krever horisontal rulling ved 320px bredde (tilsvarer 400 % zoom på 1280px-skjerm),
+      og at ingenting er avskåret med <code>overflow:hidden</code> i smal visning.
+    </p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
+      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${reflow.bestått} bestått</span>
+      ${reflow.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${reflow.advarsel} advarsler</span>` : ''}
+      ${reflow.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${reflow.feil} feil</span>` : ''}
+    </div>
+    <table>
+      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+      <tbody>
+        ${reflow.tester.map(t => `
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
+          <td style="font-size:.83rem">${t.navn}</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
+          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="seksjon" id="tekstmellomrom" style="margin-top:2rem">
+    <div class="seksjon-tittel">📐 Tekstmellomrom (WCAG 1.4.12)</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Injiserer økt linjehøyde (×1,5), bokstavmellomrom (0,12em), ordmellomrom (0,16em) og avsnittsavstand (2em)
+      og sjekker at ingen tekst klippes eller forsvinner.
+    </p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
+      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${tekstmellomrom.bestått} bestått</span>
+      ${tekstmellomrom.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${tekstmellomrom.advarsel} advarsler</span>` : ''}
+      ${tekstmellomrom.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${tekstmellomrom.feil} feil</span>` : ''}
+    </div>
+    <table>
+      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+      <tbody>
+        ${tekstmellomrom.tester.map(t => `
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
+          <td style="font-size:.83rem">${t.navn}</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
+          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+
   <div class="seksjon" style="margin-top:2rem">
     <div class="seksjon-tittel">Slik beregnes UU-scoren</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
@@ -950,6 +1163,9 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
       <span style="color:#374151">Skjemafelt uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
       <span style="color:#374151">Tastatur-feil (WCAG-brudd)</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
       <span style="color:#374151">Tastatur-advarsel</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
+      <span style="color:#374151">Reflow-feil (1.4.10)</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
+      <span style="color:#374151">Reflow-advarsel</span><span style="color:#9a3412;font-weight:700">× 3 poeng</span>
+      <span style="color:#374151">Tekstmellomrom-advarsel (1.4.12)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
@@ -970,6 +1186,12 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
         <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem;margin-top:1rem">⌨️ Tastaturnavigasjon</div>
         <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
           ${tastatur.tester.map(t => `<li style="color:#374151">· ${t.navn} <span style="color:#9ca3af;font-size:.75rem">(WCAG ${t.wcag})</span></li>`).join('')}
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">📱 Reflow (1.4.10) · 📐 Tekstmellomrom (1.4.12)</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          ${[...reflow.tester, ...tekstmellomrom.tester].map(t => `<li style="color:#374151">· ${t.navn} <span style="color:#9ca3af;font-size:.75rem">(WCAG ${t.wcag})</span></li>`).join('')}
         </ul>
       </div>
     </div>
