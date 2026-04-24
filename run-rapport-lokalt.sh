@@ -41,6 +41,10 @@ npm run sikkerhet >> "$LOG_FIL" 2>&1
 echo "[$DATO $(date +%H:%M:%S)] Kjører npm run negativ..." >> "$LOG_FIL"
 npm run negativ >> "$LOG_FIL" 2>&1
 
+# Kjør ytelsestest
+echo "[$DATO $(date +%H:%M:%S)] Kjører npm run ytelse..." >> "$LOG_FIL"
+npm run ytelse >> "$LOG_FIL" 2>&1
+
 # Generer arkiv
 echo "[$DATO $(date +%H:%M:%S)] Kjører npm run arkiv..." >> "$LOG_FIL"
 npm run arkiv >> "$LOG_FIL" 2>&1

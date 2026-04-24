@@ -607,19 +607,6 @@ const dashboardHTML = `<!DOCTYPE html>
 
   footer { text-align: center; padding: 2.5rem; color: #9ca3af; font-size: 0.78rem; border-top: 1px solid #f1f0ee; margin-top: 2rem; }
 
-  /* Endringslogg */
-  .endringslogg { background: white; border: 1px solid #f1f0ee; padding: 1.6rem 2rem; margin-bottom: 2rem; box-shadow: 0 1px 4px rgba(10,19,85,.06); }
-  .endringslogg h2 { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: #6b7280; margin-bottom: 1rem; }
-  .endringslogg select { width: 100%; padding: .5rem .8rem; border: 1px solid #e5e3de; border-radius: 6px; font-size: 0.85rem; color: #0f0e17; background: #faf6f0; cursor: pointer; }
-  .endringslogg select:focus { outline: 2px solid #0a1355; outline-offset: 2px; }
-  .commit-liste { margin-top: 1rem; display: flex; flex-direction: column; gap: .5rem; }
-  .commit-rad { display: flex; gap: .8rem; align-items: baseline; font-size: 0.83rem; padding: .5rem 0; border-bottom: 1px solid #f4f3f1; }
-  .commit-rad:last-child { border-bottom: none; }
-  .commit-sha { font-family: monospace; font-size: 0.75rem; color: #9ca3af; white-space: nowrap; }
-  .commit-melding { color: #0f0e17; flex: 1; }
-  .commit-melding a { color: #0a1355; text-decoration: none; }
-  .commit-melding a:hover { text-decoration: underline; }
-
   @media (max-width: 700px) {
     .total-rad { grid-template-columns: 1fr; }
   }
@@ -687,74 +674,9 @@ const dashboardHTML = `<!DOCTYPE html>
       <span>${r.totalt.sider} sider</span>`)}
   </div>
 
-  <div class="endringslogg">
-    <h2>Innsjekket i GitHub</h2>
-    <select id="dato-velger" disabled>
-      <option>Laster commits…</option>
-    </select>
-    <div id="commit-innhold"></div>
-  </div>
 
 </div>
-<footer>KS Tilskudd · Testdashboard · axe-core + Playwright</footer>
-<script>
-(async () => {
-  const velger = document.getElementById('dato-velger');
-  const innhold = document.getElementById('commit-innhold');
-  const repo = 'ummeark/tester-KSTilskudd-PROD';
-
-  let commits;
-  try {
-    const res = await fetch(\`https://api.github.com/repos/\${repo}/commits?per_page=100\`);
-    if (!res.ok) throw new Error(res.status);
-    commits = await res.json();
-  } catch {
-    velger.options[0].text = 'Kunne ikke laste commits';
-    return;
-  }
-
-  const perDato = {};
-  for (const c of commits) {
-    const dato = c.commit.author.date.slice(0, 10);
-    if (!perDato[dato]) perDato[dato] = [];
-    perDato[dato].push(c);
-  }
-
-  const datoer = Object.keys(perDato).sort((a, b) => b.localeCompare(a));
-
-  velger.innerHTML = '';
-  const placeholder = document.createElement('option');
-  placeholder.value = '';
-  placeholder.textContent = 'Velg dato…';
-  velger.appendChild(placeholder);
-
-  const datoFormat = new Intl.DateTimeFormat('nb-NO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-
-  for (const dato of datoer) {
-    const antall = perDato[dato].length;
-    const opt = document.createElement('option');
-    opt.value = dato;
-    const label = datoFormat.format(new Date(dato + 'T12:00:00'));
-    opt.textContent = \`\${label} · \${antall} commit\${antall !== 1 ? 's' : ''}\`;
-    velger.appendChild(opt);
-  }
-  velger.disabled = false;
-
-  velger.addEventListener('change', () => {
-    const dato = velger.value;
-    if (!dato) { innhold.innerHTML = ''; return; }
-    const liste = perDato[dato];
-    innhold.innerHTML = \`<div class="commit-liste">\${liste.map(c => {
-      const sha = c.sha.slice(0, 7);
-      const melding = c.commit.message.split('\\n')[0];
-      return \`<div class="commit-rad">
-        <span class="commit-sha">\${sha}</span>
-        <span class="commit-melding"><a href="\${c.html_url}" target="_blank">\${melding}</a></span>
-      </div>\`;
-    }).join('')}</div>\`;
-  });
-})();
-</script>
+<footer>KS Tilskudd · Testdashboard · axe-core + Playwright · <a href="https://ummeark.github.io/tester-KSTilskudd-PROD/testdata-hub.html" style="color:inherit">🗂️ Testdatahub</a> · <a href="https://ummeark.github.io/tester-KSTilskudd-PROD/admin.html" style="color:inherit">⚙️ Admin</a></footer>
 </body>
 </html>`;
 

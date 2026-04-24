@@ -16,11 +16,12 @@ if [ "$UKEDAG" -gt 5 ]; then
   exit 0
 fi
 
-# Allerede kjørt i dag? Sjekk alle fire resultatfiler.
+# Allerede kjørt i dag? Sjekk alle fem resultatfiler.
 if [ -f "$REPO_DIR/rapporter/$DATO/resultat.json" ] && \
    [ -f "$REPO_DIR/rapporter/$DATO/monkey-resultat.json" ] && \
    [ -f "$REPO_DIR/rapporter/$DATO/sikkerhet-resultat.json" ] && \
-   [ -f "$REPO_DIR/rapporter/$DATO/negativ-resultat.json" ]; then
+   [ -f "$REPO_DIR/rapporter/$DATO/negativ-resultat.json" ] && \
+   [ -f "$REPO_DIR/rapporter/$DATO/ytelse-resultat.json" ]; then
   exit 0
 fi
 
