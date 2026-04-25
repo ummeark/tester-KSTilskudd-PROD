@@ -1,0 +1,122 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-04-25",
+  "versjon": "v0.4.3",
+  "nettleser": "147.0.7727.15",
+  "score": 67,
+  "totalt": {
+    "kritiske": 0,
+    "alvorlige": 2,
+    "middels": 1,
+    "lave": 4,
+    "ok": 8,
+    "varighet": 4
+  },
+  "funn": [
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "HSTS er satt",
+      "detalj": "Verdi: max-age=31536000; includeSubDomains",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "Content-Security-Policy er satt",
+      "detalj": "Verdi: default-src *.ks.no min.kommune.no; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.ks.no min.kommune.no; object-src 'none'; style-src 'self' 'unsafe-inline' *.ks.no min.kommune.no; img-src 'self' data: *.ks.no min.kommune.no; base-uri 'self';",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "X-Frame-Options er satt",
+      "detalj": "Verdi: sameorigin",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "X-Content-Type-Options er satt",
+      "detalj": "Verdi: nosniff",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende Referrer-Policy",
+      "detalj": "Kontrollerer referrer-informasjon i forespørsler",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende Permissions-Policy",
+      "detalj": "Begrenser tilgang til nettleserfunksjoner (kamera, GPS osv.)",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende COOP",
+      "detalj": "Isolerer nettleservinduet mot cross-origin-angrep",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende CORP",
+      "detalj": "Begrenser hvem som kan laste inn sidens ressurser",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "https",
+      "alvorlighet": "ok",
+      "tittel": "HTTP omdirigerer til HTTPS",
+      "detalj": "Redirect: https://tilskudd.fiks.ks.no/",
+      "url": "http://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "sensitive-stier",
+      "alvorlighet": "alvorlig",
+      "tittel": "Sensitiv sti tilgjengelig: /api",
+      "detalj": "API-rotendepunkt – HTTP 200, 12109 tegn innhold",
+      "url": "https://tilskudd.fiks.ks.no/api"
+    },
+    {
+      "kategori": "sensitive-stier",
+      "alvorlighet": "alvorlig",
+      "tittel": "Sensitiv sti tilgjengelig: /robots.txt",
+      "detalj": "Robot-eksklusjonsfil – HTTP 200, 67 tegn innhold",
+      "url": "https://tilskudd.fiks.ks.no/robots.txt"
+    },
+    {
+      "kategori": "cookies",
+      "alvorlighet": "middels",
+      "tittel": "Cookie \"20f688f9294db4b2bb4cd4b02c2247a3\" har svake sikkerhetsattributter",
+      "detalj": "SameSite er None eller ikke satt",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "mixed-content",
+      "alvorlighet": "ok",
+      "tittel": "Ingen mixed content funnet",
+      "detalj": "Alle ressurser lastes over HTTPS",
+      "url": "https://tilskudd.fiks.ks.no/"
+    },
+    {
+      "kategori": "xss",
+      "alvorlighet": "ok",
+      "tittel": "Søkefelt ser ut til å rense input",
+      "detalj": "Payload ble ikke reflektert urensket",
+      "url": "https://tilskudd.fiks.ks.no/ordninger?searchString=%22%3E%3Cimg+src%3Dx+onerror%3Dalert%281%29%3E&currentPage=1&pageSize=10"
+    },
+    {
+      "kategori": "cors",
+      "alvorlighet": "ok",
+      "tittel": "Ingen CORS-hoder – standard same-origin-policy gjelder",
+      "detalj": "",
+      "url": "https://tilskudd.fiks.ks.no/"
+    }
+  ]
+}

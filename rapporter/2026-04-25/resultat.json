@@ -1,0 +1,780 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-04-25",
+  "versjon": "v0.4.3",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "sider": 3,
+    "wcagBrudd": 5,
+    "kritiske": 0,
+    "alvorlige": 2,
+    "moderate": 3,
+    "mindre": 0,
+    "dødelenker": 1,
+    "knapper": 5,
+    "knappUtenLabel": 0,
+    "bilder": 9,
+    "bilderUtenAlt": 0,
+    "skjemafelt": 1,
+    "feltUtenLabel": 0,
+    "tastaturFeil": 0,
+    "tastaturAdvarsel": 2,
+    "reflowFeil": 0,
+    "reflowAdvarsel": 0,
+    "tekstmellomromFeil": 0,
+    "tekstmellomromAdvarsel": 0
+  },
+  "tastatur": {
+    "tester": [
+      {
+        "kategori": "synligfokus",
+        "wcag": "2.4.7",
+        "navn": "Synlig fokus på interaktive elementer",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "tabindeks",
+        "wcag": "2.4.3",
+        "navn": "Ingen tabindex > 0",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "rekkevidden",
+        "wcag": "2.1.1",
+        "navn": "Interaktive elementer nåbare via Tab",
+        "resultat": "bestått",
+        "detalj": "5 elementer nådd (6 i DOM)"
+      },
+      {
+        "kategori": "tastaturfelle",
+        "wcag": "2.1.2",
+        "navn": "Ingen tastaturfelle",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "hopplenke",
+        "wcag": "2.4.1",
+        "navn": "Hopplenke til hovedinnhold",
+        "resultat": "advarsel",
+        "detalj": "Første Tab: A \"ks tilskudd\""
+      },
+      {
+        "kategori": "aktivering",
+        "wcag": "2.1.1",
+        "navn": "Enter aktiverer navigasjonslenke",
+        "resultat": "advarsel",
+        "detalj": "Ingen navigasjonslenke aktivert i de første 15 Tab-stegene"
+      }
+    ],
+    "bestått": 4,
+    "feil": 0,
+    "advarsel": 2
+  },
+  "reflow": {
+    "tester": [
+      {
+        "kategori": "reflow",
+        "wcag": "1.4.10",
+        "navn": "Ingen horisontal rulling ved 320px (400 % zoom)",
+        "resultat": "bestått",
+        "detalj": "Ingen horisontal rulling ved 320px bredde"
+      },
+      {
+        "kategori": "klipping",
+        "wcag": "1.4.10",
+        "navn": "Innhold ikke avskåret ved 320px",
+        "resultat": "bestått",
+        "detalj": ""
+      }
+    ],
+    "bestått": 2,
+    "feil": 0,
+    "advarsel": 0
+  },
+  "tekstmellomrom": {
+    "tester": [
+      {
+        "kategori": "klipping",
+        "wcag": "1.4.12",
+        "navn": "Ingen tekstklipping ved økt linjehøyde og bokstavmellomrom",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "overflyt",
+        "wcag": "1.4.12",
+        "navn": "Ingen horisontal overflyt etter økt tekstmellomrom",
+        "resultat": "bestått",
+        "detalj": ""
+      }
+    ],
+    "bestått": 2,
+    "feil": 0,
+    "advarsel": 0
+  },
+  "sider": [
+    {
+      "url": "https://tilskudd.fiks.ks.no",
+      "tittel": "KS Tilskudd - Hjem",
+      "wcag": {
+        "brudd": 0,
+        "bestått": 38,
+        "kritiske": 0,
+        "alvorlige": 0,
+        "moderate": 0,
+        "mindre": 0,
+        "detaljer": []
+      },
+      "lenker": {
+        "totalt": 3,
+        "døde": [
+          {
+            "tekst": "Tilskuddsordninger",
+            "href": "https://tilskudd.fiks.ks.no/ordninger",
+            "intern": true,
+            "harTekst": true,
+            "status": 500,
+            "ok": false,
+            "bilder": {
+              "nærbilde": null,
+              "helside": "skjermbilder/s1-doede-lenker-side.png"
+            }
+          }
+        ],
+        "tomTekst": [],
+        "alle": [
+          {
+            "tekst": "KS Tilskudd",
+            "href": "https://tilskudd.fiks.ks.no/",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Tilskuddsordninger",
+            "href": "https://tilskudd.fiks.ks.no/ordninger",
+            "intern": true,
+            "harTekst": true,
+            "status": 500,
+            "ok": false,
+            "bilder": {
+              "nærbilde": null,
+              "helside": "skjermbilder/s1-doede-lenker-side.png"
+            }
+          },
+          {
+            "tekst": "Logg inn",
+            "href": "https://tilskudd.fiks.ks.no/minside",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          }
+        ]
+      },
+      "knapper": [
+        {
+          "tag": "button",
+          "type": "reset",
+          "tekst": "Tøm",
+          "harLabel": true,
+          "disabled": false
+        },
+        {
+          "tag": "button",
+          "type": "submit",
+          "tekst": "Søk",
+          "harLabel": true,
+          "disabled": false
+        }
+      ],
+      "bilder": [
+        {
+          "src": "forside-banner.png",
+          "fullSrc": "https://tilskudd.fiks.ks.no/forside-banner.png",
+          "alt": "",
+          "harAlt": true,
+          "altErTom": true,
+          "rolle": "",
+          "bredde": 1024,
+          "høyde": 1024
+        }
+      ],
+      "skjemafelt": [
+        {
+          "type": "search",
+          "id": ":moexd3edprn",
+          "navn": "search",
+          "labelTekst": "Finn tilskuddsordning(er) ved å søke på navn, sted og type osv.",
+          "påkrevd": false,
+          "harLabel": true
+        }
+      ],
+      "struktur": {
+        "overskrifter": [
+          {
+            "nivå": 1,
+            "tekst": "Nasjonal portal for søknad om offentlige tilskudd"
+          },
+          {
+            "nivå": 2,
+            "tekst": "En felles løsning for næringstilskudd"
+          }
+        ],
+        "landmarks": [
+          {
+            "tag": "header",
+            "rolle": "header",
+            "label": ""
+          },
+          {
+            "tag": "nav",
+            "rolle": "nav",
+            "label": ""
+          },
+          {
+            "tag": "main",
+            "rolle": "main",
+            "label": ""
+          },
+          {
+            "tag": "footer",
+            "rolle": "footer",
+            "label": ""
+          }
+        ],
+        "harSkipLink": false,
+        "langAttr": "nb"
+      },
+      "internelenker": [
+        "https://tilskudd.fiks.ks.no",
+        "https://tilskudd.fiks.ks.no/ordninger",
+        "https://tilskudd.fiks.ks.no/minside"
+      ]
+    },
+    {
+      "url": "https://tilskudd.fiks.ks.no/ordninger",
+      "tittel": "",
+      "wcag": {
+        "brudd": 5,
+        "bestått": 6,
+        "kritiske": 0,
+        "alvorlige": 2,
+        "moderate": 3,
+        "mindre": 0,
+        "detaljer": [
+          {
+            "id": "document-title",
+            "impact": "serious",
+            "tags": [
+              "cat.text-alternatives",
+              "wcag2a",
+              "wcag242",
+              "TTv5",
+              "TT12.a",
+              "EN-301-549",
+              "EN-9.2.4.2",
+              "ACT",
+              "RGAAv4",
+              "RGAA-8.5.1"
+            ],
+            "description": "Ensure each HTML document contains a non-empty <title> element",
+            "help": "Documents must have <title> element to aid in navigation",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/document-title?application=playwright",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "doc-has-title",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "Document does not have a non-empty <title> element"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<html>",
+                "target": [
+                  "html"
+                ],
+                "failureSummary": "Fix any of the following:\n  Document does not have a non-empty <title> element"
+              }
+            ],
+            "bilder": {
+              "nærbilde": "skjermbilder/s2-document-title-0-element.png",
+              "helside": "skjermbilder/s2-document-title-0-side.png"
+            }
+          },
+          {
+            "id": "html-has-lang",
+            "impact": "serious",
+            "tags": [
+              "cat.language",
+              "wcag2a",
+              "wcag311",
+              "TTv5",
+              "TT11.a",
+              "EN-301-549",
+              "EN-9.3.1.1",
+              "ACT",
+              "RGAAv4",
+              "RGAA-8.3.1"
+            ],
+            "description": "Ensure every HTML document has a lang attribute",
+            "help": "<html> element must have a lang attribute",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/html-has-lang?application=playwright",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "has-lang",
+                    "data": {
+                      "messageKey": "noLang"
+                    },
+                    "relatedNodes": [],
+                    "impact": "serious",
+                    "message": "The <html> element does not have a lang attribute"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "serious",
+                "html": "<html>",
+                "target": [
+                  "html"
+                ],
+                "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+              }
+            ],
+            "bilder": {
+              "nærbilde": "skjermbilder/s2-html-has-lang-1-element.png",
+              "helside": "skjermbilder/s2-html-has-lang-1-side.png"
+            }
+          },
+          {
+            "id": "landmark-one-main",
+            "impact": "moderate",
+            "tags": [
+              "cat.semantics",
+              "best-practice"
+            ],
+            "description": "Ensure the document has a main landmark",
+            "help": "Document should have one main landmark",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main?application=playwright",
+            "nodes": [
+              {
+                "any": [],
+                "all": [
+                  {
+                    "id": "page-has-main",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "moderate",
+                    "message": "Document does not have a main landmark"
+                  }
+                ],
+                "none": [],
+                "impact": "moderate",
+                "html": "<html>",
+                "target": [
+                  "html"
+                ],
+                "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+              }
+            ],
+            "bilder": {
+              "nærbilde": "skjermbilder/s2-landmark-one-main-2-element.png",
+              "helside": "skjermbilder/s2-landmark-one-main-2-side.png"
+            }
+          },
+          {
+            "id": "page-has-heading-one",
+            "impact": "moderate",
+            "tags": [
+              "cat.semantics",
+              "best-practice"
+            ],
+            "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+            "help": "Page should contain a level-one heading",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/page-has-heading-one?application=playwright",
+            "nodes": [
+              {
+                "any": [],
+                "all": [
+                  {
+                    "id": "page-has-heading-one",
+                    "data": null,
+                    "relatedNodes": [],
+                    "impact": "moderate",
+                    "message": "Page must have a level-one heading"
+                  }
+                ],
+                "none": [],
+                "impact": "moderate",
+                "html": "<html>",
+                "target": [
+                  "html"
+                ],
+                "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+              }
+            ],
+            "bilder": {
+              "nærbilde": "skjermbilder/s2-page-has-heading-one-3-element.png",
+              "helside": "skjermbilder/s2-page-has-heading-one-3-side.png"
+            }
+          },
+          {
+            "id": "region",
+            "impact": "moderate",
+            "tags": [
+              "cat.keyboard",
+              "best-practice",
+              "RGAAv4",
+              "RGAA-9.2.1"
+            ],
+            "description": "Ensure all page content is contained by landmarks",
+            "help": "All page content should be contained by landmarks",
+            "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+            "nodes": [
+              {
+                "any": [
+                  {
+                    "id": "region",
+                    "data": {
+                      "isIframe": false
+                    },
+                    "relatedNodes": [],
+                    "impact": "moderate",
+                    "message": "Some page content is not contained by landmarks"
+                  }
+                ],
+                "all": [],
+                "none": [],
+                "impact": "moderate",
+                "html": "<strong style=\"font-size: 1rem;\">Something went wrong!</strong>",
+                "target": [
+                  "strong"
+                ],
+                "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+              }
+            ],
+            "bilder": {
+              "nærbilde": "skjermbilder/s2-region-4-element.png",
+              "helside": "skjermbilder/s2-region-4-side.png"
+            }
+          }
+        ]
+      },
+      "lenker": {
+        "totalt": 0,
+        "døde": [],
+        "tomTekst": [],
+        "alle": []
+      },
+      "knapper": [
+        {
+          "tag": "button",
+          "type": "",
+          "tekst": "Show Error",
+          "harLabel": true,
+          "disabled": false
+        }
+      ],
+      "bilder": [],
+      "skjemafelt": [],
+      "struktur": {
+        "overskrifter": [],
+        "landmarks": [],
+        "harSkipLink": false,
+        "langAttr": ""
+      },
+      "internelenker": []
+    },
+    {
+      "url": "https://tilskudd.fiks.ks.no/minside",
+      "tittel": "ID-porten",
+      "wcag": {
+        "brudd": 0,
+        "bestått": 36,
+        "kritiske": 0,
+        "alvorlige": 0,
+        "moderate": 0,
+        "mindre": 0,
+        "detaljer": []
+      },
+      "lenker": {
+        "totalt": 13,
+        "døde": [],
+        "tomTekst": [],
+        "alle": [
+          {
+            "tekst": "Bokmål",
+            "href": "https://login.idporten.no/authorize/selector?lang=nb",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Nynorsk",
+            "href": "https://login.idporten.no/authorize/selector?lang=nn",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Davvisámegiella",
+            "href": "https://login.idporten.no/authorize/selector?lang=se",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "English",
+            "href": "https://login.idporten.no/authorize/selector?lang=en",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "MinID\n\nApp eller engangskode",
+            "href": "https://login.idporten.no/authorize/minid",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "BankID\n\nBruk BankID-app eller kodebrikke",
+            "href": "https://login.idporten.no/authorize/bankid",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Buypass\n\nBruk Buypass ID på smartkort, mobil eller nøkkel",
+            "href": "https://login.idporten.no/authorize/buypass",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Commfides\n\nMed smartkort",
+            "href": "https://login.idporten.no/authorize/commfides",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Slik skaffer du deg elektronisk ID",
+            "href": "https://www.norge.no/nb/ulike-innloggingsmetoder/46",
+            "intern": false,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Sikkerhet og personvern",
+            "href": "https://www.norge.no/nb/personopplysninger-nar-du-logger-inn/61",
+            "intern": false,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Slik skaffer du deg elektronisk ID",
+            "href": "https://www.norge.no/nb/ulike-innloggingsmetoder/46",
+            "intern": false,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Tilgjengelighetserklæring for ID-porten",
+            "href": "https://uustatus.no/nb/erklaringer/publisert/bb14c7d3-c008-47e0-be65-cfa6eb74ff82",
+            "intern": false,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Hjelp til innlogging",
+            "href": "https://www.norge.no/nb/hjelp-og-kontakt/52",
+            "intern": false,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          }
+        ]
+      },
+      "knapper": [
+        {
+          "tag": "button",
+          "type": "",
+          "tekst": "Meny",
+          "harLabel": true,
+          "disabled": false
+        },
+        {
+          "tag": "button",
+          "type": "",
+          "tekst": "Language",
+          "harLabel": true,
+          "disabled": false
+        }
+      ],
+      "bilder": [
+        {
+          "src": "logo-idporten.svg",
+          "fullSrc": "https://static.idporten.no/v0.8.3/img/logo/logo-idporten.svg",
+          "alt": "ID-porten logo",
+          "harAlt": true,
+          "altErTom": false,
+          "rolle": "",
+          "bredde": 147,
+          "høyde": 27
+        },
+        {
+          "src": "logo-idporten-bare.svg",
+          "fullSrc": "https://static.idporten.no/v0.8.3/img/logo/logo-idporten-bare.svg",
+          "alt": "ID-porten logo",
+          "harAlt": true,
+          "altErTom": false,
+          "rolle": "",
+          "bredde": 25,
+          "høyde": 25
+        },
+        {
+          "src": "service-provider-placeholder-5905d928f407b33a83b6d89d1a287c3f.png",
+          "fullSrc": "https://login.idporten.no/img/service-providers/service-provider-placeholder-5905d928f407b33a83b6d89d1a287c3f.png",
+          "alt": "Tilskudd idporten PROD",
+          "harAlt": true,
+          "altErTom": false,
+          "rolle": "",
+          "bredde": 73,
+          "høyde": 32
+        },
+        {
+          "src": "minid-logo-6c7c26bd67da3d8466edf59095056174.svg",
+          "fullSrc": "https://login.idporten.no/img/providers/minid-logo-6c7c26bd67da3d8466edf59095056174.svg",
+          "alt": "",
+          "harAlt": true,
+          "altErTom": true,
+          "rolle": "",
+          "bredde": 300,
+          "høyde": 75
+        },
+        {
+          "src": "bankid-648538a2f3c564d34421bf0532c6c52f.svg",
+          "fullSrc": "https://login.idporten.no/img/providers/bankid-648538a2f3c564d34421bf0532c6c52f.svg",
+          "alt": "",
+          "harAlt": true,
+          "altErTom": true,
+          "rolle": "",
+          "bredde": 240,
+          "høyde": 150
+        },
+        {
+          "src": "buypass-150b8f7b9e42331e0b9194e6a8f51046.svg",
+          "fullSrc": "https://login.idporten.no/img/providers/buypass-150b8f7b9e42331e0b9194e6a8f51046.svg",
+          "alt": "",
+          "harAlt": true,
+          "altErTom": true,
+          "rolle": "",
+          "bredde": 239,
+          "høyde": 150
+        },
+        {
+          "src": "commfides-42b3bfbb7532f5f4ecd11e9574e2de8c.svg",
+          "fullSrc": "https://login.idporten.no/img/providers/commfides-42b3bfbb7532f5f4ecd11e9574e2de8c.svg",
+          "alt": "",
+          "harAlt": true,
+          "altErTom": true,
+          "rolle": "",
+          "bredde": 239,
+          "høyde": 150
+        },
+        {
+          "src": "logo-idporten-negative.svg",
+          "fullSrc": "https://static.idporten.no/v0.8.3/img/logo/logo-idporten-negative.svg",
+          "alt": "ID-porten logo",
+          "harAlt": true,
+          "altErTom": false,
+          "rolle": "",
+          "bredde": 147,
+          "høyde": 27
+        }
+      ],
+      "skjemafelt": [],
+      "struktur": {
+        "overskrifter": [
+          {
+            "nivå": 1,
+            "tekst": "Velg innloggingsmetode"
+          },
+          {
+            "nivå": 2,
+            "tekst": "MinID"
+          },
+          {
+            "nivå": 2,
+            "tekst": "BankID"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Buypass"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Commfides"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Viktige lenker"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Kontakt"
+          }
+        ],
+        "landmarks": [
+          {
+            "tag": "header",
+            "rolle": "header",
+            "label": ""
+          },
+          {
+            "tag": "nav",
+            "rolle": "nav",
+            "label": ""
+          },
+          {
+            "tag": "main",
+            "rolle": "main",
+            "label": ""
+          },
+          {
+            "tag": "footer",
+            "rolle": "footer",
+            "label": ""
+          }
+        ],
+        "harSkipLink": false,
+        "langAttr": "nb"
+      },
+      "internelenker": []
+    }
+  ]
+}
