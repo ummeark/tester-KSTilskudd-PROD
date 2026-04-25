@@ -2,9 +2,10 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { START_URL, ITERASJONER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, KRASJ_ORD } from './config.js';
+import { hentVersjon } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { START_URL, ITERASJONER } from './config.js';
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
 const rapportDir = path.join(__dirname, 'rapporter', dato);
@@ -55,20 +56,10 @@ const browser = await chromium.launch();
 const nettleser = browser.version();
 const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 MonkeyTester/1.0',
-  viewport: { width: 1280, height: 900 },
+  viewport: VIEWPORT,
 });
 
-// Hent versjonsnummer fra siden
-async function hentVersjon(ctx) {
-  const p = await ctx.newPage();
-  try {
-    await p.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
-    const tekst = await p.evaluate(() => document.body.innerText);
-    const match = tekst.match(/v\d+\.\d+\.\d+/);
-    return match ? match[0] : null;
-  } catch { return null; } finally { await p.close(); }
-}
-const versjon = await hentVersjon(context);
+const versjon = await hentVersjon(context, START_URL);
 
 const page = await context.newPage();
 
@@ -93,6 +84,13 @@ page.on('response', resp => {
 
 function nowStr() { return new Date().toISOString(); }
 
+// ── Stille-feil-logging ──────────────────────────────────────────────────────
+const stille_feil = [];
+function loggFeil(melding) {
+  stille_feil.push(melding);
+  console.log(`  ⚠️  ${melding}`);
+}
+
 async function taSkjermdump(prefix) {
   skjermTeller++;
   const filnavn = `monkey-${prefix}-${skjermTeller}.png`;
@@ -104,16 +102,14 @@ async function taSkjermdump(prefix) {
 
 async function resetTilStart() {
   try {
-    await page.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 12000 });
+    await page.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
   } catch { /* ignorer */ }
 }
 
 async function sjekkForFeilside() {
   try {
     const tekst = await page.textContent('body');
-    const feilord = ['500', 'Internal Server Error', 'Something went wrong',
-                     'Uventet feil', 'Oops', 'Ops!', '404 – Siden'];
-    for (const ord of feilord) {
+    for (const ord of KRASJ_ORD) {
       if (tekst.includes(ord)) return ord;
     }
   } catch { /* ignorer */ }
@@ -122,7 +118,7 @@ async function sjekkForFeilside() {
 
 // ── Start navigasjon ─────────────────────────────────────────────────────────
 try {
-  await page.goto(START_URL, { waitUntil: 'networkidle', timeout: 20000 });
+  await page.goto(START_URL, { waitUntil: 'networkidle', timeout: IDLE_TIMEOUT });
 } catch (e) {
   console.log(`❌ Kunne ikke laste startsiden: ${e.message}`);
   await browser.close();
@@ -149,19 +145,22 @@ for (let i = 0; i < ITERASJONER; i++) {
     if (handling < 0.35) {
       // Klikk tilfeldig knapp / lenke
       type = 'klikk';
-      const elementer = await page.$$('button:visible, [role="button"]:visible');
-      if (elementer.length > 0) {
-        const el = elementer[Math.floor(Math.random() * elementer.length)];
+      const elementer = page.locator('button:visible, [role="button"]:visible');
+      const elementCount = await elementer.count();
+      if (elementCount > 0) {
+        const el = elementer.nth(Math.floor(Math.random() * elementCount));
         const tekst = (await el.textContent().catch(() => '')).trim().slice(0, 60);
         detalj = `Klikket: "${tekst || '(ingen tekst)'}"`;
         console.log(`  🖱️  [${i+1}] ${detalj}`);
-        await el.click({ timeout: 4000, force: false }).catch(() => {});
-        await page.waitForTimeout(800);
+        await el.click({ timeout: 4000, force: false }).catch(e => loggFeil(`Klikk feilet: ${e.message.slice(0, 80)}`));
+        await page.waitForLoadState('domcontentloaded').catch(e => loggFeil(`waitForLoadState feilet etter klikk: ${e.message.slice(0, 80)})`));
       } else {
         // Prøv lenker
-        const lenker = await page.$$('a[href]:visible');
+        const lenker = page.locator('a[href]:visible');
+        const lenkeCount = await lenker.count();
         const interne = [];
-        for (const l of lenker) {
+        for (let li = 0; li < lenkeCount; li++) {
+          const l = lenker.nth(li);
           const href = await l.getAttribute('href').catch(() => '');
           if (href && (href.startsWith('/') || href.startsWith(baseOrigin))) interne.push(l);
         }
@@ -170,37 +169,38 @@ for (let i = 0; i < ITERASJONER; i++) {
           const tekst = (await el.textContent().catch(() => '')).trim().slice(0, 60);
           detalj = `Klikket lenke: "${tekst}"`;
           console.log(`  🔗 [${i+1}] ${detalj}`);
-          await el.click({ timeout: 4000 }).catch(() => {});
-          await page.waitForTimeout(800);
+          await el.click({ timeout: 4000 }).catch(e => loggFeil(`Lenkeklikk feilet: ${e.message.slice(0, 80)}`));
+          await page.waitForLoadState('domcontentloaded').catch(e => loggFeil(`waitForLoadState feilet etter lenkeklikk: ${e.message.slice(0, 80)}`));
         }
       }
 
     } else if (handling < 0.55) {
       // Fyll inn tilfeldig tekst i skjemafelt
       type = 'skjemafyll';
-      const inputs = await page.$$('input:visible:not([type=hidden]):not([type=submit]):not([type=button]), textarea:visible');
-      if (inputs.length > 0) {
-        const inp = inputs[Math.floor(Math.random() * inputs.length)];
+      const inputs = page.locator('input:visible:not([type=hidden]):not([type=submit]):not([type=button]), textarea:visible');
+      const inputCount = await inputs.count();
+      if (inputCount > 0) {
+        const inp = inputs.nth(Math.floor(Math.random() * inputCount));
         const inputType = await inp.getAttribute('type').catch(() => 'text') || 'text';
         let verdi = inputType === 'email' ? tilfeldigEpost() : tilfeldigTekst();
         detalj = `Fylte "${verdi.slice(0, 40)}" i ${inputType}-felt`;
         console.log(`  ✏️  [${i+1}] ${detalj}`);
-        await inp.fill(verdi, { timeout: 3000 }).catch(() => {});
-        await page.waitForTimeout(300);
+        await inp.fill(verdi, { timeout: 3000 }).catch(e => loggFeil(`Skjemafyll feilet: ${e.message.slice(0, 80)}`));
       }
 
     } else if (handling < 0.70) {
       // Send inn skjema
       type = 'skjemasubmit';
-      const knapper = await page.$$('button[type=submit]:visible, input[type=submit]:visible');
-      if (knapper.length > 0) {
-        const btn = knapper[Math.floor(Math.random() * knapper.length)];
+      const knapper = page.locator('button[type=submit]:visible, input[type=submit]:visible');
+      const knapperCount = await knapper.count();
+      if (knapperCount > 0) {
+        const btn = knapper.nth(Math.floor(Math.random() * knapperCount));
         const tekst = (await btn.textContent().catch(() => '')).trim().slice(0, 40);
         detalj = `Send skjema: "${tekst}"`;
         console.log(`  📤 [${i+1}] ${detalj}`);
         skjerm = await taSkjermdump('pre-submit');
-        await btn.click({ timeout: 4000 }).catch(() => {});
-        await page.waitForTimeout(1200);
+        await btn.click({ timeout: 4000 }).catch(e => loggFeil(`Skjemasubmit feilet: ${e.message.slice(0, 80)}`));
+        await page.waitForLoadState('domcontentloaded').catch(e => loggFeil(`waitForLoadState feilet etter submit: ${e.message.slice(0, 80)}`));
       }
 
     } else if (handling < 0.82) {
@@ -208,8 +208,8 @@ for (let i = 0; i < ITERASJONER; i++) {
       type = 'navigasjon';
       detalj = 'Gikk tilbake (browser back)';
       console.log(`  ⬅️  [${i+1}] ${detalj}`);
-      await page.goBack({ timeout: 6000, waitUntil: 'domcontentloaded' }).catch(() => {});
-      await page.waitForTimeout(500);
+      await page.goBack({ timeout: 6000, waitUntil: 'domcontentloaded' }).catch(e => loggFeil(`goBack feilet: ${e.message.slice(0, 80)}`));
+      await page.waitForLoadState('domcontentloaded').catch(e => loggFeil(`waitForLoadState feilet etter goBack: ${e.message.slice(0, 80)}`));
 
     } else {
       // Reset til start

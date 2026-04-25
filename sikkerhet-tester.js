@@ -5,9 +5,10 @@ import https from 'https';
 import http from 'http';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
+import { START_URL, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, HTTP_TIMEOUT } from './config.js';
+import { hentVersjon } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { START_URL } from './config.js';
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
 const rapportDir = path.join(__dirname, 'rapporter', dato);
@@ -65,7 +66,7 @@ const XSS_SØKEFELT_PAYLOAD = '"><img src=x onerror=alert(1)>';
 function hentHoder(url) {
   return new Promise((resolve) => {
     const modul = url.startsWith('https') ? https : http;
-    const req = modul.request(url, { method: 'HEAD', timeout: 8000,
+    const req = modul.request(url, { method: 'HEAD', timeout: HTTP_TIMEOUT,
       headers: { 'User-Agent': 'Mozilla/5.0 SikkerhetsTester/1.0' },
       rejectUnauthorized: false,
     }, res => resolve({ status: res.statusCode, hoder: res.headers }));
@@ -79,7 +80,7 @@ function hentInnhold(url) {
   return new Promise((resolve) => {
     const modul = url.startsWith('https') ? https : http;
     let data = '';
-    const req = modul.request(url, { method: 'GET', timeout: 8000,
+    const req = modul.request(url, { method: 'GET', timeout: HTTP_TIMEOUT,
       headers: { 'User-Agent': 'Mozilla/5.0 SikkerhetsTester/1.0' },
       rejectUnauthorized: false,
     }, res => {
@@ -197,22 +198,12 @@ const browser = await chromium.launch();
 const nettleser = browser.version();
 const context = await browser.newContext({ ignoreHTTPSErrors: true });
 
-// Hent versjonsnummer fra siden
-async function hentVersjon(ctx) {
-  const p = await ctx.newPage();
-  try {
-    await p.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: 15000 });
-    const tekst = await p.evaluate(() => document.body.innerText);
-    const match = tekst.match(/v\d+\.\d+\.\d+/);
-    return match ? match[0] : null;
-  } catch { return null; } finally { await p.close(); }
-}
-const versjon = await hentVersjon(context);
+const versjon = await hentVersjon(context, START_URL);
 
 const page = await context.newPage();
 
 try {
-  await page.goto(START_URL, { waitUntil: 'networkidle', timeout: 20000 });
+  await page.goto(START_URL, { waitUntil: 'networkidle', timeout: IDLE_TIMEOUT });
 } catch (e) {
   console.log(`  ⚠️ Kunne ikke laste siden: ${e.message}`);
 }
@@ -251,7 +242,7 @@ page.on('request', req => {
 });
 
 try {
-  await page.reload({ waitUntil: 'networkidle', timeout: 15000 });
+  await page.reload({ waitUntil: 'networkidle', timeout: SIDE_TIMEOUT });
 } catch { /* ignorer */ }
 
 if (mixedContent.length > 0) {
@@ -268,13 +259,20 @@ if (mixedContent.length > 0) {
 
 // ── Test 7: Input-refleksjon (XSS) ────────────────────────────────────────────
 
+// Naviger til kjent starttilstand før XSS-test for å unngå avhengighet av forrige testresultat
+try {
+  await page.goto(START_URL, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+} catch (e) {
+  console.log(`  ⚠️ Kunne ikke navigere til startside før XSS-test: ${e.message.slice(0, 80)}`);
+}
+
 console.log('💉 Sjekker input-refleksjon...');
-const søkefelt = await page.$('input[type=search], input[name*=søk], input[name*=search], input[placeholder*=øk]');
-if (søkefelt) {
+const søkefelt = page.locator('input[type=search], input[name*=søk], input[name*=search], input[placeholder*=øk]').first();
+if (await søkefelt.count() > 0) {
   try {
     await søkefelt.fill(XSS_SØKEFELT_PAYLOAD);
     await page.keyboard.press('Enter');
-    await page.waitForTimeout(1500);
+    await page.waitForLoadState('domcontentloaded').catch(() => {});
 
     const sideTekst = await page.content();
     const reflektert = sideTekst.includes(XSS_SØKEFELT_PAYLOAD);
@@ -310,7 +308,7 @@ console.log('🌐 Sjekker CORS-konfigurasjon...');
 const corsRes = await new Promise(resolve => {
   const modul = START_URL.startsWith('https') ? https : http;
   const req = modul.request(START_URL, {
-    method: 'OPTIONS', timeout: 8000,
+    method: 'OPTIONS', timeout: HTTP_TIMEOUT,
     headers: {
       'Origin': 'https://ondomain.eksempel.no',
       'Access-Control-Request-Method': 'GET',
