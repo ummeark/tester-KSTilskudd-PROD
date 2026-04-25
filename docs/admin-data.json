@@ -1,15 +1,19 @@
 [
   {
+    "dato": "2026-04-26",
+    "type": "refaktorering",
+    "tittel": "Sync fra TEST: lib/common.js + best-practice Playwright API",
+    "beskrivelse": "Synkronisert alle refaktoreringsforbedringer fra TEST til PROD. Opprettet lib/common.js med delte hjelpefunksjoner (hentVersjon, gåTil, sjekkKrasj, sjekkFeilmelding). Alle 4 testfiler importerer nå fra common.js. config.js utvidet med VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, LAST_TIMEOUT, HTTP_TIMEOUT, LINK_TIMEOUT og KRASJ_ORD. Erstattet page.$() med page.locator() og waitForTimeout() med waitForLoadState/waitForFunction overalt.",
+    "filer": ["lib/common.js", "config.js", "uu-tester.js", "monkey-tester.js", "sikkerhet-tester.js", "negativ-tester.js", "ytelse-tester.js"],
+    "status": "ferdig"
+  },
+  {
     "dato": "2026-04-23",
     "type": "refaktorering",
     "tittel": "Extraher lib/common.js med felles initialisering og hentVersjon()",
     "beskrivelse": "De fire testfilene inneholder identisk kode for initialisering (__dirname, dato, rapportDir) og hentVersjon()-funksjonen. Disse ekstraheres til lib/common.js slik at alle testfiler importerer fra én felles kilde. Eliminerer halvparten av all duplisert kode.",
     "filer": ["lib/common.js", "uu-tester.js", "monkey-tester.js", "sikkerhet-tester.js", "negativ-tester.js", "ytelse-tester.js"],
-    "status": "planlagt",
-    "risiko": {
-      "nivå": "middels",
-      "beskrivelse": "Berører alle 5 testfiler samtidig. En bug i common.js stopper alle tester. Krever at alle testtyper kjøres manuelt etter endringen for å verifisere at ingenting er brutt."
-    }
+    "status": "ferdig"
   },
   {
     "dato": "2026-04-23",
