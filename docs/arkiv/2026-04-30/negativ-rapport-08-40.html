@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Negativ testrapport – 2026-04-30 08:40</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
+  .sidemeny{width:272px;min-width:272px;background:#07604f;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
+  .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
+  .sidemeny h1{font-size:.95rem;font-weight:600;line-height:1.3}
+  .sidemeny h1 span{display:block;font-size:.72rem;opacity:.45;margin-top:.3rem;font-weight:400}
+  .sidemeny ul{list-style:none;flex:1;overflow-y:auto;padding:.5rem 0}
+  .sidenav-link{display:block;padding:.65rem 1.4rem;text-decoration:none;color:rgba(255,255,255,.65);border-left:3px solid transparent;transition:background .15s,color .15s}
+  .sidenav-link:hover{background:rgba(255,255,255,.07);color:white}
+  .sidenav-link.har-kritiske{border-color:#fc8181}
+  .sidenav-link.har-brudd{border-color:#f3dda2}
+  .sidenav-link.ok{border-color:#abd1b1}
+  .sidenavn{display:block;font-size:.84rem;font-weight:500}
+  .side-badge{display:block;font-size:.68rem;margin-top:.2rem;opacity:.6}
+  .hoveddel{flex:1;padding:2.5rem 3rem;overflow-y:auto;max-width:1060px}
+  .rapport-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid #f4ecdf;flex-wrap:wrap}
+  .rapport-header h1{font-size:1.5rem;font-weight:700;color:#0a1355;letter-spacing:-.01em}
+  .rapport-header .meta{font-size:.85rem;color:#6b7280;margin-top:.4rem}
+  .rapport-header .meta a{color:#07604f;text-decoration:none}
+  .nav-knapper{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-start}
+  .knapp{display:inline-block;padding:.5rem 1.2rem;background:#07604f;color:white;border-radius:100px;font-size:.82rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s}
+  .knapp:hover{background:#2b3285}
+  .knapp.aktiv{background:#07604f;pointer-events:none}
+  .knapp.sekundær{background:transparent;border:1px solid #0a1355;color:#0a1355}
+  .knapp.sekundær:hover{background:#f4ecdf}
+  .score-kort{background:white;border:1px solid #f1f0ee;padding:1.8rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .score-sirkel{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;flex-shrink:0}
+  .score-sirkel.god{background:#07604f;color:white}
+  .score-sirkel.middels{background:#f3dda2;color:#0a1355}
+  .score-sirkel.dårlig{background:#c53030;color:white}
+  .score-tekst strong{color:#0a1355;font-size:1rem}
+  .score-tekst p{color:#6b7280;font-size:.87rem;margin-top:.35rem;line-height:1.5}
+  .kort-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.8rem;margin-bottom:2rem}
+  .kort{background:white;padding:1.2rem 1rem;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .kort.kritisk{border-left-color:#c53030}.kort.advarsel{border-left-color:#b8860b}.kort.ok{border-left-color:#07604f}.kort.nøytral{border-left-color:#2b3285}
+  .kort .tall{font-size:2rem;font-weight:700;margin:.3rem 0;color:#0a1355}
+  .kort .etikett{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}
+  .seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .seksjon-tittel{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #f4ecdf}
+  .brudd-kort{background:#faf6f0;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;padding:1rem 1.1rem;margin-bottom:.7rem}
+  .brudd-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;gap:.5rem;flex-wrap:wrap}
+  .regel-desc{font-size:.84rem;color:#374151}
+  .brudd-hjelp{font-size:.82rem;color:#555;margin:.6rem 0;padding:.5rem .8rem;background:#f4ecdf;border-left:3px solid #b8860b;word-break:break-all}
+  .node-info{background:#f1f0ee;padding:.5rem .7rem;margin:.4rem 0}
+  .node-selector{display:block;color:#2b3285;font-family:ui-monospace,monospace;word-break:break-all;font-size:.78rem}
+  .skjermdump-gruppe{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:.9rem}
+  .skjermdump-wrapper{background:#f1f0ee;padding:.7rem}
+  .skjermdump-label{font-size:.68rem;color:#6b7280;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+  .skjermdump{width:100%;border:1px solid #e5e3de;cursor:zoom-in;transition:box-shadow .2s;display:block}
+  .skjermdump:hover{box-shadow:0 4px 16px rgba(10,19,85,.15)}
+  .helside{max-height:300px;object-fit:cover;object-position:top}
+  .badge{display:inline-block;padding:.15rem .6rem;border-radius:100px;font-size:.7rem;font-weight:600;margin-right:.3rem}
+  .badge.bestått{background:#ecfdf5;color:#07604f}
+  .badge.feil{background:#fee2e2;color:#c53030}
+  .badge.advarsel{background:#f3dda2;color:#713f12}
+  .wcag-ok{background:#ecfdf5;color:#064e3b;padding:.8rem 1rem;border-left:3px solid #07604f;font-size:.88rem}
+  footer{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.78rem;border-top:1px solid #f1f0ee;margin-top:2rem}
+</style>
+</head>
+<body>
+<nav class="sidemeny">
+  <div class="sidemeny-header">
+    <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
+    <div class="env-badge">PRODUKSJON · v0.4.3</div>
+    <h1>Negativ testrapport <span>2026-04-30 08:40 · 23 tester</span></h1>
+  </div>
+  <ul><li><a href="#skjema" class="sidenav-link ok">
+    <span class="sidenavn">📝 Skjema-validering</span>
+    <span class="side-badge">6 tester · ✅ alle bestått</span>
+  </a></li><li><a href="#url" class="sidenav-link har-brudd">
+    <span class="sidenavn">🔗 URL-validering</span>
+    <span class="side-badge">6 tester · 4 feil/adv.</span>
+  </a></li><li><a href="#navigasjon" class="sidenav-link har-kritiske">
+    <span class="sidenavn">🔀 Navigasjonsrekkefølge</span>
+    <span class="side-badge">4 tester · 1 feil/adv.</span>
+  </a></li><li><a href="#nettleser" class="sidenav-link ok">
+    <span class="sidenavn">🌐 Nettleserfunksjoner</span>
+    <span class="side-badge">4 tester · ✅ alle bestått</span>
+  </a></li><li><a href="#sesjon" class="sidenav-link ok">
+    <span class="sidenavn">🔑 Tilstand og sesjon</span>
+    <span class="side-badge">3 tester · ✅ alle bestått</span>
+  </a></li></ul>
+</nav>
+<div class="hoveddel">
+  <div class="rapport-header">
+    <div>
+      <h1>Negativ testrapport</h1>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-04-30 08:40 · 23 tester · 15s · Chromium 147</div>
+    </div>
+    <div class="nav-knapper">
+      <a href="../../rapport.html" class="knapp sekundær">Forside</a>
+      <a href="uu-rapport.html" class="knapp sekundær">UU-rapport</a>
+      <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
+      <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
+      <a href="negativ-rapport.html" class="knapp aktiv">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="../../arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
+    </div>
+  </div>
+
+  <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
+    <div class="seksjon-tittel">Hva er negativ testing?</div>
+    <p style="font-size:.88rem;line-height:1.7;color:#374151;margin-bottom:1rem">
+      Negativ testing sjekker at applikasjonen håndterer ugyldige, uventede og grensetilfelle-inputs
+      på en kontrollert og brukervennlig måte – uten krasj, feilsider eller utilsiktet oppførsel.
+      Testene er strukturerte og ikke-destruktive.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;font-size:.83rem">
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva testes</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>📝 Skjema med ugyldig input</li>
+          <li>🔗 Ikke-eksisterende og ugyldige URL-er</li>
+          <li>🔀 Uventet navigasjonsrekkefølge</li>
+          <li>🌐 Nettleserbegrensninger (ingen JS, mobil)</li>
+          <li>🔑 Sesjon og tilstandshåndtering</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva måles</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>Krasjer siden (500, JS-feil)?</li>
+          <li>Vises tydelig feilmelding?</li>
+          <li>Beholdes brukeren i kontroll?</li>
+          <li>Håndteres edge cases trygt?</li>
+          <li>Omdirigerer auth korrekt?</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Testresultater</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>✅ Bestått – håndtert korrekt</li>
+          <li>⚠️ Advarsel – håndtert, men mangler</li>
+          <li>❌ Feil – krasj eller utilsiktet oppf.</li>
+          <li>Playwright (ekte nettleser)</li>
+          <li>Daglig kjøring kl. 08:30</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="score-kort">
+    <div class="score-sirkel middels">65</div>
+    <div class="score-tekst">
+      <strong>Robusthetsscore</strong>
+      <p>18 av 23 tester bestått. 1 feil og 4 advarsler på tvers av 5 testkategorier.</p>
+    </div>
+  </div>
+
+  <div class="kort-grid">
+    <div class="kort ok"><div class="tall">23</div><div class="etikett">Tester totalt</div></div>
+    <div class="kort ok"><div class="tall">18</div><div class="etikett">Bestått</div></div>
+    <div class="kort advarsel"><div class="tall">4</div><div class="etikett">Advarsler</div></div>
+    <div class="kort kritisk"><div class="tall">1</div><div class="etikett">Feil</div></div>
+  </div>
+
+  
+  <div class="seksjon" id="skjema">
+    <div class="seksjon-tittel">📝 Skjema-validering – 6/6 bestått</div>
+    
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Tom søkeinnsending</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">(tomt)</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Siden håndterte tom søk uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Søk med ekstremt lang tekst (2000 tegn)</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Håndterte lang tekst uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Søk med spesialtegn</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">!@#$%^&*()<>{}[]|\;:'",.?/`~</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Håndterte spesialtegn uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Søk med kun mellomrom</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">     </div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Håndterte mellomrom uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Søk med norske tegn (æøå)</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">æøå ÆØÅ tilskudd</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Håndterte norske tegn uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">SQL-lignende søketekst</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">' OR '1'='1</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">SQL-lignende input håndtert uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  </div>
+  <div class="seksjon" id="url">
+    <div class="seksjon-tittel">🔗 URL-validering – 2/6 bestått</div>
+    
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge advarsel">⚠️ advarsel</span>
+        <span class="regel-desc">Ukjent side</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/finnesikke</div>
+      </div>
+      <div style="background:#fff9db;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Ingen tydelig feilhåndtering</div>
+      </div>
+    </div>
+    
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-1.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge advarsel">⚠️ advarsel</span>
+        <span class="regel-desc">Ugyldig UUID i URL</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger/ikke-en-gyldig-uuid</div>
+      </div>
+      <div style="background:#fff9db;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Ingen tydelig feilhåndtering</div>
+      </div>
+    </div>
+    
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-2.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-2.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge advarsel">⚠️ advarsel</span>
+        <span class="regel-desc">Null-UUID</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger/00000000-0000-0000-0000-000000000000</div>
+      </div>
+      <div style="background:#fff9db;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Ingen tydelig feilhåndtering</div>
+      </div>
+    </div>
+    
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-3.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Path traversal-forsøk</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/ordninger/../admin</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til: https://tilskudd.fiks.ks.no/admin</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge advarsel">⚠️ advarsel</span>
+        <span class="regel-desc">Kodet path traversal</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/%2e%2e%2fadmin</div>
+      </div>
+      <div style="background:#fff9db;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Ingen tydelig feilhåndtering</div>
+      </div>
+    </div>
+    
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-url-ingen-feilside-4.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-url-ingen-feilside-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Ugyldig søknads-ID</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">https://tilskudd.fiks.ks.no/søknad/opprett/ugyldigid</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til: https://tilskudd.fiks.ks.no/s%C3%B8knad/opprett/ugyldigid</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  </div>
+  <div class="seksjon" id="navigasjon">
+    <div class="seksjon-tittel">🔀 Navigasjonsrekkefølge – 3/4 bestått</div>
+    
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Direkte tilgang til søknadsskjema uten forside</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">/soknad/opprett</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Lastet uten krasj (URL: https://login.idporten.no/authorize/selector)</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Browser tilbake fra søknadsskjema</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">goBack()</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Tilbake-navigasjon håndtert uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge feil">❌ feil</span>
+        <span class="regel-desc">Rask frem-og-tilbake-navigasjon (5x)</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">5x goBack/goForward</div>
+      </div>
+      <div style="background:#fee2e2;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Krasjet under rask navigasjon</div>
+      </div>
+    </div>
+    
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-rask-nav-krasj-5.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-rask-nav-krasj-5.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Dobbelt-klikk på handlingsknapp</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">dblclick</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Dobbelt-klikk håndtert uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  </div>
+  <div class="seksjon" id="nettleser">
+    <div class="seksjon-tittel">🌐 Nettleserfunksjoner – 4/4 bestått</div>
+    
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Sideoppdatering (F5) under søknad</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">reload()</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Reload håndtert uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Siden uten JavaScript</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">noScript</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Siden viser innhold uten JavaScript</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Smal mobilvisning (320px bredde)</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">320px viewport</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Siden lastet på 320px uten krasj</div>
+      </div>
+    </div>
+    
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump</p>
+        <a href="skjermbilder-negativ/negativ-mobil-6.png" target="_blank">
+          <img src="skjermbilder-negativ/negativ-mobil-6.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Stor skjerm (3840×2160)</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">4K viewport</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Siden lastet på 4K uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  </div>
+  <div class="seksjon" id="sesjon">
+    <div class="seksjon-tittel">🔑 Tilstand og sesjon – 3/3 bestått</div>
+    
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Last side etter sletting av alle cookies</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">clearCookies()</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Siden lastet uten cookies (URL: https://tilskudd.fiks.ks.no/)</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Last side etter tømming av localStorage</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">localStorage.clear()</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Siden lastet uten localStorage uten krasj</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#07604f">
+    <div class="brudd-header">
+      <div>
+        <span class="badge bestått">✅ bestått</span>
+        <span class="regel-desc">Direkte tilgang til "Min side" uten innlogging</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.5rem 0;font-size:.8rem">
+      <div style="background:#f4ecdf;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
+        <div style="color:#374151;word-break:break-all">/minside</div>
+      </div>
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til innlogging: https://login.idporten.no/authorize/selector</div>
+      </div>
+    </div>
+    
+    
+  </div>
+  </div>
+
+  <div class="seksjon" style="margin-top:2rem">
+    <div class="seksjon-tittel">Slik beregnes robusthetssscoren</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
+      <span style="color:#374151">Feil</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
+      <span style="color:#374151">Advarsel</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
+    </div>
+    <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
+  </div>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres (23) ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;font-size:.82rem">
+      
+          <div>
+            <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">Skjema</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+              <li style="color:#374151">· Tom søkeinnsending</li><li style="color:#374151">· Søk med ekstremt lang tekst (2000 tegn)</li><li style="color:#374151">· Søk med spesialtegn</li><li style="color:#374151">· Søk med kun mellomrom</li><li style="color:#374151">· Søk med norske tegn (æøå)</li><li style="color:#374151">· SQL-lignende søketekst</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">URL-manipulering</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+              <li style="color:#374151">· Ukjent side</li><li style="color:#374151">· Ugyldig UUID i URL</li><li style="color:#374151">· Null-UUID</li><li style="color:#374151">· Path traversal-forsøk</li><li style="color:#374151">· Kodet path traversal</li><li style="color:#374151">· Ugyldig søknads-ID</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">Navigasjon</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+              <li style="color:#374151">· Direkte tilgang til søknadsskjema uten forside</li><li style="color:#374151">· Browser tilbake fra søknadsskjema</li><li style="color:#374151">· Rask frem-og-tilbake-navigasjon (5x)</li><li style="color:#374151">· Dobbelt-klikk på handlingsknapp</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">Nettleser</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+              <li style="color:#374151">· Sideoppdatering (F5) under søknad</li><li style="color:#374151">· Siden uten JavaScript</li><li style="color:#374151">· Smal mobilvisning (320px bredde)</li><li style="color:#374151">· Stor skjerm (3840×2160)</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">Sesjon</div>
+            <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+              <li style="color:#374151">· Last side etter sletting av alle cookies</li><li style="color:#374151">· Last side etter tømming av localStorage</li><li style="color:#374151">· Direkte tilgang til "Min side" uten innlogging</li>
+            </ul>
+          </div>
+    </div>
+  </details>
+  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-04-30 08:40</footer>
+</div>
+</body>
+</html>
