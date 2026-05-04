@@ -1,0 +1,50 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-05-04",
+  "tidspunkt": "15:44",
+  "score": 100,
+  "totalt": {
+    "sider": 3,
+    "snittLCP": 217,
+    "snittFCP": 212,
+    "snittTTFB": 28,
+    "snittLoad": 245,
+    "totalSizeKB": 1121,
+    "totalRequests": 41
+  },
+  "sider": [
+    {
+      "url": "https://tilskudd.fiks.ks.no/",
+      "tittel": "KS Tilskudd - Hjem",
+      "score": 100,
+      "ttfb": 31,
+      "load": 197,
+      "sizeKB": 1098,
+      "requests": 12,
+      "lcp": 212,
+      "fcp": 196
+    },
+    {
+      "url": "https://tilskudd.fiks.ks.no/utlysinger",
+      "tittel": "https://tilskudd.fiks.ks.no/utlysinger",
+      "score": 100,
+      "ttfb": 40,
+      "load": 201,
+      "sizeKB": 12,
+      "requests": 18,
+      "lcp": 180,
+      "fcp": 180
+    },
+    {
+      "url": "https://tilskudd.fiks.ks.no/minside",
+      "tittel": "ID-porten",
+      "score": 100,
+      "ttfb": 13,
+      "load": 338,
+      "sizeKB": 11,
+      "requests": 11,
+      "lcp": 260,
+      "fcp": 260
+    }
+  ]
+}

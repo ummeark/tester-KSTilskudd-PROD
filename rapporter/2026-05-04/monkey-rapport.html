@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Monkey-testrapport – 2026-05-04 09:05</title>
+<title>Monkey-testrapport – 2026-05-04 15:43</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -81,7 +81,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
     <div class="env-badge">PRODUKSJON · v0.5.1</div>
-    <h1>Monkey-testrapport <span>2026-05-04 09:05 · 60 iterasjoner</span></h1>
+    <h1>Monkey-testrapport <span>2026-05-04 15:43 · 60 iterasjoner</span></h1>
   </div>
   <ul><li><a href="#sammendrag" class="sidenav-link ">
     <span class="sidenavn">Sammendrag</span>
@@ -91,23 +91,23 @@
     <span class="side-badge">0 funn</span>
   </a></li><li><a href="#konsoll" class="sidenav-link har-brudd">
     <span class="sidenavn">Konsoll-feil</span>
-    <span class="side-badge">14 funn</span>
+    <span class="side-badge">10 funn</span>
   </a></li><li><a href="#nettverk" class="sidenav-link har-brudd">
     <span class="sidenavn">Nettverksfeil</span>
     <span class="side-badge">1 funn</span>
   </a></li><li><a href="#interaksjoner" class="sidenav-link har-kritiske">
     <span class="sidenavn">Interaksjonsfunn</span>
-    <span class="side-badge">3 funn</span>
+    <span class="side-badge">2 funn</span>
   </a></li><li><a href="#sider" class="sidenav-link ">
     <span class="sidenavn">Sider besøkt</span>
-    <span class="side-badge">5 funn</span>
+    <span class="side-badge">3 funn</span>
   </a></li></ul>
 </nav>
 <div class="hoveddel">
   <div class="rapport-header">
     <div>
       <h1>Monkey-testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-05-04 09:05 · 16s · 60 tilfeldige handlinger · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-05-04 15:43 · 9s · 60 tilfeldige handlinger · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -161,20 +161,20 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel dårlig">0</div>
+    <div class="score-sirkel dårlig">25</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 5 sider. Lavere score indikerer ustabilitet.</p>
+      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 3 sider. Lavere score indikerer ustabilitet.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">60</div><div class="etikett">Iterasjoner</div></div>
-    <div class="kort ok"><div class="tall">5</div><div class="etikett">Sider besøkt</div></div>
+    <div class="kort ok"><div class="tall">3</div><div class="etikett">Sider besøkt</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">JS-feil</div></div>
-    <div class="kort advarsel"><div class="tall">14</div><div class="etikett">Konsoll-feil</div></div>
+    <div class="kort advarsel"><div class="tall">10</div><div class="etikett">Konsoll-feil</div></div>
     <div class="kort advarsel"><div class="tall">1</div><div class="etikett">Nettverksfeil</div></div>
-    <div class="kort kritisk"><div class="tall">3</div><div class="etikett">Kritiske funn</div></div>
+    <div class="kort kritisk"><div class="tall">2</div><div class="etikett">Kritiske funn</div></div>
   </div>
 
   <!-- JS-feil -->
@@ -185,83 +185,63 @@
 
   <!-- Konsoll-feil -->
   <div class="seksjon" id="konsoll">
-    <div class="seksjon-tittel">Konsoll-feil (14)</div>
+    <div class="seksjon-tittel">Konsoll-feil (10)</div>
     <table><thead><tr><th>Tidspunkt</th><th>Melding</th><th>URL</th></tr></thead><tbody>
           <tr>
-            <td style="white-space:nowrap">09:05:20</td>
-            <td>TRPCClientError: Failed to fetch
-    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
-    at htt</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:20</td>
-            <td>TRPCClientError: network error
-    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
-    at https</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:21</td>
-            <td>TRPCClientError: network error
-    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
-    at https</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:22</td>
+            <td style="white-space:nowrap">13:43:48</td>
             <td>TRPCClientError: Body is unusable: Body has already been read
     at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
             <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">09:05:22</td>
-            <td>TRPCClientError: Body is unusable: Body has already been read
-    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:22</td>
-            <td>TRPCClientError: Body is unusable: Body has already been read
-    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:26</td>
+            <td style="white-space:nowrap">13:43:52</td>
             <td>TRPCClientError: network error
     at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
     at https</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">09:05:27</td>
-            <td>TRPCClientError: Failed to fetch
-    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
-    at htt</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:28</td>
+            <td style="white-space:nowrap">13:43:52</td>
             <td>Failed to load resource: the server responded with a status of 500 (Internal Server Error)</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">09:05:28</td>
+            <td style="white-space:nowrap">13:43:52</td>
             <td>Error: Body is unusable: Body has already been read
-    at https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+    at https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaa</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">09:05:28</td>
+            <td style="white-space:nowrap">13:43:52</td>
             <td>TRPCClientError: network error
     at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
     at https</td>
             <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">09:05:29</td>
-            <td>TRPCClientError: Failed to fetch
+            <td style="white-space:nowrap">13:43:53</td>
+            <td>TRPCClientError: network error
     at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
-    at htt</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">09:05:30</td>
+            <td style="white-space:nowrap">13:43:53</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">13:43:53</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">13:43:53</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">13:43:53</td>
             <td>TRPCClientError: Body is unusable: Body has already been read
     at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
             <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">09:05:32</td>
-            <td>Input dateString is in the wrong format: 31. august 2026</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0</td>
           </tr>
         </tbody></table>
   </div>
@@ -272,7 +252,7 @@
     <table><thead><tr><th>Status</th><th>URL</th><th>Fra side</th></tr></thead><tbody>
           <tr>
             <td><span class="badge kritisk">500</span></td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</td>
             <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
           </tr>
         </tbody></table>
@@ -280,24 +260,24 @@
 
   <!-- Interaksjonsfunn -->
   <div class="seksjon" id="interaksjoner">
-    <div class="seksjon-tittel">Interaksjonsfunn (3)</div>
+    <div class="seksjon-tittel">Interaksjonsfunn (2)</div>
     
   <div class="brudd-kort" style="border-left-color:#c53030">
     <div class="brudd-header">
       <div>
         <span class="badge kritisk">kritisk</span>
-        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+        <span class="regel-desc">Feilside etter skjemasubmit: inneholder "Something went wrong"</span>
       </div>
-      <span class="brudd-teller">09:05:26</span>
+      <span class="brudd-teller">13:43:52</span>
     </div>
-    <p class="brudd-hjelp">Handling: Klikket lenke: "Ukjent OrganisasjonForskning og innovasjon i bedrift"</p>
+    <p class="brudd-hjelp">Handling: Send skjema: "Søk"</p>
     <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</span></div>
     
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
         <p class="skjermdump-label">Skjermdump ved funn</p>
-        <a href="skjermbilder-monkey/monkey-feilside-1.png" target="_blank">
-          <img src="skjermbilder-monkey/monkey-feilside-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        <a href="skjermbilder-monkey/monkey-feilside-3.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-3.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
         </a>
       </div>
     </div>
@@ -308,10 +288,10 @@
         <span class="badge kritisk">kritisk</span>
         <span class="regel-desc">Feilside etter navigasjon: inneholder "Something went wrong"</span>
       </div>
-      <span class="brudd-teller">09:05:28</span>
+      <span class="brudd-teller">13:43:52</span>
     </div>
     <p class="brudd-hjelp">Handling: Gikk tilbake (browser back)</p>
-    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</span></div>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10</span></div>
     
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
@@ -322,33 +302,13 @@
       </div>
     </div>
   </div>
-  <div class="brudd-kort" style="border-left-color:#c53030">
-    <div class="brudd-header">
-      <div>
-        <span class="badge kritisk">kritisk</span>
-        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
-      </div>
-      <span class="brudd-teller">09:05:30</span>
-    </div>
-    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
-    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</span></div>
-    
-    <div class="skjermdump-gruppe">
-      <div class="skjermdump-wrapper">
-        <p class="skjermdump-label">Skjermdump ved funn</p>
-        <a href="skjermbilder-monkey/monkey-feilside-9.png" target="_blank">
-          <img src="skjermbilder-monkey/monkey-feilside-9.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
-        </a>
-      </div>
-    </div>
-  </div>
   </div>
 
   <!-- Sider besøkt -->
   <div class="seksjon" id="sider">
-    <div class="seksjon-tittel">Sider besøkt (5)</div>
+    <div class="seksjon-tittel">Sider besøkt (3)</div>
     <ul class="url-liste">
-      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/utlysinger/553b5d8c-209e-410e-88c6-a6cb79d714dc">https://tilskudd.fiks.ks.no/utlysinger/553b5d8c-209e-410e-88c6-a6cb79d714dc</li><li title="https://tilskudd.fiks.ks.no/utlysinger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0">https://tilskudd.fiks.ks.no/utlysinger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0</li><li title="https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</li>
+      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10</li>
     </ul>
   </div>
 
@@ -380,7 +340,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-05-04 09:05</footer>
+  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-05-04 15:43</footer>
 </div>
 </body>
 </html>
