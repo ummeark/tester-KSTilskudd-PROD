@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monkey-testrapport – 2026-05-04 09:05</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
+  .sidemeny{width:272px;min-width:272px;background:#07604f;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
+  .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
+  .sidemeny h1{font-size:.95rem;font-weight:600;line-height:1.3}
+  .sidemeny h1 span{display:block;font-size:.72rem;opacity:.45;margin-top:.3rem;font-weight:400}
+  .sidemeny ul{list-style:none;flex:1;overflow-y:auto;padding:.5rem 0}
+  .sidenav-link{display:block;padding:.65rem 1.4rem;text-decoration:none;color:rgba(255,255,255,.65);border-left:3px solid transparent;transition:background .15s,color .15s}
+  .sidenav-link:hover{background:rgba(255,255,255,.07);color:white}
+  .sidenav-link.har-kritiske{border-color:#fc8181}
+  .sidenav-link.har-brudd{border-color:#f3dda2}
+  .sidenav-link.ok{border-color:#abd1b1}
+  .sidenavn{display:block;font-size:.84rem;font-weight:500}
+  .side-badge{display:block;font-size:.68rem;margin-top:.2rem;opacity:.6}
+  .hoveddel{flex:1;padding:2.5rem 3rem;overflow-y:auto;max-width:1060px}
+  .rapport-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid #f4ecdf;flex-wrap:wrap}
+  .rapport-header h1{font-size:1.5rem;font-weight:700;color:#0a1355;letter-spacing:-.01em}
+  .rapport-header .meta{font-size:.85rem;color:#6b7280;margin-top:.4rem}
+  .rapport-header .meta a{color:#07604f;text-decoration:none}
+  .rapport-header .meta a:hover{text-decoration:underline}
+  .nav-knapper{display:flex;gap:.6rem;flex-wrap:wrap}
+  .knapp{display:inline-block;padding:.5rem 1.2rem;background:#07604f;color:white;border-radius:100px;font-size:.82rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s}
+  .knapp:hover{background:#2b3285}
+  .knapp.aktiv{background:#07604f;pointer-events:none}
+  .knapp.sekundær{background:transparent;border:1px solid #0a1355;color:#0a1355}
+  .knapp.sekundær:hover{background:#f4ecdf}
+  .score-kort{background:white;border:1px solid #f1f0ee;padding:1.8rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .score-sirkel{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;flex-shrink:0}
+  .score-sirkel.god{background:#07604f;color:white}
+  .score-sirkel.middels{background:#f3dda2;color:#0a1355}
+  .score-sirkel.dårlig{background:#c53030;color:white}
+  .score-tekst strong{color:#0a1355;font-size:1rem}
+  .score-tekst p{color:#6b7280;font-size:.87rem;margin-top:.35rem;line-height:1.5}
+  .kort-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.8rem;margin-bottom:2rem}
+  .kort{background:white;padding:1.2rem 1rem;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .kort.kritisk{border-left-color:#c53030}.kort.advarsel{border-left-color:#b8860b}.kort.ok{border-left-color:#07604f}
+  .kort .tall{font-size:2rem;font-weight:700;margin:.3rem 0;color:#0a1355}
+  .kort .etikett{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}
+  .kort .undertekst{font-size:.7rem;color:#9ca3af;margin-top:.25rem}
+  .seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .seksjon-tittel{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #f4ecdf}
+  .brudd-kort{background:#faf6f0;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;padding:1rem 1.1rem;margin-bottom:.7rem}
+  .brudd-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;gap:.5rem;flex-wrap:wrap}
+  .regel-desc{font-size:.84rem;color:#374151}
+  .brudd-teller{font-size:.72rem;color:#9ca3af;white-space:nowrap;flex-shrink:0}
+  .brudd-hjelp{font-size:.82rem;color:#555;margin:.6rem 0;padding:.5rem .8rem;background:#f4ecdf;border-left:3px solid #b8860b}
+  .node-info{background:#f1f0ee;padding:.5rem .7rem;margin:.4rem 0;font-size:.8rem}
+  .node-selector{display:block;color:#2b3285;font-family:ui-monospace,monospace;word-break:break-all;font-size:.78rem}
+  .skjermdump-gruppe{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:.9rem}
+  .skjermdump-wrapper{background:#f1f0ee;padding:.7rem}
+  .skjermdump-label{font-size:.68rem;color:#6b7280;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+  .skjermdump{width:100%;border:1px solid #e5e3de;cursor:zoom-in;transition:box-shadow .2s;display:block}
+  .skjermdump:hover{box-shadow:0 4px 16px rgba(10,19,85,.15)}
+  .helside{max-height:300px;object-fit:cover;object-position:top}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{background:#f4ecdf;text-align:left;padding:.5rem .7rem;font-weight:600;color:#0a1355;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+  td{padding:.45rem .7rem;border-bottom:1px solid #f1f0ee;vertical-align:top}
+  .badge{display:inline-block;padding:.15rem .6rem;border-radius:100px;font-size:.7rem;font-weight:600;margin-right:.3rem}
+  .badge.kritisk{background:#fee2e2;color:#c53030}
+  .badge.alvorlig{background:#fde8d4;color:#9a3412}
+  .badge.feilside{background:#fee2e2;color:#c53030}
+  .badge.unntak{background:#fde8d4;color:#9a3412}
+  .wcag-ok{background:#ecfdf5;color:#064e3b;padding:.8rem 1rem;border-left:3px solid #07604f;font-size:.88rem}
+  .url-liste{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:.3rem}
+  .url-liste li{font-size:.78rem;background:#f4ecdf;padding:.35rem .7rem;font-family:ui-monospace,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  footer{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.78rem;border-top:1px solid #f1f0ee;margin-top:2rem}
+</style>
+</head>
+<body>
+<nav class="sidemeny">
+  <div class="sidemeny-header">
+    <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
+    <div class="env-badge">PRODUKSJON · v0.5.1</div>
+    <h1>Monkey-testrapport <span>2026-05-04 09:05 · 60 iterasjoner</span></h1>
+  </div>
+  <ul><li><a href="#sammendrag" class="sidenav-link ">
+    <span class="sidenavn">Sammendrag</span>
+    <span class="side-badge"> funn</span>
+  </a></li><li><a href="#js-feil" class="sidenav-link ok">
+    <span class="sidenavn">JS-feil</span>
+    <span class="side-badge">0 funn</span>
+  </a></li><li><a href="#konsoll" class="sidenav-link har-brudd">
+    <span class="sidenavn">Konsoll-feil</span>
+    <span class="side-badge">14 funn</span>
+  </a></li><li><a href="#nettverk" class="sidenav-link har-brudd">
+    <span class="sidenavn">Nettverksfeil</span>
+    <span class="side-badge">1 funn</span>
+  </a></li><li><a href="#interaksjoner" class="sidenav-link har-kritiske">
+    <span class="sidenavn">Interaksjonsfunn</span>
+    <span class="side-badge">3 funn</span>
+  </a></li><li><a href="#sider" class="sidenav-link ">
+    <span class="sidenavn">Sider besøkt</span>
+    <span class="side-badge">5 funn</span>
+  </a></li></ul>
+</nav>
+<div class="hoveddel">
+  <div class="rapport-header">
+    <div>
+      <h1>Monkey-testrapport</h1>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-05-04 09:05 · 16s · 60 tilfeldige handlinger · Chromium 147</div>
+    </div>
+    <div class="nav-knapper">
+      <a href="../../rapport.html" class="knapp sekundær">Forside</a>
+      <a href="uu-rapport.html" class="knapp sekundær">UU-rapport</a>
+      <a href="monkey-rapport.html" class="knapp aktiv">Monkey-test</a>
+      <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
+      <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="../../arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
+    </div>
+  </div>
+
+  <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
+    <div class="seksjon-tittel">Hva er monkey-testing?</div>
+    <p style="font-size:.88rem;line-height:1.7;color:#374151;margin-bottom:1rem">
+      Monkey-testing simulerer en uforutsigbar bruker som klikker og skriver tilfeldig i applikasjonen –
+      uten å følge en bestemt flyt. Formålet er å avdekke krasj, ubehandlede feil og uventet oppførsel
+      som ikke fanges opp av ordinære tester.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;font-size:.83rem">
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva testes</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>🖱️ Tilfeldige knappeklikk</li>
+          <li>✏️ Ugyldig og tom skjemainput</li>
+          <li>📤 Skjemaer sendt ut av kontekst</li>
+          <li>⬅️ Uventet tilbake-navigasjon</li>
+          <li>🔗 Tilfeldige lenker innad på siden</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva måles</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>⚡ Ubehandlede JavaScript-feil</li>
+          <li>🖥️ console.error()-kall</li>
+          <li>🌐 HTTP 4xx/5xx-svar fra API</li>
+          <li>💥 Feilsider og krasj</li>
+          <li>📄 Antall sider applikasjonen når</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Testdata brukt</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>Tom streng og mellomrom</li>
+          <li>Spesialtegn (!@#$%&amp;)</li>
+          <li>Norske tegn (æøå ÆØÅ)</li>
+          <li>Veldig lang tekst (500 tegn)</li>
+          <li>Ugyldig e-postadresse</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="score-kort">
+    <div class="score-sirkel dårlig">0</div>
+    <div class="score-tekst">
+      <strong>Robusthetsscore</strong>
+      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 5 sider. Lavere score indikerer ustabilitet.</p>
+    </div>
+  </div>
+
+  <div class="kort-grid">
+    <div class="kort ok"><div class="tall">60</div><div class="etikett">Iterasjoner</div></div>
+    <div class="kort ok"><div class="tall">5</div><div class="etikett">Sider besøkt</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">JS-feil</div></div>
+    <div class="kort advarsel"><div class="tall">14</div><div class="etikett">Konsoll-feil</div></div>
+    <div class="kort advarsel"><div class="tall">1</div><div class="etikett">Nettverksfeil</div></div>
+    <div class="kort kritisk"><div class="tall">3</div><div class="etikett">Kritiske funn</div></div>
+  </div>
+
+  <!-- JS-feil -->
+  <div class="seksjon" id="js-feil">
+    <div class="seksjon-tittel">JS-feil (0)</div>
+    <div class="wcag-ok">Ingen ubehandlede JavaScript-feil oppdaget</div>
+  </div>
+
+  <!-- Konsoll-feil -->
+  <div class="seksjon" id="konsoll">
+    <div class="seksjon-tittel">Konsoll-feil (14)</div>
+    <table><thead><tr><th>Tidspunkt</th><th>Melding</th><th>URL</th></tr></thead><tbody>
+          <tr>
+            <td style="white-space:nowrap">09:05:20</td>
+            <td>TRPCClientError: Failed to fetch
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at htt</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:20</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:21</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:22</td>
+            <td>TRPCClientError: Body is unusable: Body has already been read
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:22</td>
+            <td>TRPCClientError: Body is unusable: Body has already been read
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:22</td>
+            <td>TRPCClientError: Body is unusable: Body has already been read
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:26</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:27</td>
+            <td>TRPCClientError: Failed to fetch
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at htt</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:28</td>
+            <td>Failed to load resource: the server responded with a status of 500 (Internal Server Error)</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:28</td>
+            <td>Error: Body is unusable: Body has already been read
+    at https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:28</td>
+            <td>TRPCClientError: network error
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at https</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:29</td>
+            <td>TRPCClientError: Failed to fetch
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)
+    at htt</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:30</td>
+            <td>TRPCClientError: Body is unusable: Body has already been read
+    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+          </tr><tr>
+            <td style="white-space:nowrap">09:05:32</td>
+            <td>Input dateString is in the wrong format: 31. august 2026</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0</td>
+          </tr>
+        </tbody></table>
+  </div>
+
+  <!-- Nettverksfeil -->
+  <div class="seksjon" id="nettverk">
+    <div class="seksjon-tittel">Nettverksfeil (1)</div>
+    <table><thead><tr><th>Status</th><th>URL</th><th>Fra side</th></tr></thead><tbody>
+          <tr>
+            <td><span class="badge kritisk">500</span></td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
+          </tr>
+        </tbody></table>
+  </div>
+
+  <!-- Interaksjonsfunn -->
+  <div class="seksjon" id="interaksjoner">
+    <div class="seksjon-tittel">Interaksjonsfunn (3)</div>
+    
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">09:05:26</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket lenke: "Ukjent OrganisasjonForskning og innovasjon i bedrift"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-1.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-1.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter navigasjon: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">09:05:28</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Gikk tilbake (browser back)</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-4.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-4.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="brudd-kort" style="border-left-color:#c53030">
+    <div class="brudd-header">
+      <div>
+        <span class="badge kritisk">kritisk</span>
+        <span class="regel-desc">Feilside etter klikk: inneholder "Something went wrong"</span>
+      </div>
+      <span class="brudd-teller">09:05:30</span>
+    </div>
+    <p class="brudd-hjelp">Handling: Klikket: "Søk"</p>
+    <div class="node-info"><span class="node-selector">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</span></div>
+    
+    <div class="skjermdump-gruppe">
+      <div class="skjermdump-wrapper">
+        <p class="skjermdump-label">Skjermdump ved funn</p>
+        <a href="skjermbilder-monkey/monkey-feilside-9.png" target="_blank">
+          <img src="skjermbilder-monkey/monkey-feilside-9.png" alt="Skjermdump" class="skjermdump helside" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Sider besøkt -->
+  <div class="seksjon" id="sider">
+    <div class="seksjon-tittel">Sider besøkt (5)</div>
+    <ul class="url-liste">
+      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/utlysinger/553b5d8c-209e-410e-88c6-a6cb79d714dc">https://tilskudd.fiks.ks.no/utlysinger/553b5d8c-209e-410e-88c6-a6cb79d714dc</li><li title="https://tilskudd.fiks.ks.no/utlysinger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0">https://tilskudd.fiks.ks.no/utlysinger/cbc3a2eb-42bd-49db-b2e7-0f66e13a56a0</li><li title="https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</li>
+    </ul>
+  </div>
+
+  <div class="seksjon" style="margin-top:2rem">
+    <div class="seksjon-tittel">Slik beregnes robusthetssscoren</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
+      <span style="color:#374151">Kritisk funn</span><span style="color:#c53030;font-weight:700">× 20 poeng</span>
+      <span style="color:#374151">Alvorlig funn</span><span style="color:#9a3412;font-weight:700">× 10 poeng</span>
+      <span style="color:#374151">JS-feil</span><span style="color:#9a3412;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Nettverksfeil</span><span style="color:#713f12;font-weight:700">× 5 poeng</span>
+      <span style="color:#374151">Konsoll-feil</span><span style="color:#6b7280;font-weight:700">× 3 poeng</span>
+    </div>
+    <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
+  </div>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres (60 tilfeldige handlinger) ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;font-size:.82rem">
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🖱️ Interaksjon</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Klikk på tilfeldig lenke</li><li style="color:#374151">· Klikk på tilfeldig knapp</li><li style="color:#374151">· Dobbeltklikk på element</li><li style="color:#374151">· Høyreklikk på element</li><li style="color:#374151">· Utfylling av skjemafelt (tilfeldig tekst, tall, spesialtegn, lang tekst)</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🧭 Navigasjon &amp; layout</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Frem- og tilbake-navigasjon (browser back/forward)</li><li style="color:#374151">· Skrolling (opp og ned)</li><li style="color:#374151">· Endring av vindusstørrelse</li><li style="color:#374151">· Sjekk for JS-feil og nettverksfeil etter handling</li><li style="color:#374151">· Sjekk for feilsider (4xx / 5xx) etter navigasjon</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-05-04 09:05</footer>
+</div>
+</body>
+</html>
