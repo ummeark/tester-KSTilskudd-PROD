@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { START_URL, MAX_SIDER } from './config.js';
+import { START_URL, MAX_SIDER, VIEWPORT } from './config.js';
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
 const rapportDir = path.join(__dirname, 'rapporter', dato);
@@ -45,7 +45,7 @@ function scoreKlasse(s) { return s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårli
 const browser = await chromium.launch();
 const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 Ytelses-Tester/1.0',
-  viewport: { width: 1280, height: 900 },
+  viewport: VIEWPORT,
 });
 
 const besøkte = new Set();

@@ -128,18 +128,19 @@ try {
 // ── Monkey-løkke ─────────────────────────────────────────────────────────────
 for (let i = 0; i < ITERASJONER; i++) {
   const currentUrl = page.url();
+
+  // Naviger bort fra eksterne sider – sjekk før vi logger besøket
+  if (!currentUrl.startsWith(baseOrigin)) {
+    await resetTilStart();
+    continue;
+  }
+
   besøkte.add(currentUrl);
   const handling = Math.random();
   let type = '';
   let detalj = '';
   let skjerm = null;
   let ok = true;
-
-  // Naviger bort fra eksterne sider
-  if (!currentUrl.startsWith(baseOrigin)) {
-    await resetTilStart();
-    continue;
-  }
 
   try {
     if (handling < 0.35) {
@@ -162,7 +163,7 @@ for (let i = 0; i < ITERASJONER; i++) {
         for (let li = 0; li < lenkeCount; li++) {
           const l = lenker.nth(li);
           const href = await l.getAttribute('href').catch(() => '');
-          if (href && (href.startsWith('/') || href.startsWith(baseOrigin))) interne.push(l);
+          if (href && (href.startsWith('/') || href.startsWith(baseOrigin)) && !href.includes('/authorize/')) interne.push(l);
         }
         if (interne.length > 0) {
           const el = interne[Math.floor(Math.random() * interne.length)];
