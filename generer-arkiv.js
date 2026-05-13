@@ -165,6 +165,7 @@ for (const dato of datoer) {
     html = html.replace(/href="skjermbilder\//g, `href="../${dato}/skjermbilder/`);
     html = html.replace(/href="rapport\.html"/g, 'href="../../rapport.html"');
     html = html.replace(/href="arkiv\.html"/g, 'href="../../arkiv.html"');
+    html = html.replace(/'logg-inn\.html\?redir=/g, "'../../logg-inn.html?redir=");
     fs.writeFileSync(path.join(måldir, fil), html);
   });
 
@@ -185,11 +186,16 @@ const sisteDato = datoer[0]; // Nyeste dato
 if (sisteDato) {
   const kildedir = path.join(rapportDir, sisteDato);
 
-  // Kopier HTML-rapporter
+  // Kopier HTML-rapporter (injiser auth-sjekk om den mangler)
+  const AUTH_SCRIPT = '<script>if(!sessionStorage.getItem(\'ks-auth\'))location.replace(\'logg-inn.html?redir=\'+encodeURIComponent(location.href))</script>';
   for (const fil of rapportFiler) {
     const src = path.join(kildedir, fil);
     if (fs.existsSync(src)) {
-      fs.copyFileSync(src, path.join(docsDir, fil));
+      let html = fs.readFileSync(src, 'utf-8');
+      if (!html.includes('ks-auth')) {
+        html = html.replace('<meta charset="UTF-8">', '<meta charset="UTF-8">\n' + AUTH_SCRIPT);
+      }
+      fs.writeFileSync(path.join(docsDir, fil), html);
     }
   }
 
@@ -364,6 +370,7 @@ const arkivHTML = `<!DOCTYPE html>
 <html lang="no">
 <head>
 <meta charset="UTF-8">
+<script>if(!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Testrapporter – Arkiv – KS Tilskudd</title>
@@ -540,6 +547,7 @@ const dashboardHTML = `<!DOCTYPE html>
 <html lang="no">
 <head>
 <meta charset="UTF-8">
+<script>if(!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KS Tilskudd – Testdashboard</title>

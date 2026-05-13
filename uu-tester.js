@@ -885,6 +885,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
 <html lang="no">
 <head>
 <meta charset="UTF-8">
+<script>if(!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>UU-rapport – ${dato} ${tidspunkt}</title>

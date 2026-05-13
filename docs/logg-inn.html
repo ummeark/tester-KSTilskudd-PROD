@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logg inn – KS Tilskudd Testrapporter</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: #faf6f0; color: #0f0e17; min-height: 100vh; display: flex; flex-direction: column; }
+  header { background: #0a1355; color: white; padding: 1.6rem 2.5rem; }
+  .header-merkevare { font-size: 0.72rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; opacity: 0.45; margin-bottom: .4rem; }
+  header h1 { font-size: 1.4rem; font-weight: 700; }
+  main { flex: 1; display: flex; align-items: center; justify-content: center; padding: 3rem 1.5rem; }
+  .login-kort { background: white; border: 1px solid #f1f0ee; border-top: 5px solid #0a1355; padding: 2.5rem; max-width: 400px; width: 100%; box-shadow: 0 1px 4px rgba(10,19,85,.08); }
+  .login-kort h2 { font-size: 1.3rem; color: #0a1355; margin-bottom: .5rem; }
+  .login-kort p { font-size: .85rem; color: #6b7280; margin-bottom: 1.8rem; }
+  label { display: block; font-size: .82rem; font-weight: 600; color: #374151; margin-bottom: .4rem; }
+  input[type=password] { width: 100%; padding: .7rem 1rem; border: 1.5px solid #d1d5db; border-radius: 6px; font-size: 1rem; font-family: inherit; outline: none; transition: border-color .15s; }
+  input[type=password]:focus { border-color: #0a1355; }
+  button { display: block; width: 100%; padding: .75rem 1.2rem; background: #0a1355; color: white; border: none; border-radius: 100px; font-size: .92rem; font-weight: 600; cursor: pointer; margin-top: 1.2rem; transition: background .15s; font-family: inherit; }
+  button:hover { background: #2b3285; }
+  button:disabled { opacity: .55; cursor: default; }
+  .feil { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; border-radius: 6px; padding: .65rem 1rem; font-size: .85rem; margin-top: 1rem; display: none; }
+  .feil.vis { display: block; }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-merkevare">KS · Tilskudd</div>
+  <h1>Testrapporter</h1>
+</header>
+<main>
+  <div class="login-kort">
+    <h2>🔒 Logg inn</h2>
+    <p>Disse rapportene er kun for intern bruk.</p>
+    <label for="passord">Passord</label>
+    <input type="password" id="passord" placeholder="Skriv inn passord" autocomplete="current-password">
+    <button id="logg-inn-knapp" onclick="loggInn()">Logg inn</button>
+    <div class="feil" id="feil">Feil passord. Prøv igjen.</div>
+  </div>
+</main>
+<script>
+const HASH = 'ed246d96a83fa5a425c2104d969683f90e72b838af7983bb0cdcdb1d6355893d';
+
+async function sha256(tekst) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(tekst));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+document.getElementById('passord').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loggInn();
+});
+
+async function loggInn() {
+  const knapp = document.getElementById('logg-inn-knapp');
+  const feil = document.getElementById('feil');
+  const passord = document.getElementById('passord').value;
+  if (!passord) return;
+  knapp.disabled = true;
+  feil.classList.remove('vis');
+  const hash = await sha256(passord);
+  if (hash === HASH) {
+    sessionStorage.setItem('ks-auth', '1');
+    const params = new URLSearchParams(location.search);
+    const redir = params.get('redir');
+    location.replace(redir && redir.startsWith(location.origin) ? redir : 'rapport.html');
+  } else {
+    feil.classList.add('vis');
+    knapp.disabled = false;
+    document.getElementById('passord').select();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('passord').focus();
+});
+</script>
+</body>
+</html>
