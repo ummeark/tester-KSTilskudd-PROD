@@ -5,13 +5,13 @@ import https from 'https';
 import http from 'http';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
-import { START_URL, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, HTTP_TIMEOUT } from './config.js';
+import { START_URL, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, HTTP_TIMEOUT, RAPPORTDIR } from './config.js';
 import { hentVersjon } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
-const rapportDir = path.join(__dirname, 'rapporter', dato);
+const rapportDir = RAPPORTDIR ? path.join(RAPPORTDIR, dato) : path.join(__dirname, 'rapporter', dato);
 const skjermDir = path.join(rapportDir, 'skjermbilder-sikkerhet');
 fs.mkdirSync(skjermDir, { recursive: true });
 

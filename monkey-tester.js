@@ -2,13 +2,13 @@ import { chromium } from 'playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { START_URL, ITERASJONER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, KRASJ_ORD } from './config.js';
+import { START_URL, ITERASJONER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, KRASJ_ORD, RAPPORTDIR } from './config.js';
 import { hentVersjon } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
-const rapportDir = path.join(__dirname, 'rapporter', dato);
+const rapportDir = RAPPORTDIR ? path.join(RAPPORTDIR, dato) : path.join(__dirname, 'rapporter', dato);
 const skjermDir = path.join(rapportDir, 'skjermbilder-monkey');
 fs.mkdirSync(skjermDir, { recursive: true });
 

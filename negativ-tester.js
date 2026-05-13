@@ -3,13 +3,13 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { exec } from 'child_process';
-import { START_URL, VIEWPORT, SIDE_TIMEOUT } from './config.js';
+import { START_URL, VIEWPORT, SIDE_TIMEOUT, RAPPORTDIR } from './config.js';
 import { hentVersjon, gåTil, sjekkKrasj, sjekkFeilmelding } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
-const rapportDir = path.join(__dirname, 'rapporter', dato);
+const rapportDir = RAPPORTDIR ? path.join(RAPPORTDIR, dato) : path.join(__dirname, 'rapporter', dato);
 const skjermDir = path.join(rapportDir, 'skjermbilder-negativ');
 fs.mkdirSync(skjermDir, { recursive: true });
 
