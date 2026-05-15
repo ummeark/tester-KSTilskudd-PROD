@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<script>if(!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
+<script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>KS Tilskudd – Testdashboard</title>
@@ -81,7 +81,7 @@
     <div class="header-merkevare">KS Tilskudd</div>
     <div class="env-badge">PRODUKSJON · v0.5.1</div>
     <h1>Testdashboard</h1>
-    <p>torsdag 14. mai 2026</p>
+    <p>fredag 15. mai 2026</p>
   </div>
 </header>
 <div class="container">
@@ -100,7 +100,7 @@
 
   
   <div class="samlet-seksjon">
-    <div class="samlet-score middels">77</div>
+    <div class="samlet-score middels">66</div>
     <div class="samlet-tekst">
       <h2>Samlet gjennomsnittsscore på PROD: <a href="https://tilskudd.fiks.ks.no/" target="_blank" style="color:inherit;text-decoration:underline;">https://tilskudd.fiks.ks.no/</a></h2>
       <p>Det er forbedringspotensial — se detaljrapportene.</p>
@@ -115,7 +115,7 @@
       <span class="dash-tittel">UU-test</span>
     </div>
     <div class="dash-score middels">55<span class="dash-score-enhet">/100</span></div>
-    <div class="dash-dato">torsdag 14. mai 2026</div>
+    <div class="dash-dato">onsdag 13. mai 2026</div>
     <div class="dash-nøkkel">
       <span><b class="rød">5 WCAG-brudd</b></span>
       <span><b class="rød">1 døde lenker</b></span>
@@ -123,16 +123,16 @@
     <div class="dash-lenke">Se full rapport →</div>
   </a>
     
-  <a class="dash-kort god" href="monkey-rapport.html">
+  <a class="dash-kort dårlig" href="monkey-rapport.html">
     <div class="dash-topp">
       <span class="dash-ikon">🐒</span>
       <span class="dash-tittel">Monkey-test</span>
     </div>
-    <div class="dash-score god">85<span class="dash-score-enhet">/100</span></div>
-    <div class="dash-dato">torsdag 14. mai 2026</div>
+    <div class="dash-score dårlig">28<span class="dash-score-enhet">/100</span></div>
+    <div class="dash-dato">onsdag 13. mai 2026</div>
     <div class="dash-nøkkel">
       <span><span class="grønn">Ingen JS-feil</span></span>
-      <span><span class="grønn">Ingen kritiske funn</span></span>
+      <span><b class="rød">2 kritiske funn</b></span>
       <span>60 iterasjoner</span></div>
     <div class="dash-lenke">Se full rapport →</div>
   </a>
@@ -143,7 +143,7 @@
       <span class="dash-tittel">Sikkerhets-test</span>
     </div>
     <div class="dash-score middels">67<span class="dash-score-enhet">/100</span></div>
-    <div class="dash-dato">torsdag 14. mai 2026</div>
+    <div class="dash-dato">onsdag 13. mai 2026</div>
     <div class="dash-nøkkel">
       <span><span class="grønn">Ingen kritiske</span></span>
       <span><b class="rød">2 alvorlige</b></span>
@@ -157,7 +157,7 @@
       <span class="dash-tittel">Negativ test</span>
     </div>
     <div class="dash-score god">80<span class="dash-score-enhet">/100</span></div>
-    <div class="dash-dato">torsdag 14. mai 2026</div>
+    <div class="dash-dato">onsdag 13. mai 2026</div>
     <div class="dash-nøkkel">
       <span><span class="grønn">19 bestått</span></span>
       <span><b class="rød">4 advarsler</b></span>
