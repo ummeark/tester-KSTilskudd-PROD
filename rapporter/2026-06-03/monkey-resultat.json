@@ -1,0 +1,142 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-06-03",
+  "versjon": "v0.5.1",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "iterasjoner": 60,
+    "siderBesøkt": 4,
+    "jsErrors": 0,
+    "konsollFeil": 11,
+    "nettverksFeil": 2,
+    "kritiske": 5,
+    "alvorlige": 0,
+    "varighet": 22
+  },
+  "score": 0,
+  "jsErrors": [],
+  "konsollFeil": [
+    {
+      "melding": "TRPCClientError: Failed to fetch\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14299",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22-1%22&currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:28:56.466Z"
+    },
+    {
+      "melding": "TRPCClientError: network error\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14299",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:28:57.191Z"
+    },
+    {
+      "melding": "TRPCClientError: Body is unusable: Body has already been read\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:3984)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14135",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:28:58.783Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:03.205Z"
+    },
+    {
+      "melding": "Error: Body is unusable: Body has already been read\n    at https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10:1:6342\n    at https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10:30:590",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:03.242Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:03.506Z"
+    },
+    {
+      "melding": "Error: Body is unusable: Body has already been read\n    at https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10:1:6342\n    at https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10:30:590",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:03.540Z"
+    },
+    {
+      "melding": "TRPCClientError: Body is unusable: Body has already been read\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:3984)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14135",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22-1%22&currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:04.312Z"
+    },
+    {
+      "melding": "TRPCClientError: network error\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14299",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:08.804Z"
+    },
+    {
+      "melding": "TRPCClientError: network error\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:4073)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14299",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:09.452Z"
+    },
+    {
+      "melding": "TRPCClientError: Body is unusable: Body has already been read\n    at nc.from (https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:3984)\n    at https://tilskudd.fiks.ks.no/assets/main-Bd-y_W4h.js:19:14135",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22-1%22&currentPage=1&pageSize=10",
+      "tid": "2026-06-03T11:29:09.764Z"
+    }
+  ],
+  "nettverksFeil": [
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-06-03T11:29:03.201Z"
+    },
+    {
+      "status": 500,
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-06-03T11:29:03.504Z"
+    }
+  ],
+  "interaksjoner": [
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-7.png",
+      "tid": "2026-06-03T11:29:02.799Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-8.png",
+      "tid": "2026-06-03T11:29:03.281Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter navigasjon: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "handling": "Gikk tilbake (browser back)",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-9.png",
+      "tid": "2026-06-03T11:29:03.582Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22-1%22&currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-12.png",
+      "tid": "2026-06-03T11:29:08.347Z"
+    },
+    {
+      "type": "feilside",
+      "alvorlighet": "kritisk",
+      "melding": "Feilside etter skjemasubmit: inneholder \"Something went wrong\"",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22-1%22&currentPage=1&pageSize=10",
+      "handling": "Send skjema: \"Søk\"",
+      "skjermdump": "skjermbilder-monkey/monkey-feilside-14.png",
+      "tid": "2026-06-03T11:29:13.797Z"
+    }
+  ],
+  "besøkte": [
+    "https://tilskudd.fiks.ks.no/",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22-1%22&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10"
+  ]
+}
