@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UU-rapport – 2026-06-04 10:26</title>
+<title>UU-rapport – 2026-06-04 15:40</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -68,6 +68,11 @@
   .side-seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
   .side-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.4rem;padding-bottom:1.2rem;border-bottom:1px solid #f4ecdf;flex-wrap:wrap;gap:.6rem}
   .side-header h2{font-size:1rem;font-weight:600;color:#0a1355}
+  summary.side-header{list-style:none;cursor:pointer;user-select:none}
+  summary.side-header::-webkit-details-marker{display:none}
+  details.side-seksjon:not([open]) summary.side-header{margin-bottom:0;padding-bottom:0;border-bottom:none}
+  summary.side-header::after{content:'▾ Vis detaljer';font-size:.68rem;color:#9ca3af;white-space:nowrap;align-self:center;flex-shrink:0}
+  details[open] summary.side-header::after{content:'▴ Skjul'}
   .side-url-link{font-size:.78rem;color:#07604f;text-decoration:none;display:block;margin-top:.2rem}
   .side-url-link:hover{text-decoration:underline}
   .side-score-badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start}
@@ -128,7 +133,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · UU-tester</div>
     <div class="env-badge">PRODUKSJON · v0.6.2</div>
-    <h1>Tilgjengelighetsrapport <span>2026-06-04 10:26 · 3 sider</span></h1>
+    <h1>Tilgjengelighetsrapport <span>2026-06-04 15:40 · 3 sider</span></h1>
   </div>
   <ul><li><a href="#side-0" class="sidenav-link har-brudd">
       <span class="sidenavn">KS Tilskudd - Hjem</span>
@@ -148,7 +153,7 @@
   <div class="rapport-header">
     <div>
       <h1>Tilgjengelighetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-04 10:26 · 3 sider testet · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-04 15:40 · 3 sider testet · Chromium 148</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -216,18 +221,18 @@
     <div class="kort ok"><div class="tall">1</div><div class="etikett">Skjemafelt</div><div class="undertekst">0 uten label</div></div>
   </div>
   
-    <div class="side-seksjon" id="side-0">
-      <div class="side-header">
+    <details class="side-seksjon" id="side-0" open>
+      <summary class="side-header">
         <div>
           <h2>KS Tilskudd - Hjem</h2>
-          <a href="https://tilskudd.fiks.ks.no" target="_blank" class="side-url-link">https://tilskudd.fiks.ks.no</a>
+          <a href="https://tilskudd.fiks.ks.no" target="_blank" class="side-url-link" onclick="event.stopPropagation()">https://tilskudd.fiks.ks.no</a>
         </div>
         <div class="side-score-badges">
           
           
           <span class="badge dead">3 døde lenker</span>
         </div>
-      </div>
+      </summary>
 
       <!-- WCAG-brudd med skjermdumper -->
       <div class="wcag-seksjon">
@@ -381,20 +386,20 @@
             </tr></tbody></table>
         </div>
       </div>
-    </div>
+    </details>
   
-    <div class="side-seksjon" id="side-1">
-      <div class="side-header">
+    <details class="side-seksjon" id="side-1" open>
+      <summary class="side-header">
         <div>
           <h2>KS Tilskudd - Tilskuddsordninger</h2>
-          <a href="https://tilskudd.fiks.ks.no/utlysinger" target="_blank" class="side-url-link">https://tilskudd.fiks.ks.no/utlysinger</a>
+          <a href="https://tilskudd.fiks.ks.no/utlysinger" target="_blank" class="side-url-link" onclick="event.stopPropagation()">https://tilskudd.fiks.ks.no/utlysinger</a>
         </div>
         <div class="side-score-badges">
           
           
           <span class="badge dead">3 døde lenker</span>
         </div>
-      </div>
+      </summary>
 
       <!-- WCAG-brudd med skjermdumper -->
       <div class="wcag-seksjon">
@@ -529,20 +534,20 @@
             </tr></tbody></table>
         </div>
       </div>
-    </div>
+    </details>
   
-    <div class="side-seksjon" id="side-2">
-      <div class="side-header">
+    <details class="side-seksjon" id="side-2">
+      <summary class="side-header">
         <div>
           <h2>ID-porten</h2>
-          <a href="https://tilskudd.fiks.ks.no/minside" target="_blank" class="side-url-link">https://tilskudd.fiks.ks.no/minside</a>
+          <a href="https://tilskudd.fiks.ks.no/minside" target="_blank" class="side-url-link" onclick="event.stopPropagation()">https://tilskudd.fiks.ks.no/minside</a>
         </div>
         <div class="side-score-badges">
           
           
           
         </div>
-      </div>
+      </summary>
 
       <!-- WCAG-brudd med skjermdumper -->
       <div class="wcag-seksjon">
@@ -624,7 +629,7 @@
           <p class="ok-tekst">✅ Ingen døde lenker</p>
         </div>
       </div>
-    </div>
+    </details>
   
   <div class="seksjon" id="tastatur" style="margin-top:2rem">
     <div class="seksjon-tittel">⌨️ Tastaturnavigasjon (WCAG 2.1 A/AA)</div>
@@ -791,7 +796,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-06-04 10:26</footer>
+  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-06-04 15:40</footer>
 </div>
 </body>
 </html>
