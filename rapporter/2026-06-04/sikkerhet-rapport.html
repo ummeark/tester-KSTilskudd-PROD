@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sikkerhetsrapport – 2026-06-04 15:48</title>
+<title>Sikkerhetsrapport – 2026-06-04 21:50</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -74,7 +74,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Sikkerhetstester</div>
     <div class="env-badge">PRODUKSJON · v0.6.2</div>
-    <h1>Sikkerhetsrapport <span>2026-06-04 15:48</span></h1>
+    <h1>Sikkerhetsrapport <span>2026-06-04 21:50</span></h1>
   </div>
   <ul><li><a href="#hoder" class="sidenav-link ok">
     <span class="sidenavn">📋 HTTP-sikkerhetshoder</span>
@@ -88,9 +88,9 @@
   </a></li><li><a href="#sensitive-stier" class="sidenav-link har-brudd">
     <span class="sidenavn">📂 Sensitive stier og filer</span>
     <span class="side-badge">1 funn</span>
-  </a></li><li><a href="#cookies" class="sidenav-link ok">
+  </a></li><li><a href="#cookies" class="sidenav-link har-brudd">
     <span class="sidenavn">🍪 Cookie-sikkerhet</span>
-    <span class="side-badge">✅ Bestått</span>
+    <span class="side-badge">9 funn</span>
   </a></li><li><a href="#mixed-content" class="sidenav-link ok">
     <span class="sidenavn">🔀 Mixed content</span>
     <span class="side-badge">✅ Bestått</span>
@@ -106,7 +106,7 @@
   <div class="rapport-header">
     <div>
       <h1>Sikkerhetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-04 15:48 · 2s · Chromium 148</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-04 21:50 · 3s · Chromium 148</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -160,19 +160,19 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel god">82</div>
+    <div class="score-sirkel dårlig">32</div>
     <div class="score-tekst">
       <strong>Sikkerhetsscore</strong>
-      <p>Basert på 5 funn fordelt på 8 testområder. Testen er passiv og ikke-destruktiv.</p>
+      <p>Basert på 14 funn fordelt på 8 testområder. Testen er passiv og ikke-destruktiv.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Kritiske</div></div>
-    <div class="kort advarsel"><div class="tall">1</div><div class="etikett">Alvorlige</div></div>
-    <div class="kort ok"><div class="tall">0</div><div class="etikett">Moderate</div></div>
+    <div class="kort advarsel"><div class="tall">2</div><div class="etikett">Alvorlige</div></div>
+    <div class="kort advarsel"><div class="tall">8</div><div class="etikett">Moderate</div></div>
     <div class="kort nøytral"><div class="tall">4</div><div class="etikett">Lave</div></div>
-    <div class="kort ok"><div class="tall">8</div><div class="etikett">Bestått</div></div>
+    <div class="kort ok"><div class="tall">18</div><div class="etikett">Bestått</div></div>
   </div>
 
   
@@ -260,9 +260,112 @@
     
   </div>
   <div class="seksjon" id="cookies">
-    <div class="seksjon-tittel">🍪 Cookie-sikkerhet (0 funn)</div>
-    <div class="wcag-ok">Ingen funn i denne kategorien</div>
+    <div class="seksjon-tittel">🍪 Cookie-sikkerhet (9 funn)</div>
     
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "AUTH_SESSION_ID" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#9a3412">
+    <div class="brudd-header">
+      <div>
+        <span class="badge alvorlig">alvorlig</span>
+        <span class="regel-desc">Cookie "clientfile" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">mangler Secure-flagg, mangler HttpOnly-flagg</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "KEYCLOAK_IDENTITY" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "KEYCLOAK_SESSION" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">mangler HttpOnly-flagg, SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "ingress-csrf" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">mangler HttpOnly-flagg</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "777e248e83cb207c879159ce2789c43b" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "0260dc82f58fc9f938d67c7fc5f66b20" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "6d5eef1a556f52fc55ba708f20b71ab6" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#b8860b">
+    <div class="brudd-header">
+      <div>
+        <span class="badge middels">middels</span>
+        <span class="regel-desc">Cookie "session" har svake sikkerhetsattributter</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">SameSite er None eller ikke satt</p>
+    
+    
+  </div>
+    <details style="margin-top:.8rem"><summary style="font-size:.78rem;color:#07604f;cursor:pointer;padding:.4rem 0">✅ 10 sjekk bestått</summary>
+    <ul style="list-style:none;margin-top:.5rem;display:flex;flex-direction:column;gap:.3rem">
+      <li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIDCID" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIGipServer~DIGILB01~pool_digdir_idporten.no_https" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIGipServer~DIGILB01~pool_digdir_idporten.no_https" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "JSESSIONID" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIGipServer~DIGILB01~pool_digdir_idporten.no_https" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "user_ai" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "user_rb" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "refresh_gui" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "JSESSIONID" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "IDPORTEN_AUTH" har korrekte sikkerhetsattributter — <span style="color:#6b7280">Secure + HttpOnly + SameSite er satt</span></li>
+    </ul>
+  </details>
   </div>
   <div class="seksjon" id="mixed-content">
     <div class="seksjon-tittel">🔀 Mixed content (0 funn)</div>
@@ -325,7 +428,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-06-04 15:48</footer>
+  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-06-04 21:50</footer>
 </div>
 </body>
 </html>

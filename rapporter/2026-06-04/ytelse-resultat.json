@@ -1,14 +1,14 @@
 {
   "url": "https://tilskudd.fiks.ks.no/",
   "dato": "2026-06-04",
-  "tidspunkt": "15:48",
+  "tidspunkt": "21:51",
   "score": 100,
   "totalt": {
     "sider": 3,
-    "snittLCP": 212,
-    "snittFCP": 212,
-    "snittTTFB": 33,
-    "snittLoad": 286,
+    "snittLCP": 485,
+    "snittFCP": 485,
+    "snittTTFB": 30,
+    "snittLoad": 657,
     "totalSizeKB": 317,
     "totalRequests": 27
   },
@@ -17,34 +17,34 @@
       "url": "https://tilskudd.fiks.ks.no/",
       "tittel": "KS Tilskudd - Hjem",
       "score": 100,
-      "ttfb": 36,
-      "load": 160,
+      "ttfb": 20,
+      "load": 442,
       "sizeKB": 298,
       "requests": 7,
-      "lcp": 164,
-      "fcp": 164
+      "lcp": 448,
+      "fcp": 448
     },
     {
       "url": "https://tilskudd.fiks.ks.no/utlysinger",
       "tittel": "KS Tilskudd - Tilskuddsordninger",
       "score": 100,
-      "ttfb": 50,
-      "load": 111,
+      "ttfb": 54,
+      "load": 89,
       "sizeKB": 8,
       "requests": 9,
-      "lcp": 92,
-      "fcp": 92
+      "lcp": 96,
+      "fcp": 96
     },
     {
       "url": "https://tilskudd.fiks.ks.no/minside",
       "tittel": "ID-porten",
       "score": 100,
-      "ttfb": 14,
-      "load": 587,
+      "ttfb": 15,
+      "load": 1441,
       "sizeKB": 11,
       "requests": 11,
-      "lcp": 380,
-      "fcp": 380
+      "lcp": 912,
+      "fcp": 912
     }
   ]
 }
