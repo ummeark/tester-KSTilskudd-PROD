@@ -8,6 +8,15 @@ import fs from 'fs';
 const base = START_URL.replace(/\/$/, '');
 const SKJERMBILDER = 'brukerhistorie-resultater/skjermbilder';
 
+const FEIL_MØNSTER = /Serverfeil|Noe gikk galt|Something went wrong|Uventet feil|En feil har oppstått/i;
+
+async function sjekkForServerfeil(page) {
+  const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() => '');
+  if (FEIL_MØNSTER.test(bodyText)) {
+    throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: "${bodyText.slice(0, 150).trim()}"`);
+  }
+}
+
 // ── TILSK-481 / TILSK-793 ────────────────────────────────────────────────────────
 test.describe('TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskuddsordning', () => {
 
@@ -80,6 +89,7 @@ test.describe('TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskudd
   // TILSK-481: Videre søk gjøres på oversiktssiden
   test('TILSK-481 – søk på oversiktssiden gir treff uten feilside', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const felt = page.locator('input[type="search"], input[placeholder*="øk"]').first();
     await expect(felt).toBeVisible({ timeout: SIDE_TIMEOUT });
     await felt.fill('tilskudd');
@@ -100,6 +110,7 @@ test.describe('TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordn
   // AK-1.1: Liste over tilskuddsordninger er tilgjengelig uten innlogging
   test('AK-1.1 – utlysningslisten vises uten krav om innlogging', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await expect(page).toHaveURL(/utlysinger/);
     const kort = page.locator('article, [class*="card"], [class*="kort"], li a[href*="utlysing"]');
     await expect(kort.first()).toBeVisible({ timeout: SIDE_TIMEOUT });
@@ -110,6 +121,7 @@ test.describe('TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordn
   // AK-1.2: Søkefunksjonalitet er tilgjengelig uten innlogging
   test('AK-1.2 – søkefelt er synlig og tilgjengelig uten innlogging', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const felt = page.locator('input[type="search"], input[placeholder*="øk"]').first();
     await expect(felt).toBeVisible({ timeout: SIDE_TIMEOUT });
   });
@@ -119,6 +131,7 @@ test.describe('TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordn
   // AK-3.1: Paginering – bla til neste side hvis listen er lang
   test('AK-3.1 – pagineringsknapp finnes hvis listen har flere sider', async ({ page }, testInfo) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await page.waitForLoadState('networkidle', { timeout: IDLE_TIMEOUT });
     const pagKnapp = page.locator(
       'button:has-text("Neste"), a:has-text("Neste"), ' +
@@ -133,6 +146,7 @@ test.describe('TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordn
   // AK-4.1: Ingen treff – tydelig beskjed (med forslag til hva brukeren kan gjøre)
   test('AK-4.1 – ingen treff: tydelig melding vises, ikke feilside', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const felt = page.locator('input[type="search"], input[placeholder*="øk"]').first();
     await felt.fill('xyzabc123nonsens');
     await page.keyboard.press('Enter');
@@ -197,6 +211,7 @@ test.describe('TILSK-738: Som søker ønsker jeg å se kontaktinformasjon om ord
 
   async function hentAlleOrdningUrler(page) {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await page.locator('a[href*="utlysinger/"]').first().waitFor({ state: 'visible', timeout: SIDE_TIMEOUT });
     const hrefs = await page.locator('a[href*="utlysinger/"]').evaluateAll(
       els => [...new Set(els.map(el => el.getAttribute('href')).filter(Boolean))]
@@ -344,6 +359,7 @@ test.describe('TILSK-760: Som bruker ønsker jeg å kunne navigere via footer fr
     await expect(page.locator(FOOTER_SEL).first()).toBeVisible({ timeout: SIDE_TIMEOUT });
 
     await page.goto(`${base}/utlysinger`, { waitUntil: 'networkidle', timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await expect(page.locator(FOOTER_SEL).first()).toBeVisible({ timeout: SIDE_TIMEOUT });
   });
 
@@ -406,6 +422,7 @@ test.describe('TILSK-767: Organisasjonsvelger ved søknadsopprettelse', () => {
   // Finn utlysning med Søk om tilskudd-knapp og klikk den
   async function gåTilOrgVelger(page) {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await page.locator('a[href*="utlysinger/"]').first().waitFor({ state: 'visible', timeout: SIDE_TIMEOUT });
     const hrefs = await page.locator('a[href*="utlysinger/"]').evaluateAll(
       els => [...new Set(els.map(el => el.getAttribute('href')).filter(Boolean))]
@@ -532,6 +549,7 @@ test.describe('TILSK-785 / TILSK-795: Redesign av utlysningsside', () => {
       return;
     }
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const lenke = page.locator('a[href*="utlysinger/"]').first();
     await lenke.waitFor({ state: 'visible', timeout: SIDE_TIMEOUT });
     const href = await lenke.getAttribute('href');
@@ -657,6 +675,7 @@ test.describe('TILSK-856: Som søker vil jeg finne tilskuddsordninger med stikko
 
   async function søk(page, tekst) {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const felt = page.locator('input[type="search"], input[name*="search"], input[placeholder*="øk"]').first();
     await expect(felt).toBeVisible({ timeout: SIDE_TIMEOUT });
     await felt.fill(tekst);
@@ -729,12 +748,14 @@ test.describe('BR.HIST-1: Som søker vil jeg se oversikt over tilskuddsordninger
 
   test('utlysningslisten inneholder minst én ordning', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const kort = page.locator('article, [class*="card"], [class*="kort"], li a[href*="utlysing"]');
     await expect(kort.first()).toBeVisible({ timeout: SIDE_TIMEOUT });
   });
 
   test('kan klikke seg inn på en utlysning og se detaljer', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const forstelenke = page.locator('a[href*="utlysing"]').first();
     await expect(forstelenke).toBeVisible({ timeout: SIDE_TIMEOUT });
     await forstelenke.click();
@@ -749,6 +770,7 @@ test.describe('BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlys
 
   test('tilbake-navigasjon fra utlysning fungerer', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const lenke = page.locator('a[href*="utlysinger/"]').first();
     const href = await lenke.getAttribute('href');
     const absoluteHref = href.startsWith('http') ? href : `${base}${href}`;
@@ -759,6 +781,7 @@ test.describe('BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlys
 
   test('F5-refresh på utlysningslisten beholder siden', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await page.reload({ waitUntil: 'domcontentloaded' });
     await expect(page).toHaveURL(/utlysinger/);
     const body = await page.textContent('body');
@@ -772,6 +795,7 @@ test.describe('BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe ove
 
   test('skiplink til hovedinnhold finnes i DOM (WCAG 2.4.1)', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     fs.mkdirSync(SKJERMBILDER, { recursive: true });
     await page.screenshot({ path: `${SKJERMBILDER}/BR.HIST-5-side-uten-skiplink.png` });
     const skipLenke = page.locator(
@@ -783,6 +807,7 @@ test.describe('BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe ove
 
   test('skiplink er første fokuserbare element ved Tab-navigasjon', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     await page.keyboard.press('Tab');
     fs.mkdirSync(SKJERMBILDER, { recursive: true });
     await page.screenshot({ path: `${SKJERMBILDER}/BR.HIST-5-foerste-tab-fokus.png` });
@@ -792,6 +817,7 @@ test.describe('BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe ove
 
   test('søkeskjema er merket med role="search" for skjermlesere', async ({ page }) => {
     await page.goto(`${base}/utlysinger`, { timeout: IDLE_TIMEOUT });
+    await sjekkForServerfeil(page);
     const searchRegion = page.locator('[role="search"]').first();
     await expect(searchRegion).toBeVisible({ timeout: SIDE_TIMEOUT });
   });

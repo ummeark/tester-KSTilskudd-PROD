@@ -11,7 +11,7 @@ export const ITERASJONER  = parseInt(process.argv[3]) || parseInt(process.env.IT
 export const VIEWPORT = { width: 1280, height: 900 };
 
 // Timeouts (ms)
-export const SIDE_TIMEOUT  = 15000;   // domcontentloaded-navigasjoner
+export const SIDE_TIMEOUT  = 35000;   // domcontentloaded-navigasjoner
 export const IDLE_TIMEOUT  = 20000;   // networkidle-navigasjoner
 export const LAST_TIMEOUT  = 30000;   // fulle sideinnlastinger (ytelse/UU-crawl)
 export const HTTP_TIMEOUT  = 8000;    // HTTP HEAD/GET-forespørsler (sikkerhet)

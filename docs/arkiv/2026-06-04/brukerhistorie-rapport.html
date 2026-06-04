@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('../../logg-inn.html?redir='+encodeURIComponent(location.href))</script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brukerhistorietester – 2026-06-04 22:39</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
+
+  .sidemeny{width:272px;min-width:272px;background:#0a1355;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
+  .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
+  .sidemeny h1{font-size:.95rem;font-weight:600;line-height:1.3}
+  .sidemeny h1 span{display:block;font-size:.72rem;opacity:.45;margin-top:.3rem;font-weight:400}
+  .sidemeny ul{list-style:none;flex:1;overflow-y:auto;padding:.5rem 0}
+  .sidenav-link{display:block;padding:.65rem 1.4rem;text-decoration:none;color:rgba(255,255,255,.65);border-left:3px solid transparent;transition:background .15s,color .15s}
+  .sidenav-link:hover{background:rgba(255,255,255,.07);color:white}
+  .sidenav-link.har-brudd{border-color:#f3dda2}
+  .sidenav-link.har-hoppet{border-color:#fcd34d}
+  .sidenav-link.ok{border-color:#abd1b1}
+  .sidenavn{display:block;font-size:.84rem;font-weight:500}
+  .side-url{display:block;font-size:.68rem;opacity:.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.15rem}
+  .side-badge{display:block;font-size:.68rem;margin-top:.2rem;opacity:.6}
+
+  .hoveddel{flex:1;padding:2.5rem 3rem;overflow-y:auto;max-width:1060px}
+
+  .rapport-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid #f4ecdf;flex-wrap:wrap}
+  .rapport-header h1{font-size:1.5rem;font-weight:700;color:#0a1355;letter-spacing:-.01em}
+  .rapport-header .meta{font-size:.85rem;color:#6b7280;margin-top:.4rem}
+  .rapport-header .meta a{color:#07604f;text-decoration:none}
+  .rapport-header .meta a:hover{text-decoration:underline}
+  .nav-knapper{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-start}
+  .knapp{display:inline-block;padding:.5rem 1.2rem;background:#0a1355;color:white;border-radius:100px;font-size:.82rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s}
+  .knapp:hover{background:#2b3285}
+  .knapp.aktiv{background:#07604f;pointer-events:none}
+  .knapp.sekundær{background:transparent;border:1px solid #0a1355;color:#0a1355}
+  .knapp.sekundær:hover{background:#f4ecdf}
+
+  .seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .seksjon-tittel{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #f4ecdf}
+  .score-kort{background:white;border:1px solid #f1f0ee;padding:1.8rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .score-sirkel{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;color:white;flex-shrink:0}
+  .score-tekst strong{color:#0a1355;font-size:1rem}
+  .score-tekst p{color:#6b7280;font-size:.87rem;margin-top:.35rem;line-height:1.5}
+
+  .kort-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.8rem;margin-bottom:2rem}
+  .kort{background:white;padding:1.2rem 1rem;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .kort.kritisk{border-left-color:#c53030}
+  .kort.ok{border-left-color:#07604f}
+  .kort .tall{font-size:2rem;font-weight:700;margin:.3rem 0;color:#0a1355}
+  .kort .etikett{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}
+  .kort .undertekst{font-size:.7rem;color:#9ca3af;margin-top:.25rem}
+
+  .side-seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .side-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.4rem;padding-bottom:1.2rem;border-bottom:1px solid #f4ecdf;flex-wrap:wrap;gap:.6rem}
+  .side-header h2{font-size:1rem;font-weight:600;color:#0a1355}
+  .jira-tittel{margin-top:.45rem;display:flex;flex-direction:column;gap:.2rem}
+  .jira-tittel-linje{font-size:.8rem;color:#6b7280;font-style:italic;line-height:1.4}
+  .jira-tag{font-size:.68rem;font-weight:700;font-style:normal;background:#eff6ff;color:#1d4ed8;padding:.1rem .45rem;border-radius:3px;margin-right:.4rem;letter-spacing:.01em}
+  .side-score-badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start}
+
+  .wcag-seksjon{margin-bottom:1.6rem}
+  .wcag-seksjon h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:1px solid #f4ecdf}
+  .brudd-kort{border:1px solid #f1f0ee;border-left:4px solid #e5e3de;padding:1rem 1.1rem;margin-bottom:.7rem}
+  .brudd-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem;flex-wrap:wrap;font-size:.9rem}
+  .brudd-teller{font-size:.72rem;color:#9ca3af;white-space:nowrap;flex-shrink:0}
+  .brudd-hjelp{font-size:.78rem;color:#555;margin-top:.5rem;padding:.5rem .8rem;background:#f4ecdf;border-left:3px solid #b8860b;white-space:pre-wrap}
+
+  .badge{display:inline-block;padding:.15rem .6rem;border-radius:100px;font-size:.7rem;font-weight:600}
+  .badge.critical{background:#fee2e2;color:#c53030}
+  .badge.mangler-data{background:#fef3c7;color:#92400e}
+  .hoppet-arsak{font-size:.78rem;color:#92400e;margin-top:.5rem;padding:.4rem .8rem;background:#fef9ec;border-left:3px solid #f59e0b;font-style:italic}
+
+  .skjermbilde-galleri{margin-top:1.4rem}
+  .skjermbilde-galleri h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:1px solid #f4ecdf}
+  .skjermbilde-grid{display:flex;flex-wrap:wrap;gap:1rem}
+  .skjermbilde-fig{flex:1 1 260px;max-width:100%}
+  .skjermbilde{width:100%;border:1px solid #e5e3de;border-radius:4px;box-shadow:0 2px 8px rgba(10,19,85,.1)}
+  figcaption{font-size:.68rem;color:#9ca3af;margin-top:.3rem;text-transform:capitalize}
+
+  footer{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.78rem;border-top:1px solid #f1f0ee;margin-top:2rem}
+</style>
+</head>
+<body>
+<nav class="sidemeny">
+  <div class="sidemeny-header">
+    <div class="sidemeny-logo">KS Tilskudd · Brukerhistorietester</div>
+    <div class="env-badge">PRODUKSJON</div>
+    <h1>Brukerhistorie-rapport <span>2026-06-04 22:39 · 12 brukerhistorier</span></h1>
+  </div>
+  <ul>
+    <li>
+      <a href="#bh-TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskuddsordning" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskuddsordning</span>
+        <span class="side-url">TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskuddsordning</span>
+        <span class="side-badge">1 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordning i portalen (uten innlogging)" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordning i portalen (uten innlogging)</span>
+        <span class="side-url">TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordning i portalen (uten innlogging)</span>
+        <span class="side-badge">4 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-547: Som innlogget søker vil jeg se mine søknader" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-547: Som innlogget søker vil jeg se mine søknader</span>
+        <span class="side-url">TILSK-547: Som innlogget søker vil jeg se mine søknader</span>
+        <span class="side-badge">1 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-738: Som søker ønsker jeg å se kontaktinformasjon om ordningen" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-738: Som søker ønsker jeg å se kontaktinformasjon om ordningen</span>
+        <span class="side-url">TILSK-738: Som søker ønsker jeg å se kontaktinformasjon om ordningen</span>
+        <span class="side-badge">9 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-760: Som bruker ønsker jeg å kunne navigere via footer fra alle sidene i tilskuddsportalen" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-760: Som bruker ønsker jeg å kunne navigere via footer fra alle sidene i tilskuddsportalen</span>
+        <span class="side-url">TILSK-760: Som bruker ønsker jeg å kunne navigere via footer fra alle sidene i tilskuddsportalen</span>
+        <span class="side-badge">1 feilet · 1 hoppet over</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-767: Organisasjonsvelger ved søknadsopprettelse" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-767: Organisasjonsvelger ved søknadsopprettelse</span>
+        <span class="side-url">TILSK-767: Organisasjonsvelger ved søknadsopprettelse</span>
+        <span class="side-badge">6 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-785 / TILSK-795: Redesign av utlysningsside" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-785 / TILSK-795: Redesign av utlysningsside</span>
+        <span class="side-url">TILSK-785 / TILSK-795: Redesign av utlysningsside</span>
+        <span class="side-badge">9 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-793: Designsystemet redesign - Forside" class="sidenav-link ok">
+        <span class="sidenavn">TILSK-793: Designsystemet redesign - Forside</span>
+        <span class="side-url">TILSK-793: Designsystemet redesign - Forside</span>
+        <span class="side-badge">OK</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-TILSK-856: Som søker vil jeg finne tilskuddsordninger med stikkord, halvferdige ord eller flere ord" class="sidenav-link har-brudd">
+        <span class="sidenavn">TILSK-856: Som søker vil jeg finne tilskuddsordninger med stikkord, halvferdige ord eller flere ord</span>
+        <span class="side-url">TILSK-856: Som søker vil jeg finne tilskuddsordninger med stikkord, halvferdige ord eller flere ord</span>
+        <span class="side-badge">6 feilet · 1 hoppet over</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-BR.HIST-1: Som søker vil jeg se oversikt over tilskuddsordninger" class="sidenav-link har-brudd">
+        <span class="sidenavn">BR.HIST-1: Som søker vil jeg se oversikt over tilskuddsordninger</span>
+        <span class="side-url">BR.HIST-1: Som søker vil jeg se oversikt over tilskuddsordninger</span>
+        <span class="side-badge">2 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlysning" class="sidenav-link har-brudd">
+        <span class="sidenavn">BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlysning</span>
+        <span class="side-url">BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlysning</span>
+        <span class="side-badge">2 feilet</span>
+      </a>
+    </li>
+    <li>
+      <a href="#bh-BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe over navigasjonen" class="sidenav-link har-brudd">
+        <span class="sidenavn">BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe over navigasjonen</span>
+        <span class="side-url">BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe over navigasjonen</span>
+        <span class="side-badge">3 feilet</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<main class="hoveddel">
+  <header class="rapport-header">
+    <div>
+      <h1>Brukerhistorietester</h1>
+      <div class="meta">
+        <a href="https://tilskudd.fiks.ks.no/" target="_blank" rel="noopener">https://tilskudd.fiks.ks.no/</a>
+        &nbsp;· 2026-06-04 22:39 · 12 brukerhistorier · @playwright/test
+      </div>
+    </div>
+    <div class="nav-knapper">
+      <a href="../../rapport.html" class="knapp sekundær">Forside</a>
+      <a href="uu-rapport.html" class="knapp sekundær">UU-rapport</a>
+      <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
+      <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
+      <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="brukerhistorie-rapport.html" class="knapp aktiv">Brukerhistorier</a>
+      <a href="../../arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
+    </div>
+  </header>
+
+  <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
+    <div class="seksjon-tittel">Hva er brukerhistorietesting?</div>
+    <p style="font-size:.88rem;line-height:1.7;color:#374151;margin-bottom:1rem">
+      Brukerhistorietester verifiserer at konkrete brukerscenarioer fungerer i applikasjonen.
+      Hver test representerer én brukerhistorie med akseptansekriterier som automatisk verifiseres mot produksjonsmiljøet.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;font-size:.83rem">
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva testes</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>📋 Navigasjon og oversikt over utlysninger</li>
+          <li>🔍 Søk etter tilskuddsordninger</li>
+          <li>👤 Innlogget brukers «Min side»</li>
+          <li>🔙 Tilbake-navigasjon og F5-refresh</li>
+          <li>♿ Skiplink og hjelpemiddelteknologi</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva måles</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>Antall bestatte akseptansekriterier</li>
+          <li>Antall feilende akseptansekriterier</li>
+          <li>Feilmelding og stack trace ved feil</li>
+          <li>Skjermbilder ved feiling</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Verktøy og metode</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>@playwright/test (testramme)</li>
+          <li>Innlogging via ID-porten (manuell)</li>
+          <li>Kjøres mot produksjonsmiljøet</li>
+          <li>Kjøres manuelt ved behov</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="score-kort">
+    <div class="score-sirkel" style="background:#c53030;">28</div>
+    <div class="score-tekst">
+      <strong>44 tester feilet</strong>
+      <p>18 av 64 tester bestatt på 12 brukerhistorier.<br>
+      Varighet: 74.3s totalt.</p>
+    </div>
+  </div>
+
+  <div class="kort-grid">
+    <div class="kort ok">
+      <div class="etikett">Brukerhistorier</div>
+      <div class="tall">12</div>
+      <div class="undertekst">Synlige i rapporten</div>
+    </div>
+    <div class="kort ok">
+      <div class="etikett">Tester kjørt</div>
+      <div class="tall">64</div>
+      <div class="undertekst">Akseptansekriterier</div>
+    </div>
+    <div class="kort ok">
+      <div class="etikett">Bestatt</div>
+      <div class="tall">18</div>
+      <div class="undertekst">expected</div>
+    </div>
+    <div class="kort kritisk">
+      <div class="etikett">Feilet</div>
+      <div class="tall">44</div>
+      <div class="undertekst">unexpected</div>
+    </div>
+  </div>
+
+  <section class="side-seksjon" id="bh-TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskuddsordning">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-481 / TILSK-793: Som søker vil jeg søke etter en tilskuddsordning</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-481</span>Som besøker av forsiden til tilskuddsportalen ønsker jeg å kunne søke etter en tilskuddsordning</span><span class="jira-tittel-linje"><span class="jira-tag">TILSK-793</span>Designsystemet redesign - Forside</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">1 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (9 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-2 – søkefelt med placeholder &quot;Søk etter tilskuddsordning&quot; er synlig</strong></span>
+          <span class="brudd-teller">1207ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-2 – Søk-knapp er synlig ved siden av søkefeltet</strong></span>
+          <span class="brudd-teller">1154ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-2 – søkefeltet er fokuserbart</strong></span>
+          <span class="brudd-teller">1269ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-3 – søk fra forsiden navigerer til oversiktssiden for utlysninger</strong></span>
+          <span class="brudd-teller">1099ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-3 – søk fra forsiden gir respons uten feilside</strong></span>
+          <span class="brudd-teller">1113ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-4 – forsiden viser H1 &quot;Nasjonal portal for søknad om offentlige tilskudd&quot;</strong></span>
+          <span class="brudd-teller">1130ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-4 – forsiden viser ingress om å finne tilskuddsordninger</strong></span>
+          <span class="brudd-teller">1186ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-4 – forsiden har innholdsseksjon som forklarer hva portalen er</strong></span>
+          <span class="brudd-teller">1177ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>TILSK-481 – søk på oversiktssiden gir treff uten feilside</strong></span>
+          <span class="brudd-teller">568ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:92:5</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordning i portalen (uten innlogging)">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-543: Som besøker ønsker jeg å finne riktig tilskuddsordning i portalen (uten innlogging)</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-543</span>Som (be)søker ønsker jeg å finne riktig tilskuddsordning i portalen (uten innlogging)</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">4 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (4 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.1 – utlysningslisten vises uten krav om innlogging</strong></span>
+          <span class="brudd-teller">671ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:113:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.2 – søkefelt er synlig og tilgjengelig uten innlogging</strong></span>
+          <span class="brudd-teller">579ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:124:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-3.1 – pagineringsknapp finnes hvis listen har flere sider</strong></span>
+          <span class="brudd-teller">608ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:134:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-4.1 – ingen treff: tydelig melding vises, ikke feilside</strong></span>
+          <span class="brudd-teller">618ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:149:5</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-547: Som innlogget søker vil jeg se mine søknader">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-547: Som innlogget søker vil jeg se mine søknader</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-547</span>Som søker ønsker jeg å se en oversikt over mine søknader</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">1 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (3 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>min side er tilgjengelig etter innlogging</strong></span>
+          <span class="brudd-teller">7078ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed<br><br>Expected pattern: [32m/minside/[39m<br>Received string:  [31m&quot;https://login.idporten.no/authorize/selector&quot;[39m<br>Timeout: 5000ms<br><br>Call log:<br>[2m  - Expect &quot;toHaveURL&quot; with timeout 5000ms[22m<br>[2m    14 × unexpected value &quot;https://login.idporten.no/authorize/selector&quot;[22m<br><br><br>  168 |   test('min side er tilgjengelig etter innlogging', async ({ page }) =&gt; {<br>  169 |     await page.goto(`${base}/minside`, { timeout: IDLE_TIMEOUT });<br>&gt; 170 |     await expect(page).toHaveURL(/minside/);<br>      |                        ^<br>  171 |   });<br>  172 |<br>  173 |   test('min side viser ikke innloggingsskjema (brukeren er innlogget)', async ({ page }) =&gt; {<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:170:24</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>min side viser ikke innloggingsskjema (brukeren er innlogget)</strong></span>
+          <span class="brudd-teller">2027ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>min side laster uten JavaScript-feil</strong></span>
+          <span class="brudd-teller">2778ms</span>
+        </div>
+        
+        
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-738: Som søker ønsker jeg å se kontaktinformasjon om ordningen">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-738: Som søker ønsker jeg å se kontaktinformasjon om ordningen</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-738</span>Som søker ønsker jeg å se kontaktinformasjon om ordningen</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">9 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (9 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.0 – utlysningssiden laster uten feilside</strong></span>
+          <span class="brudd-teller">691ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:263:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.0 – kontaktinformasjonsseksjon finnes på en utlysningsside</strong></span>
+          <span class="brudd-teller">632ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:270:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.1 – minst ett kontaktinfokort vises</strong></span>
+          <span class="brudd-teller">824ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:278:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.1 – maks tre kontaktinfokort vises totalt</strong></span>
+          <span class="brudd-teller">661ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:291:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.2 – maks tre personkort vises</strong></span>
+          <span class="brudd-teller">760ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:299:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.3 – maks ett virksomhetskort vises</strong></span>
+          <span class="brudd-teller">759ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:307:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.4/1.5 – kontaktkort inneholder e-post eller telefonnummer</strong></span>
+          <span class="brudd-teller">773ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:315:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.6 – obligatoriske felt: minst telefon eller e-post finnes i kontaktinfo</strong></span>
+          <span class="brudd-teller">771ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedKontaktinfo (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:228:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:324:17</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.7 – personkort vises over virksomhetskort på siden</strong></span>
+          <span class="brudd-teller">772ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at hentAlleOrdningUrler (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:214:5)<br>    at gåTilOrdningMedBeggekorttyper (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:248:19)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:333:17</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-760: Som bruker ønsker jeg å kunne navigere via footer fra alle sidene i tilskuddsportalen">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-760: Som bruker ønsker jeg å kunne navigere via footer fra alle sidene i tilskuddsportalen</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-760</span>Som bruker ønsker jeg å kunne navigere via footer fra alle sidene i tilskuddsportalen</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">1 feilet</span> <span class="badge mangler-data">1 hoppet over – manglende testdata</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (5 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.0 – footer finnes på forside og underside</strong></span>
+          <span class="brudd-teller">1838ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:362:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.1 – footer inneholder forventede elementer fra Figma-skissen</strong></span>
+          <span class="brudd-teller">1272ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#b45309;background:#fffbeb;">
+        <div class="brudd-header">
+          <span>⚠️ <strong>AK-1.2 – footer inneholder språkvalg</strong></span>
+          <span class="brudd-teller">74ms</span>
+        </div>
+        <div class="hoppet-arsak">Årsak: AK-1.2 avventer implementering – språkvalg ikke avklart (TILSK-760)</div>
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.3 – footer inneholder lenke til personvernerklæring</strong></span>
+          <span class="brudd-teller">1256ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.4 – footer inneholder lenke til tilgjengelighetserklæring</strong></span>
+          <span class="brudd-teller">1191ms</span>
+        </div>
+        
+        
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-767: Organisasjonsvelger ved søknadsopprettelse">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-767: Organisasjonsvelger ved søknadsopprettelse</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-767</span>Som søker ønsker jeg å kunne velge en organisasjon som skal brukes ved opprettelse av søknad (foreløpig design)</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">6 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (6 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1 – &quot;Hvem søker du på vegne av?&quot;-skjerm vises etter klikk på Søk om tilskudd</strong></span>
+          <span class="brudd-teller">634ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilOrgVelger (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:425:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:443:20</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-2 – organisasjonsnummerfeltet er synlig</strong></span>
+          <span class="brudd-teller">659ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilOrgVelger (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:425:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:451:20</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-3 – organisasjonsnummer er obligatorisk (tom felt blokkerer innsending)</strong></span>
+          <span class="brudd-teller">652ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilOrgVelger (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:425:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:463:20</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-3 – org-nummer valideres på format (feil antall siffer gir feil)</strong></span>
+          <span class="brudd-teller">647ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilOrgVelger (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:425:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:488:20</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-4 – søknadsnavn-felt er synlig</strong></span>
+          <span class="brudd-teller">576ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilOrgVelger (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:425:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:510:20</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-5 – e-postfelt er synlig</strong></span>
+          <span class="brudd-teller">585ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilOrgVelger (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:425:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:525:20</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-785 / TILSK-795: Redesign av utlysningsside">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-785 / TILSK-795: Redesign av utlysningsside</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-785</span>Designsystemet redesign - Utlysningsside</span><span class="jira-tittel-linje"><span class="jira-tag">TILSK-795</span>Redesign av utlysningsside</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">9 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (9 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.0 – breadcrumbs er synlig på utlysningssiden</strong></span>
+          <span class="brudd-teller">607ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:561:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.1 – tittel (h1) er synlig under breadcrumbs</strong></span>
+          <span class="brudd-teller">562ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:570:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.2 – sist oppdatert dato vises</strong></span>
+          <span class="brudd-teller">637ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:578:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.3 – forvalternavn vises</strong></span>
+          <span class="brudd-teller">571ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:585:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1.4 – pengebeløp vises med tusenskille i kroner (om tilskuddsramme er satt)</strong></span>
+          <span class="brudd-teller">641ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:594:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-2.0 – søknadsfristkort er synlig</strong></span>
+          <span class="brudd-teller">569ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:605:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-3.0 – kontaktinfoseksjon er synlig</strong></span>
+          <span class="brudd-teller">656ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:615:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-4.0 – rikttekst-innholdsområde er synlig med tekst</strong></span>
+          <span class="brudd-teller">640ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:624:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK – utlysningssiden laster uten feilside</strong></span>
+          <span class="brudd-teller">658ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at gåTilUtlysning (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:552:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:631:5</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-793: Designsystemet redesign - Forside">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-793: Designsystemet redesign - Forside</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-793</span>Designsystemet redesign - Forside</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge" style="background:#ecfdf5;color:#064e3b;">Alle OK</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (4 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.0 – forsiden laster uten feilside</strong></span>
+          <span class="brudd-teller">1184ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.1 – forsiden viser overskrift og tekst som forklarer hva portalen er</strong></span>
+          <span class="brudd-teller">1154ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.2 – forsiden viser søkefelt for å søke i tilskuddsordninger</strong></span>
+          <span class="brudd-teller">1068ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>AK-1.3 – søk fra forsiden navigerer til oversiktssiden for tilskuddsordninger</strong></span>
+          <span class="brudd-teller">1175ms</span>
+        </div>
+        
+        
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-TILSK-856: Som søker vil jeg finne tilskuddsordninger med stikkord, halvferdige ord eller flere ord">
+    <div class="side-header">
+      <div>
+        <h2>TILSK-856: Som søker vil jeg finne tilskuddsordninger med stikkord, halvferdige ord eller flere ord</h2>
+        <div class="jira-tittel"><span class="jira-tittel-linje"><span class="jira-tag">TILSK-856</span>Som søker som leter etter relevante tilskuddsordninger ønsker jeg et bedre søk enn i dag</span></div>
+      </div>
+      <div class="side-score-badges"><span class="badge critical">6 feilet</span> <span class="badge mangler-data">1 hoppet over – manglende testdata</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (7 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1 – stikkord: søk på ett ord gir resultater (ikke feilside)</strong></span>
+          <span class="brudd-teller">566ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at søk (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:678:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:688:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-1 – stikkord: søk på ett ord viser matchende utlysninger</strong></span>
+          <span class="brudd-teller">869ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at søk (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:678:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:694:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-2 – halvferdig ord: delstreng gir relevante treff (ikke feilside)</strong></span>
+          <span class="brudd-teller">1084ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at søk (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:678:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:702:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-3 – flere ord: søk på «barn og unge» gir respons uten feilside</strong></span>
+          <span class="brudd-teller">773ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at søk (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:678:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:714:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-4 – ingen treff: nonsens-streng viser ingen-treff-melding, ikke feilside</strong></span>
+          <span class="brudd-teller">736ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at søk (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:678:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:721:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>AK-5 – tomt søkefelt: hel utlysningsliste vises igjen</strong></span>
+          <span class="brudd-teller">806ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at søk (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:678:5)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:728:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#b45309;background:#fffbeb;">
+        <div class="brudd-header">
+          <span>⚠️ <strong>AK-6 – feilstaving: feilstavet søkeord håndteres (f.eks. «mente du?»)</strong></span>
+          <span class="brudd-teller">75ms</span>
+        </div>
+        <div class="hoppet-arsak">Årsak: AK-6 ikke implementert ennå – krever fuzzy søkemotor (TILSK-856 i Utviklingskø)</div>
+        
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-BR.HIST-1: Som søker vil jeg se oversikt over tilskuddsordninger">
+    <div class="side-header">
+      <div>
+        <h2>BR.HIST-1: Som søker vil jeg se oversikt over tilskuddsordninger</h2>
+        
+      </div>
+      <div class="side-score-badges"><span class="badge critical">2 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (3 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#064e3b;background:#ecfdf5;">
+        <div class="brudd-header">
+          <span>✅ <strong>kan navigere til utlysningslisten</strong></span>
+          <span class="brudd-teller">768ms</span>
+        </div>
+        
+        
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>utlysningslisten inneholder minst én ordning</strong></span>
+          <span class="brudd-teller">548ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:751:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>kan klikke seg inn på en utlysning og se detaljer</strong></span>
+          <span class="brudd-teller">730ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:758:5</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlysning">
+    <div class="side-header">
+      <div>
+        <h2>BR.HIST-4: Som søker vil jeg kunne navigere tilbake fra en utlysning</h2>
+        
+      </div>
+      <div class="side-score-badges"><span class="badge critical">2 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (2 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>tilbake-navigasjon fra utlysning fungerer</strong></span>
+          <span class="brudd-teller">704ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:773:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>F5-refresh på utlysningslisten beholder siden</strong></span>
+          <span class="brudd-teller">714ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:784:5</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <section class="side-seksjon" id="bh-BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe over navigasjonen">
+    <div class="side-header">
+      <div>
+        <h2>BR.HIST-5: Som søker med hjelpemiddelteknologi vil jeg hoppe over navigasjonen</h2>
+        
+      </div>
+      <div class="side-score-badges"><span class="badge critical">3 feilet</span></div>
+    </div>
+    <div class="wcag-seksjon">
+      <h3>Akseptansekriterier (3 tester)</h3>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>skiplink til hovedinnhold finnes i DOM (WCAG 2.4.1)</strong></span>
+          <span class="brudd-teller">659ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:798:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>skiplink er første fokuserbare element ved Tab-navigasjon</strong></span>
+          <span class="brudd-teller">704ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:810:5</div>
+      </div>
+      <div class="brudd-kort" style="border-left-color:#c53030;background:#fff5f5;">
+        <div class="brudd-header">
+          <span>❌ <strong>søkeskjema er merket med role=&quot;search&quot; for skjermlesere</strong></span>
+          <span class="brudd-teller">780ms</span>
+        </div>
+        
+        <div class="brudd-hjelp">Error: Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;KS Tilskudd<br>Tilskuddsordninger<br>Logg inn<br>Serverfeil<br>Hjem<br>Om KS Tilskudd<br><br>Nasjonal portal for søknad om offentlige tilskudd levert av KS Digital.<br><br>Perso&quot;<br><br>  14 |   const bodyText = await page.locator('body').innerText({ timeout: 3000 }).catch(() =&gt; '');<br>  15 |   if (FEIL_MØNSTER.test(bodyText)) {<br>&gt; 16 |     throw new Error(`Siden viser feilmelding (Serverfeil) – avbryter uten å vente på timeout. Faktisk sideinnhold: &quot;${bodyText.slice(0, 150).trim()}&quot;`);<br>     |           ^<br>  17 |   }<br>  18 | }<br>  19 |<br>    at sjekkForServerfeil (/Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:16:11)<br>    at /Users/ummearkhan/tester-KSTilskudd-PROD/brukerhistorie-tester.js:820:5</div>
+      </div>
+    </div>
+    
+  </section>
+
+  <footer>KS Tilskudd · Brukerhistorietester · @playwright/test · 2026-06-04 22:39</footer>
+</main>
+</body>
+</html>
