@@ -125,11 +125,39 @@ function lesAlleYtelse(dato) {
   });
 }
 
-const uu        = datoer.flatMap(lesAlleUU);
-const monkey    = datoer.flatMap(lesAlleMonkey);
-const sikkerhet = datoer.flatMap(lesAlleSikkerhet);
-const negativ   = datoer.flatMap(lesAlleNegativ);
-const ytelse    = datoer.flatMap(lesAlleYtelse);
+function lesAlleBrukerhistorie(dato) {
+  const fil = path.join(rapportDir, dato, 'brukerhistorie-resultat.json');
+  if (!fs.existsSync(fil)) return [];
+  try {
+    const json = JSON.parse(fs.readFileSync(fil, 'utf-8'));
+    return [{ dato, tidspunkt: null, score: json.score, totalt: json.totalt, rapportFil: 'brukerhistorie-rapport.html' }];
+  } catch { return []; }
+}
+
+function lesBrukerhistorie() {
+  const fil = path.join(__dirname, 'brukerhistorie-resultater/brukerhistorie-resultat.json');
+  if (!fs.existsSync(fil)) return null;
+  try {
+    const data    = JSON.parse(fs.readFileSync(fil, 'utf-8'));
+    const st      = data.stats ?? {};
+    const bestått = st.expected  ?? 0;
+    const feilet  = st.unexpected ?? 0;
+    const totalt  = bestått + feilet;
+    const score   = totalt > 0 ? Math.round((bestått / totalt) * 100) : 0;
+    const dato    = st.startTime
+      ? new Date(st.startTime).toISOString().slice(0, 10)
+      : new Date().toISOString().slice(0, 10);
+    return { score, dato, totalt: { bestått, feilet, totalt } };
+  } catch { return null; }
+}
+
+const uu              = datoer.flatMap(lesAlleUU);
+const monkey          = datoer.flatMap(lesAlleMonkey);
+const sikkerhet       = datoer.flatMap(lesAlleSikkerhet);
+const negativ         = datoer.flatMap(lesAlleNegativ);
+const ytelse          = datoer.flatMap(lesAlleYtelse);
+const brukerhistorie  = datoer.flatMap(lesAlleBrukerhistorie);
+const sisteBrukerhistorie = lesBrukerhistorie();
 
 // Hent versjonsnummer fra nyeste tilgjengelige JSON-resultat
 function lesVersjon() {
@@ -151,7 +179,7 @@ const versjon = lesVersjon();
 const arkivDir = path.join(docsDir, 'arkiv');
 fs.mkdirSync(arkivDir, { recursive: true });
 
-const rapportFiler = ['uu-rapport.html', 'monkey-rapport.html', 'sikkerhet-rapport.html', 'negativ-rapport.html', 'ytelse-rapport.html'];
+const rapportFiler = ['uu-rapport.html', 'monkey-rapport.html', 'sikkerhet-rapport.html', 'negativ-rapport.html', 'ytelse-rapport.html', 'brukerhistorie-rapport.html'];
 
 for (const dato of datoer) {
   const kildedir = path.join(rapportDir, dato);
@@ -309,6 +337,11 @@ const ytelseNøkkel = r => `
   <span>LCP: ${visTid(r.totalt.snittLCP || 0)}</span>
   <span>FCP: ${visTid(r.totalt.snittFCP || 0)}</span>
   <span>${r.totalt.sider} sider</span>`;
+
+const brukerhistorieNøkkel = r => `
+  <span><span class="grønn">Bestått ${r.totalt?.bestått ?? 0}</span></span>
+  <span>${(r.totalt?.feilet ?? 0) > 0 ? `<b class="rød">Feilet ${r.totalt.feilet}</b>` : '<span class="grønn">Ingen feilet</span>'}</span>
+  <span>${r.totalt?.suites ?? 0} brukerhistorier</span>`;
 
 // --- Seksjon per testtype med nedtrekk for flere kjøringer samme dag ---
 
@@ -510,6 +543,7 @@ const arkivHTML = `<!DOCTYPE html>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
       <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="brukerhistorie-rapport.html" class="knapp sekundær">Brukerhistorier</a>
       <a href="arkiv.html" class="knapp aktiv">Arkiv</a>
     </div>
   </div>
@@ -519,6 +553,7 @@ const arkivHTML = `<!DOCTYPE html>
   ${seksjonHTML('Sikkerhetstest', '🔐', sikkerhet, 'sikkerhet-rapport.html', sikkerhetNøkkel)}
   ${seksjonHTML('Negativ test', '🧪', negativ, 'negativ-rapport.html', negativNøkkel)}
   ${seksjonHTML('Ytelsestest', '🚀', ytelse, 'ytelse-rapport.html', ytelseNøkkel)}
+  ${seksjonHTML('Brukerhistorietest', '📖', brukerhistorie, 'brukerhistorie-rapport.html', brukerhistorieNøkkel)}
 
 </div>
 <footer>KS Tilskudd · Testrapporter · axe-core + Playwright</footer>
@@ -527,7 +562,7 @@ const arkivHTML = `<!DOCTYPE html>
 
 fs.writeFileSync(path.join(docsDir, 'arkiv.html'), arkivHTML);
 console.log(`✅ Arkiv generert → docs/arkiv.html`);
-console.log(`   Datoer: ${datoer.length} | UU: ${uu.length} | Monkey: ${monkey.length} | Sikkerhet: ${sikkerhet.length} | Negativ: ${negativ.length} | Ytelse: ${ytelse.length}`);
+console.log(`   Datoer: ${datoer.length} | UU: ${uu.length} | Monkey: ${monkey.length} | Sikkerhet: ${sikkerhet.length} | Negativ: ${negativ.length} | Ytelse: ${ytelse.length} | Brukerhistorie: ${brukerhistorie.length}`);
 
 // --- Generer dashboard (rapport.html) ---
 
@@ -592,7 +627,7 @@ const dashboardHTML = `<!DOCTYPE html>
   .container { max-width: 1200px; margin: 2.5rem auto; padding: 0 1.5rem; }
 
   /* Total score-rad */
-  .total-rad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+  .total-rad { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
 
   /* Dashboard-kort */
   .dash-kort { background: white; border: 1px solid #f1f0ee; border-top: 5px solid #e5e3de; padding: 1.8rem; box-shadow: 0 1px 4px rgba(10,19,85,.06); text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.7rem; min-height: 260px; transition: box-shadow .15s, transform .15s; }
@@ -632,6 +667,9 @@ const dashboardHTML = `<!DOCTYPE html>
 
   footer { text-align: center; padding: 2.5rem; color: #9ca3af; font-size: 0.78rem; border-top: 1px solid #f1f0ee; margin-top: 2rem; }
 
+  @media (max-width: 900px) {
+    .total-rad { grid-template-columns: repeat(3, 1fr); }
+  }
   @media (max-width: 700px) {
     .total-rad { grid-template-columns: 1fr; }
   }
@@ -656,12 +694,13 @@ const dashboardHTML = `<!DOCTYPE html>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
       <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="brukerhistorie-rapport.html" class="knapp sekundær">Brukerhistorier</a>
       <a href="arkiv.html" class="knapp sekundær">Arkiv</a>
     </div>
   </div>
 
   ${(() => {
-    const scores = [sisteUU, sisteMonkey, sisteSikk, sisteNegativ, sisteYtelse].filter(Boolean).map(d => d.score);
+    const scores = [sisteUU, sisteMonkey, sisteSikk, sisteNegativ, sisteYtelse, sisteBrukerhistorie].filter(Boolean).map(d => d.score);
     if (scores.length === 0) return '';
     const snitt = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
     const sk = scoreKlasse(snitt);
@@ -697,6 +736,10 @@ const dashboardHTML = `<!DOCTYPE html>
       <span>LCP: ${visTid(r.totalt.snittLCP || 0)}</span>
       <span>FCP: ${visTid(r.totalt.snittFCP || 0)}</span>
       <span>${r.totalt.sider} sider</span>`)}
+    ${dashboardKort('Brukerhistorie', '📖', 'brukerhistorie-rapport.html', sisteBrukerhistorie, r => `
+      <span><span class="grønn">Bestått ${r.totalt.bestått}</span></span>
+      <span>${r.totalt.feilet > 0 ? `<b class="rød">${r.totalt.feilet} feilet</b>` : '<span class="grønn">Alle OK</span>'}</span>
+      <span>${r.totalt.totalt} tester totalt</span>`)}
   </div>
 
 
