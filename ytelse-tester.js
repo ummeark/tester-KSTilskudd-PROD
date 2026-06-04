@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { START_URL, MAX_SIDER, VIEWPORT, LAST_TIMEOUT, RAPPORTDIR } from './config.js';
+import { START_URL, MAX_SIDER, VIEWPORT, LAST_TIMEOUT, RAPPORTDIR, GITHUB_PAGES_AUTH } from './config.js';
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
 const rapportDir = RAPPORTDIR ? path.join(RAPPORTDIR, dato) : path.join(__dirname, 'rapporter', dato);
@@ -42,11 +42,19 @@ function scoreKlasse(s) { return s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårli
 
 // ── Crawl og mål ─────────────────────────────────────────────────────────────
 
+const authFile = path.join(__dirname, 'prod-auth.json');
+const harAuth = fs.existsSync(authFile);
+if (harAuth) console.log('🔐 Bruker lagret PROD-innlogging (prod-auth.json)');
+else console.log('ℹ️  Kjører uten innlogging (kjør npm run login-prod for å logge inn)');
+
 const browser = await chromium.launch();
 const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 Ytelses-Tester/1.0',
   viewport: VIEWPORT,
+  ...(harAuth ? { storageState: authFile } : {})
 });
+
+if (GITHUB_PAGES_AUTH) await context.addInitScript(() => sessionStorage.setItem('ks-auth', '1'));
 
 const besøkte = new Set();
 const kø = [START_URL];

@@ -2,7 +2,8 @@
 // Verdier kan overstyres via kommandolinjeargumenter eller miljøvariabler.
 
 export const START_URL  = process.argv[2] || process.env.TEST_URL   || 'https://tilskudd.fiks.ks.no/';
-export const RAPPORTDIR = process.env.OUTPUT_DIR || null;
+export const RAPPORTDIR        = process.env.OUTPUT_DIR       || null;
+export const GITHUB_PAGES_AUTH = process.env.GITHUB_PAGES_AUTH || null;
 
 export const MAX_SIDER    = parseInt(process.argv[3]) || parseInt(process.env.MAX_SIDER)    || 20;
 export const ITERASJONER  = parseInt(process.argv[3]) || parseInt(process.env.ITERASJONER)  || 60;

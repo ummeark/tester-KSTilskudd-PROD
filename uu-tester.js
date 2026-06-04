@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { START_URL, MAX_SIDER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, LAST_TIMEOUT, LINK_TIMEOUT, RAPPORTDIR } from './config.js';
+import { START_URL, MAX_SIDER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, LAST_TIMEOUT, LINK_TIMEOUT, RAPPORTDIR, GITHUB_PAGES_AUTH } from './config.js';
 import { hentVersjon } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,12 +19,20 @@ console.log(`\n🔍 Starter UU-analyse av: ${START_URL}`);
 console.log(`📅 Dato: ${dato}`);
 console.log(`📄 Maks antall sider: ${MAX_SIDER}\n`);
 
+const authFile = path.join(__dirname, 'prod-auth.json');
+const harAuth = fs.existsSync(authFile);
+if (harAuth) console.log('🔐 Bruker lagret PROD-innlogging (prod-auth.json)');
+else console.log('ℹ️  Kjører uten innlogging (kjør npm run login-prod for å logge inn)');
+
 const browser = await chromium.launch();
 const nettleser = browser.version();
 const context = await browser.newContext({
   userAgent: 'Mozilla/5.0 UU-Tester/1.0',
-  viewport: VIEWPORT
+  viewport: VIEWPORT,
+  ...(harAuth ? { storageState: authFile } : {})
 });
+
+if (GITHUB_PAGES_AUTH) await context.addInitScript(() => sessionStorage.setItem('ks-auth', '1'));
 
 const versjon = await hentVersjon(context, START_URL);
 
