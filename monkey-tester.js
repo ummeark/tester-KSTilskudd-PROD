@@ -452,6 +452,7 @@ const html = `<!DOCTYPE html>
       <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
       <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
       <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="brukerhistorie-rapport.html" class="knapp sekundær">Brukerhistorier</a>
       <a href="arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
     </div>
   </div>
