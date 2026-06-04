@@ -743,19 +743,21 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     </a></li>`
   ).join('');
 
-  const sideDetaljer = sider.map((side, i) => `
-    <div class="side-seksjon" id="side-${i}">
-      <div class="side-header">
+  const sideDetaljer = sider.map((side, i) => {
+    const harProblemer = side.wcag.brudd > 0 || side.lenker.døde.length > 0;
+    return `
+    <details class="side-seksjon" id="side-${i}"${harProblemer ? ' open' : ''}>
+      <summary class="side-header">
         <div>
           <h2>${side.tittel || '(ingen tittel)'}</h2>
-          <a href="${side.url}" target="_blank" class="side-url-link">${side.url}</a>
+          <a href="${side.url}" target="_blank" class="side-url-link" onclick="event.stopPropagation()">${side.url}</a>
         </div>
         <div class="side-score-badges">
           ${badge(side.wcag.kritiske, 'critical', 'kritiske')}
           ${badge(side.wcag.alvorlige, 'serious', 'alvorlige')}
           ${badge(side.lenker.døde.length, 'dead', 'døde lenker')}
         </div>
-      </div>
+      </summary>
 
       <!-- WCAG-brudd med skjermdumper -->
       <div class="wcag-seksjon">
@@ -878,8 +880,9 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
             </tr>`).join('')}</tbody></table>`}
         </div>
       </div>
-    </div>
-  `).join('');
+    </details>
+  `;
+  }).join('');
 
   return `<!DOCTYPE html>
 <html lang="no">
@@ -951,6 +954,11 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   .side-seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
   .side-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.4rem;padding-bottom:1.2rem;border-bottom:1px solid #f4ecdf;flex-wrap:wrap;gap:.6rem}
   .side-header h2{font-size:1rem;font-weight:600;color:#0a1355}
+  summary.side-header{list-style:none;cursor:pointer;user-select:none}
+  summary.side-header::-webkit-details-marker{display:none}
+  details.side-seksjon:not([open]) summary.side-header{margin-bottom:0;padding-bottom:0;border-bottom:none}
+  summary.side-header::after{content:'▾ Vis detaljer';font-size:.68rem;color:#9ca3af;white-space:nowrap;align-self:center;flex-shrink:0}
+  details[open] summary.side-header::after{content:'▴ Skjul'}
   .side-url-link{font-size:.78rem;color:#07604f;text-decoration:none;display:block;margin-top:.2rem}
   .side-url-link:hover{text-decoration:underline}
   .side-score-badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start}

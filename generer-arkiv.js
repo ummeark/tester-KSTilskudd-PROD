@@ -214,7 +214,15 @@ if (sisteDato) {
 // --- Hjelpefunksjoner ---
 
 function scoreKlasse(s) { return s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig'; }
-function visTid(v) { return v < 1000 ? `${Math.round(v)} ms` : `${(v / 1000).toFixed(1)} s`; }
+function visTid(v) { return v < 1000 ? `${v} ms` : `${(v / 1000).toFixed(1)} s`; }
+
+function isoUke(datoStr) {
+  const d = new Date(datoStr);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  const jan4 = new Date(d.getFullYear(), 0, 4);
+  return 1 + Math.round(((d - jan4) / 86400000 - 3 + (jan4.getDay() + 6) % 7) / 7);
+}
 
 const norskDato = (dato) => new Date(dato).toLocaleDateString('nb-NO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
@@ -249,12 +257,21 @@ function grafHTML(sistePerDato) {
 
   const sirkler = punkter.map((r, i) => {
     const x = xOf(i), y = yOf(r.score), cls = scoreKlasse(r.score);
-    const dato = r.dato.slice(5).replace('-', '/');
+    const dd = r.dato.slice(8), mm = r.dato.slice(5, 7), åå = r.dato.slice(2, 4);
+    const erFørst = i === 0;
+    const erSist = i === n - 1;
+    const årsskifte = erSist && r.dato.slice(0, 4) !== punkter[0].dato.slice(0, 4);
+    const dato = (erFørst || årsskifte) ? `${dd}/${mm}-${åå}` : `${dd}/${mm}`;
+    const erNestSist = i === n - 2 && n > 2;
+    const visLabel = !erNestSist && (erFørst || erSist || isoUke(r.dato) !== isoUke(punkter[i - 1].dato));
+    const datoEl = visLabel
+      ? `<text class="pkt-dato" x="${x}" y="${VH - 2}" text-anchor="middle">${dato}</text>`
+      : `<circle cx="${x}" cy="${VH - 10}" r="2.5" fill="#d1d5db"/>`;
     return `<a class="pkt-lenke" href="arkiv/${r.dato}/${r.rapportFil}" title="${norskDato(r.dato)}: ${r.score} poeng">
       <circle class="pkt-ring" cx="${x}" cy="${y}" r="14"/>
       <circle class="pkt ${cls}" cx="${x}" cy="${y}" r="6"/>
       <text class="pkt-score" x="${x}" y="${y - 11}" text-anchor="middle">${r.score}</text>
-      <text class="pkt-dato" x="${x}" y="${VH - 2}" text-anchor="middle">${dato}</text>
+      ${datoEl}
     </a>`;
   }).join('');
 

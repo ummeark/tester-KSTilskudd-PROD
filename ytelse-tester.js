@@ -4,7 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { START_URL, MAX_SIDER, VIEWPORT, RAPPORTDIR } from './config.js';
+import { START_URL, MAX_SIDER, VIEWPORT, LAST_TIMEOUT, RAPPORTDIR } from './config.js';
 const dato = new Date().toISOString().slice(0, 10);
 const tidspunkt = new Date().toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit' });
 const rapportDir = RAPPORTDIR ? path.join(RAPPORTDIR, dato) : path.join(__dirname, 'rapporter', dato);
@@ -83,7 +83,7 @@ while (kø.length > 0 && sideResultater.length < MAX_SIDER) {
   let lenker = [];
 
   try {
-    await page.goto(url, { waitUntil: 'load', timeout: 30000 });
+    await page.goto(url, { waitUntil: 'load', timeout: LAST_TIMEOUT });
     await page.waitForLoadState('networkidle').catch(() => {}); // gi LCP-observer tid til å registrere
 
     const data = await page.evaluate(() => {
