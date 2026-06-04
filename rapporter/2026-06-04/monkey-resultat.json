@@ -1,0 +1,111 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-06-04",
+  "versjon": "v0.6.2",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "iterasjoner": 60,
+    "siderBesøkt": 4,
+    "jsErrors": 0,
+    "konsollFeil": 14,
+    "nettverksFeil": 2,
+    "kritiske": 0,
+    "alvorlige": 0,
+    "varighet": 25
+  },
+  "score": 48,
+  "jsErrors": [],
+  "konsollFeil": [
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:77:54038)\n    at async Jt (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:65316)\n    at async r (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:67087)\n    at async Yt (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:67982)\n    at async Promise.all (index 1)\n    at async Xt (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:68864)\n    at async https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:84938",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-04T10:27:22.524Z"
+    },
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:77:54038)\n    at async Jt (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:65316)\n    at async r (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:67087)\n    at async Yt (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:67982)\n    at async Promise.all (index 1)\n    at async Xt (https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:68864)\n    at async https://tilskudd.fiks.ks.no/assets/index-SBc2ZcWs.js:10:84938",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-04T10:27:27.008Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-04T10:27:32.401Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:33.603Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:33.613Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:33.613Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:33.615Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:33.617Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:39.118Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:39.124Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:39.124Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:39.131Z"
+    },
+    {
+      "melding": "Failed to load resource: net::ERR_CERT_COMMON_NAME_INVALID",
+      "url": "https://login.idporten.no/authorize/selector",
+      "tid": "2026-06-04T10:27:39.137Z"
+    },
+    {
+      "melding": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-06-04T10:27:40.208Z"
+    }
+  ],
+  "nettverksFeil": [
+    {
+      "status": 404,
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-06-04T10:27:32.398Z"
+    },
+    {
+      "status": 404,
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "side": "https://tilskudd.fiks.ks.no/",
+      "tid": "2026-06-04T10:27:40.204Z"
+    }
+  ],
+  "interaksjoner": [],
+  "besøkte": [
+    "https://tilskudd.fiks.ks.no/",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=%220%22&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10"
+  ]
+}
