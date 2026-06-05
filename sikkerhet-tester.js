@@ -218,12 +218,40 @@ try {
   console.log(`  ⚠️ Kunne ikke laste siden: ${e.message}`);
 }
 
+// Cookies som tilhører PROD-portalen (tilskudd.fiks.ks.no / fiks.ks.no)
+const PROD_DOMENER = ['tilskudd.fiks.ks.no', 'fiks.ks.no'];
+const erProdCookie = (c) => PROD_DOMENER.some(d => (c.domain || '').includes(d));
+
+// Kjente unntak avklart med utviklerne:
+// - ingress-csrf: kan ikke være HttpOnly – må leses av JavaScript (design/standard)
+// - session SameSite=None: under vurdering av platform-teamet
+// - Øvrige cookies (ID-porten m.fl.): ikke i bruk i portalen, sjekkes ikke
+
 const cookies = await context.cookies();
 for (const cookie of cookies) {
+  if (!erProdCookie(cookie)) {
+    leggTilFunn('cookies', 'ok',
+      `Cookie "${cookie.name}" (${cookie.domain}) er fra ekstern leverandør – sjekkes ikke`,
+      'ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen',
+      START_URL
+    );
+    continue;
+  }
+
   const problemer = [];
-  if (!cookie.secure)   problemer.push('mangler Secure-flagg');
-  if (!cookie.httpOnly) problemer.push('mangler HttpOnly-flagg');
-  if (!cookie.sameSite || cookie.sameSite === 'None') problemer.push('SameSite er None eller ikke satt');
+  if (!cookie.secure) problemer.push('mangler Secure-flagg');
+
+  if (cookie.name === 'ingress-csrf') {
+    // Akseptert unntak: ingress-csrf må leses av JavaScript og kan ikke være HttpOnly
+  } else if (!cookie.httpOnly) {
+    problemer.push('mangler HttpOnly-flagg');
+  }
+
+  const sessionSamesiteUndtak = cookie.name === 'session' &&
+    (!cookie.sameSite || cookie.sameSite === 'None');
+  if (!sessionSamesiteUndtak && (!cookie.sameSite || cookie.sameSite === 'None')) {
+    problemer.push('SameSite er None eller ikke satt');
+  }
 
   if (problemer.length > 0) {
     leggTilFunn('cookies',
@@ -232,8 +260,24 @@ for (const cookie of cookies) {
       problemer.join(', '),
       START_URL
     );
+  } else if (cookie.name === 'ingress-csrf') {
+    leggTilFunn('cookies', 'lav',
+      `Cookie "ingress-csrf" mangler HttpOnly (akseptert)`,
+      'Må leses av JavaScript for CSRF-beskyttelse – HttpOnly er ikke mulig. Dette er standarden.',
+      START_URL
+    );
+  } else if (sessionSamesiteUndtak) {
+    leggTilFunn('cookies', 'lav',
+      `Cookie "session" har SameSite=None (avventes – platform-teamet avgjør)`,
+      'Platform-teamet er kontaktet og avgjør om dette skal utbedres.',
+      START_URL
+    );
   } else {
-    leggTilFunn('cookies', 'ok', `Cookie "${cookie.name}" har korrekte sikkerhetsattributter`, 'Secure + HttpOnly + SameSite er satt', START_URL);
+    leggTilFunn('cookies', 'ok',
+      `Cookie "${cookie.name}" har korrekte sikkerhetsattributter`,
+      'Secure + HttpOnly + SameSite er satt',
+      START_URL
+    );
   }
 }
 
