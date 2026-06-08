@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sikkerhetsrapport – 2026-06-08 11:28</title>
+<title>Sikkerhetsrapport – 2026-06-08 14:38</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -74,7 +74,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Sikkerhetstester</div>
     <div class="env-badge">PRODUKSJON · v0.6.2</div>
-    <h1>Sikkerhetsrapport <span>2026-06-08 11:28</span></h1>
+    <h1>Sikkerhetsrapport <span>2026-06-08 14:38</span></h1>
   </div>
   <ul><li><a href="#hoder" class="sidenav-link ok">
     <span class="sidenavn">📋 HTTP-sikkerhetshoder</span>
@@ -90,7 +90,7 @@
     <span class="side-badge">1 funn</span>
   </a></li><li><a href="#cookies" class="sidenav-link ok">
     <span class="sidenavn">🍪 Cookie-sikkerhet</span>
-    <span class="side-badge">✅ Bestått</span>
+    <span class="side-badge">2 funn</span>
   </a></li><li><a href="#mixed-content" class="sidenav-link ok">
     <span class="sidenavn">🔀 Mixed content</span>
     <span class="side-badge">✅ Bestått</span>
@@ -106,7 +106,7 @@
   <div class="rapport-header">
     <div>
       <h1>Sikkerhetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-08 11:28 · 6s · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-08 14:38 · 3s · Chromium 148</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -160,10 +160,10 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel god">82</div>
+    <div class="score-sirkel middels">78</div>
     <div class="score-tekst">
       <strong>Sikkerhetsscore</strong>
-      <p>Basert på 5 funn fordelt på 8 testområder. Testen er passiv og ikke-destruktiv.</p>
+      <p>Basert på 7 funn fordelt på 8 testområder. Testen er passiv og ikke-destruktiv.</p>
     </div>
   </div>
 
@@ -171,8 +171,8 @@
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Kritiske</div></div>
     <div class="kort advarsel"><div class="tall">1</div><div class="etikett">Alvorlige</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Moderate</div></div>
-    <div class="kort nøytral"><div class="tall">4</div><div class="etikett">Lave</div></div>
-    <div class="kort ok"><div class="tall">8</div><div class="etikett">Bestått</div></div>
+    <div class="kort nøytral"><div class="tall">6</div><div class="etikett">Lave</div></div>
+    <div class="kort ok"><div class="tall">23</div><div class="etikett">Bestått</div></div>
   </div>
 
   
@@ -260,9 +260,35 @@
     
   </div>
   <div class="seksjon" id="cookies">
-    <div class="seksjon-tittel">🍪 Cookie-sikkerhet (0 funn)</div>
-    <div class="wcag-ok">Ingen funn i denne kategorien</div>
+    <div class="seksjon-tittel">🍪 Cookie-sikkerhet (2 funn)</div>
     
+  <div class="brudd-kort" style="border-left-color:#4b5563">
+    <div class="brudd-header">
+      <div>
+        <span class="badge lav">lav</span>
+        <span class="regel-desc">Cookie "ingress-csrf" mangler HttpOnly (akseptert)</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">Må leses av JavaScript for CSRF-beskyttelse – HttpOnly er ikke mulig. Dette er standarden.</p>
+    
+    
+  </div>
+  <div class="brudd-kort" style="border-left-color:#4b5563">
+    <div class="brudd-header">
+      <div>
+        <span class="badge lav">lav</span>
+        <span class="regel-desc">Cookie "session" har SameSite=None (avventes – platform-teamet avgjør)</span>
+      </div>
+    </div>
+    <p class="brudd-hjelp">Platform-teamet er kontaktet og avgjør om dette skal utbedres.</p>
+    
+    
+  </div>
+    <details style="margin-top:.8rem"><summary style="font-size:.78rem;color:#07604f;cursor:pointer;padding:.4rem 0">✅ 15 sjekk bestått</summary>
+    <ul style="list-style:none;margin-top:.5rem;display:flex;flex-direction:column;gap:.3rem">
+      <li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "AUTH_SESSION_ID" (auth.bankid.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "clientfile" (csfe.bankid.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "KEYCLOAK_IDENTITY" (auth.bankid.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "777e248e83cb207c879159ce2789c43b" (login.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIGipServer~DIGILB01~pool_digdir_idporten.no_https" (login.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "0260dc82f58fc9f938d67c7fc5f66b20" (static.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIGipServer~DIGILB01~pool_digdir_idporten.no_https" (static.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "JSESSIONID" (bankid-integration.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "6d5eef1a556f52fc55ba708f20b71ab6" (bankid-integration.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "BIGipServer~DIGILB01~pool_digdir_idporten.no_https" (bankid-integration.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "user_ai" (.app.bankid.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "user_rb" (.app.bankid.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "refresh_gui" (login.bankid.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "JSESSIONID" (login.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li><li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Cookie "IDPORTEN_AUTH" (login.idporten.no) er fra ekstern leverandør – sjekkes ikke — <span style="color:#6b7280">ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen</span></li>
+    </ul>
+  </details>
   </div>
   <div class="seksjon" id="mixed-content">
     <div class="seksjon-tittel">🔀 Mixed content (0 funn)</div>
@@ -325,7 +351,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-06-08 11:28</footer>
+  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-06-08 14:38</footer>
 </div>
 </body>
 </html>

@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UU-rapport – 2026-06-08 11:27</title>
+<title>UU-rapport – 2026-06-08 14:38</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -133,7 +133,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · UU-tester</div>
     <div class="env-badge">PRODUKSJON · v0.6.2</div>
-    <h1>Tilgjengelighetsrapport <span>2026-06-08 11:27 · 3 sider</span></h1>
+    <h1>Tilgjengelighetsrapport <span>2026-06-08 14:38 · 3 sider</span></h1>
   </div>
   <ul><li><a href="#side-0" class="sidenav-link har-brudd">
       <span class="sidenavn">KS Tilskudd - Hjem</span>
@@ -153,7 +153,7 @@
   <div class="rapport-header">
     <div>
       <h1>Tilgjengelighetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-08 11:27 · 3 sider testet · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-08 14:38 · 3 sider testet · Chromium 148</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -726,6 +726,440 @@
     </table>
   </div>
 
+  <div class="seksjon" id="ekstra-wcag" style="margin-top:2rem">
+    <div class="seksjon-tittel">🔎 Ekstra WCAG-sjekker (1.3.4, 1.4.13, 3.2.1, 3.2.2, 3.3.1)</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Sjekker av kriterier som ikke dekkes av axe-core: orientering (portrett/landskap), hover/fokus-innhold, uventet kontekstendring ved fokus og inndata, og feilidentifikasjon med aria-invalid.
+    </p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
+      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ 5 bestått</span>
+      
+      
+    </div>
+    <table>
+      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+      <tbody>
+        
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">1.3.4</code></td>
+          <td style="font-size:.83rem">Innhold tilgjengelig i begge orienteringer</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">—</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">1.4.13</code></td>
+          <td style="font-size:.83rem">Innhold ved pek eller fokus</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">Ingen tooltip-elementer (title-attributt) funnet</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">3.2.1</code></td>
+          <td style="font-size:.83rem">Fokus utløser ikke uventet kontekstendring</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">—</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">3.2.2</code></td>
+          <td style="font-size:.83rem">Inndata utløser ikke uventet kontekstendring</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">Ingen select-elementer funnet</td>
+        </tr>
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">3.3.1</code></td>
+          <td style="font-size:.83rem">Feilidentifikasjon – aria-invalid ved ugyldig input</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:#ecfdf5;color:#07604f">✅ bestått</span></td>
+          <td style="font-size:.78rem;color:#6b7280">Ingen skjema med påkrevde felt på forsiden</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
+    <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>⚠️ WCAG 2.1 sjekkliste – Uutilsynet</span>
+      <span style="font-size:.75rem;opacity:.5;font-weight:400;text-transform:none;letter-spacing:0">klikk for å utvide ▼</span>
+    </summary>
+    <div style="padding:1.2rem 1.5rem 1.5rem;border-top:1px solid #f4ecdf">
+      <p style="font-size:.83rem;color:#374151;margin-bottom:1rem;line-height:1.6">
+        Fullstendig dekning mot <strong>Uutilsynets WCAG 2.1-sjekkliste</strong> (48 kriterier). Automatiserte verktøy dekker ~40 % – resten krever manuell testing.
+      </p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.82rem">
+        <span style="background:#ecfdf5;color:#07604f;padding:.25rem .8rem;border-radius:100px;font-weight:600">✅ 19 automatisk dekket</span>
+        <span style="background:#f3dda2;color:#713f12;padding:.25rem .8rem;border-radius:100px;font-weight:600">⚠️ 10 delvis dekket</span>
+        <span style="background:#f3f4f6;color:#374151;padding:.25rem .8rem;border-radius:100px;font-weight:600">❌ 19 ikke dekket (manuell)</span>
+      </div>
+      
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 1 – Mulig å oppfatte</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.1.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ikke-tekstlig innhold</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.2.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bare lyd og bare video (forhåndsinnspilt)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell gjennomgang av media</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.2.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Teksting (forhåndsinnspilt)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell gjennomgang av video</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.2.5</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Synstolking (forhåndsinnspilt)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell gjennomgang av video</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.3.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Informasjon og relasjoner</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (label, heading, landmark)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.3.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Meningsfull rekkefølge</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (delvis – visuell rekkefølge ikke dekket)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.3.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Sensoriske egenskaper</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.3.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Orientering</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (portrett + landskap)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.3.5</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Identifiser formål med inndata</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core autocomplete-valid (delvis)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bruk av farge</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell – fargebruk som eneste markør</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Lydkontroll</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell – ingen lyd/video-innhold testet</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Kontrast (minimum)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (color-contrast)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Endring av tekststørrelse</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Reflow-test dekker zoom delvis; 200 % ikke sjekket</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.5</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bilder av tekst</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core oppdager ikke tekst i bilder</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.10</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Dynamisk tilpasning (reflow)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (320px)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.11</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Kontrast for ikke-tekstlig innhold</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (non-text-contrast)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.12</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tekstmellomrom</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (stilinjeksjon)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">1.4.13</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Innhold ved pek eller fokus</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test – title-attributter sjekket, full atferd krever manuell verifisering</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 2 – Mulig å betjene</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.1.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tastatur</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (Tab-rekkevidden + Enter) – full funksjonstestning krever manuell sjekk</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.1.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ingen tastaturfelle</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.1.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tegntaster som snarvei</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Tastatursnarveger testes ikke</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.2.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Justerbar tidsbegrensning</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Tidsavbrudd testes ikke</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.2.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Pause, stopp, skjul</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Animasjoner og bevegelig innhold testes ikke</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.3.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tre glimt eller under terskel</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Blinkende innhold analyseres ikke</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Hoppe over blokker</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (skiplink)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Sidetittel</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (document-title)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Fokusrekkefølge</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">tabindex > 0 sjekkes – logisk rekkefølge i flertrinnsskjema krever manuell sjekk</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Formål med lenke</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (link-name)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.5</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Flere måter</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering (søk, nettstedskart osv.)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.6</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Overskrifter og ledetekster</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (heading-order) – meningsinnhold ikke vurdert</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.4.7</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Synlig fokus</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.5.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Pekerbevegelser</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Flerfingergestuser testes ikke</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.5.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Avbrytelse ved pekeraktivering</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Testes ikke</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.5.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ledetekst i navn</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (label-content-name-mismatch)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">2.5.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bevegelsesaktivering</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Testes ikke</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 3 – Mulig å forstå</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.1.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Språk på siden</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (html-has-lang, html-lang-valid)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.1.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Språk på deler av innhold</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core sjekker lang-attributt delvis</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.2.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Fokus</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (Tab utløser ikke uventet navigasjon)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.2.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Inndata</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (select-endring utløser ikke uventet navigasjon)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.2.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Konsekvent navigasjon</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering på tvers av sider</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.2.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Konsekvent identifikasjon</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.3.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Identifikasjon av feil</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (aria-invalid + live-regions) – dekker ikke alle feilscenarier</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.3.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ledetekster og instruksjoner</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (label)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.3.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Feilforslag</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Kvalitet på feilmeldinger krever manuell vurdering</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">3.3.4</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Feilforebygging</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Bekreftelse/angringsmulighet testes ikke</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 4 – Robust</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">4.1.1</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Parsing</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (duplicate-id, HTML-validering)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">4.1.2</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Navn, rolle, verdi</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (button-name, aria-*, frame-title)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">4.1.3</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Statusmeldinger</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core sjekker aria-live-regioner delvis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
   
 
   <div class="seksjon" style="margin-top:2rem">
@@ -744,6 +1178,8 @@
       <span style="color:#374151">Reflow-feil (1.4.10)</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
       <span style="color:#374151">Reflow-advarsel</span><span style="color:#9a3412;font-weight:700">× 3 poeng</span>
       <span style="color:#374151">Tekstmellomrom-advarsel (1.4.12)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-feil</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-advarsel</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
@@ -774,7 +1210,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-06-08 11:27</footer>
+  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-06-08 14:38</footer>
 </div>
 </body>
 </html>

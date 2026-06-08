@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Monkey-testrapport – 2026-06-08 11:27</title>
+<title>Monkey-testrapport – 2026-06-08 14:38</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -82,7 +82,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
     <div class="env-badge">PRODUKSJON · v0.6.2</div>
-    <h1>Monkey-testrapport <span>2026-06-08 11:27 · 60 iterasjoner</span></h1>
+    <h1>Monkey-testrapport <span>2026-06-08 14:38 · 60 iterasjoner</span></h1>
   </div>
   <ul><li><a href="#sammendrag" class="sidenav-link ">
     <span class="sidenavn">Sammendrag</span>
@@ -92,23 +92,23 @@
     <span class="side-badge">0 funn</span>
   </a></li><li><a href="#konsoll" class="sidenav-link har-brudd">
     <span class="sidenavn">Konsoll-feil</span>
-    <span class="side-badge">4 funn</span>
-  </a></li><li><a href="#nettverk" class="sidenav-link har-brudd">
+    <span class="side-badge">2 funn</span>
+  </a></li><li><a href="#nettverk" class="sidenav-link ok">
     <span class="sidenavn">Nettverksfeil</span>
-    <span class="side-badge">3 funn</span>
+    <span class="side-badge">0 funn</span>
   </a></li><li><a href="#interaksjoner" class="sidenav-link ok">
     <span class="sidenavn">Interaksjonsfunn</span>
     <span class="side-badge">0 funn</span>
   </a></li><li><a href="#sider" class="sidenav-link ">
     <span class="sidenavn">Sider besøkt</span>
-    <span class="side-badge">4 funn</span>
+    <span class="side-badge">5 funn</span>
   </a></li></ul>
 </nav>
 <div class="hoveddel">
   <div class="rapport-header">
     <div>
       <h1>Monkey-testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-08 11:27 · 50s · 60 tilfeldige handlinger · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-06-08 14:38 · 39s · 60 tilfeldige handlinger · Chromium 148</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -163,19 +163,19 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel middels">73</div>
+    <div class="score-sirkel god">94</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 4 sider. Lavere score indikerer ustabilitet.</p>
+      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 5 sider. Lavere score indikerer ustabilitet.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">60</div><div class="etikett">Iterasjoner</div></div>
-    <div class="kort ok"><div class="tall">4</div><div class="etikett">Sider besøkt</div></div>
+    <div class="kort ok"><div class="tall">5</div><div class="etikett">Sider besøkt</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">JS-feil</div></div>
-    <div class="kort advarsel"><div class="tall">4</div><div class="etikett">Konsoll-feil</div></div>
-    <div class="kort advarsel"><div class="tall">3</div><div class="etikett">Nettverksfeil</div></div>
+    <div class="kort advarsel"><div class="tall">2</div><div class="etikett">Konsoll-feil</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">Nettverksfeil</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Kritiske funn</div></div>
   </div>
 
@@ -187,24 +187,17 @@
 
   <!-- Konsoll-feil -->
   <div class="seksjon" id="konsoll">
-    <div class="seksjon-tittel">Konsoll-feil (4)</div>
+    <div class="seksjon-tittel">Konsoll-feil (2)</div>
     <table><thead><tr><th>Tidspunkt</th><th>Melding</th><th>URL</th></tr></thead><tbody>
           <tr>
-            <td style="white-space:nowrap">11:27:45</td>
-            <td>Failed to load resource: the server responded with a status of 404 (Not Found)</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">11:28:16</td>
+            <td style="white-space:nowrap">12:38:14</td>
             <td>TypeError: Cannot read properties of undefined (reading 'code')
     at loader (https://tilskudd.fiks.ks.no/assets/index-</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
+            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=+++&currentPage=1&pageSize=10</td>
           </tr><tr>
-            <td style="white-space:nowrap">11:28:16</td>
-            <td>Failed to load resource: the server responded with a status of 404 (Not Found)</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-          </tr><tr>
-            <td style="white-space:nowrap">11:28:16</td>
-            <td>Failed to load resource: the server responded with a status of 404 (Not Found)</td>
+            <td style="white-space:nowrap">12:38:47</td>
+            <td>TypeError: Cannot read properties of undefined (reading 'code')
+    at loader (https://tilskudd.fiks.ks.no/assets/index-</td>
             <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
           </tr>
         </tbody></table>
@@ -212,22 +205,8 @@
 
   <!-- Nettverksfeil -->
   <div class="seksjon" id="nettverk">
-    <div class="seksjon-tittel">Nettverksfeil (3)</div>
-    <table><thead><tr><th>Status</th><th>URL</th><th>Fra side</th></tr></thead><tbody>
-          <tr>
-            <td><span class="badge alvorlig">404</span></td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
-          </tr><tr>
-            <td><span class="badge alvorlig">404</span></td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
-          </tr><tr>
-            <td><span class="badge alvorlig">404</span></td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/</td>
-          </tr>
-        </tbody></table>
+    <div class="seksjon-tittel">Nettverksfeil (0)</div>
+    <div class="wcag-ok">Ingen HTTP 4xx/5xx-svar oppdaget</div>
   </div>
 
   <!-- Interaksjonsfunn -->
@@ -238,9 +217,9 @@
 
   <!-- Sider besøkt -->
   <div class="seksjon" id="sider">
-    <div class="seksjon-tittel">Sider besøkt (4)</div>
+    <div class="seksjon-tittel">Sider besøkt (5)</div>
     <ul class="url-liste">
-      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=%2299999999999999999999%22&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=%2299999999999999999999%22&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</li>
+      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=+++&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=+++&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=rzx6pynt0rg+ntkngikq2fh+khjkvzra6qo+iemw50e0oqi+1ipx7ethrzl+17cqgzp8qxzj+ph5ern8xnc+2z3g9q3m01a&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=rzx6pynt0rg+ntkngikq2fh+khjkvzra6qo+iemw50e0oqi+1ipx7ethrzl+17cqgzp8qxzj+ph5ern8xnc+2z3g9q3m01a&currentPage=1&pageSize=10</li>
     </ul>
   </div>
 
@@ -272,7 +251,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-06-08 11:27</footer>
+  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-06-08 14:38</footer>
 </div>
 </body>
 </html>
