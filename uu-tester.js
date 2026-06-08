@@ -639,6 +639,150 @@ async function kjørTekstmellomromSjekk(ctx, url) {
   return { tester, bestått, feil, advarsel };
 }
 
+// ── Ekstra WCAG-sjekker (1.3.4, 1.4.13, 3.2.1, 3.2.2, 3.3.1) ──────────────
+
+async function kjørEkstraWcagSjekker(ctx, url) {
+  console.log('\n🔎 Kjører ekstra WCAG-sjekker...');
+  const tester = [];
+  const page = await ctx.newPage();
+
+  function add(kategori, wcag, navn, resultat, detalj = '') {
+    tester.push({ kategori, wcag, navn, resultat, detalj });
+    const ikon = { bestått: '✅', feil: '❌', advarsel: '⚠️' }[resultat] || '⚪';
+    console.log(`  ${ikon} [${wcag}] ${navn}${detalj ? ` – ${detalj}` : ''}`);
+  }
+
+  try {
+    // 1.3.4 Orientering
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+    const portraitScroll = await page.evaluate(() =>
+      document.documentElement.scrollWidth > document.documentElement.clientWidth + 5
+    );
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+    const landscapeScroll = await page.evaluate(() =>
+      document.documentElement.scrollWidth > document.documentElement.clientWidth + 5
+    );
+    if (portraitScroll || landscapeScroll) {
+      add('orientering', '1.3.4', 'Innhold tilgjengelig i begge orienteringer', 'advarsel',
+        `Horisontal rulling ved ${[portraitScroll && 'portrett', landscapeScroll && 'landskap'].filter(Boolean).join(' og ')}`);
+    } else {
+      add('orientering', '1.3.4', 'Innhold tilgjengelig i begge orienteringer', 'bestått');
+    }
+
+    // 1.4.13 Innhold ved pek eller fokus
+    await page.setViewportSize(VIEWPORT);
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+    const tooltipKandidater = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('[title]:not(iframe):not(link):not(meta):not(script)'))
+        .filter(el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; })
+        .map(el => ({
+          selector: el.id ? `#${el.id}` : el.tagName.toLowerCase(),
+          verdi: (el.getAttribute('title') || '').slice(0, 50)
+        })).slice(0, 5)
+    );
+    if (tooltipKandidater.length === 0) {
+      add('hover-fokus', '1.4.13', 'Innhold ved pek eller fokus', 'bestått', 'Ingen tooltip-elementer (title-attributt) funnet');
+    } else {
+      for (const k of tooltipKandidater.slice(0, 2)) {
+        try {
+          await page.locator(k.selector).first().hover({ timeout: 2000 });
+          await page.keyboard.press('Escape');
+        } catch {}
+      }
+      add('hover-fokus', '1.4.13', 'Innhold ved pek eller fokus', 'advarsel',
+        `${tooltipKandidater.length} tooltip-element(er) med title-attributt – krever manuell verifisering av hover-atferd og Escape-avvisning`);
+    }
+
+    // 3.2.1 Fokus (uventet kontekstendring)
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+    const urlFør321 = page.url();
+    let uventetNavigasjon321 = false;
+    for (let i = 0; i < 15 && !uventetNavigasjon321; i++) {
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(150);
+      const nåUrl = page.url();
+      if (nåUrl !== urlFør321 && !nåUrl.includes('/authorize/') && !nåUrl.includes('idporten')) {
+        uventetNavigasjon321 = true;
+      }
+    }
+    if (uventetNavigasjon321) {
+      add('fokus-kontekst', '3.2.1', 'Fokus utløser ikke uventet kontekstendring', 'feil',
+        `Uventet navigasjon ved Tab: ${page.url()}`);
+    } else {
+      add('fokus-kontekst', '3.2.1', 'Fokus utløser ikke uventet kontekstendring', 'bestått');
+    }
+
+    // 3.2.2 Inndata (uventet kontekstendring ved select-endring)
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+    const urlFør322 = page.url();
+    const antallSelect = await page.locator('select').count();
+    let uventetNavigasjon322 = false;
+    if (antallSelect > 0) {
+      const sel = page.locator('select').first();
+      const antallOptions = await sel.locator('option').count();
+      if (antallOptions > 1) {
+        await sel.selectOption({ index: 1 });
+        await page.waitForTimeout(500);
+        const nåUrl = page.url();
+        if (nåUrl !== urlFør322 && !nåUrl.includes('/authorize/')) uventetNavigasjon322 = true;
+      }
+    }
+    if (uventetNavigasjon322) {
+      add('inndata-kontekst', '3.2.2', 'Inndata utløser ikke uventet kontekstendring', 'feil',
+        'Navigasjon utløst av select-endring uten brukerbekreftelse');
+    } else {
+      add('inndata-kontekst', '3.2.2', 'Inndata utløser ikke uventet kontekstendring', 'bestått',
+        antallSelect > 0 ? `${antallSelect} select-element(er) sjekket` : 'Ingen select-elementer funnet');
+    }
+
+    // 3.3.1 Feilidentifikasjon (aria-invalid ved ugyldig input)
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: SIDE_TIMEOUT });
+    const skjemaInfo = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('form')).map(form => ({
+        harPåkrevde: form.querySelectorAll('[required],[aria-required="true"]').length > 0,
+        antall: form.querySelectorAll('[required],[aria-required="true"]').length
+      }))
+    );
+    const skjemaMedPåkrevde = skjemaInfo.filter(s => s.harPåkrevde);
+    if (skjemaMedPåkrevde.length === 0) {
+      add('feilidentifikasjon', '3.3.1', 'Feilidentifikasjon – aria-invalid ved ugyldig input', 'bestått',
+        'Ingen skjema med påkrevde felt på forsiden');
+    } else {
+      const submitBtn = page.locator('button[type="submit"],input[type="submit"]').first();
+      if (await submitBtn.count() > 0) {
+        await submitBtn.click({ timeout: 3000 }).catch(() => {});
+        await page.waitForTimeout(600);
+        const ariaInvalid = await page.locator('[aria-invalid="true"]').count();
+        const liveRegioner = await page.locator('[role="alert"],[aria-live="assertive"],[aria-live="polite"]').count();
+        if (ariaInvalid > 0) {
+          add('feilidentifikasjon', '3.3.1', 'Feilidentifikasjon – aria-invalid ved ugyldig input', 'bestått',
+            `${ariaInvalid} felt med aria-invalid="true" etter tom innsending`);
+        } else if (liveRegioner > 0) {
+          add('feilidentifikasjon', '3.3.1', 'Feilidentifikasjon – aria-invalid ved ugyldig input', 'advarsel',
+            `Feilmeldinger vises (${liveRegioner} live-region(er)), men ingen aria-invalid på feltene`);
+        } else {
+          add('feilidentifikasjon', '3.3.1', 'Feilidentifikasjon – aria-invalid ved ugyldig input', 'advarsel',
+            'Påkrevde felt funnet, men ingen aria-invalid eller live-regions etter tom innsending');
+        }
+      } else {
+        add('feilidentifikasjon', '3.3.1', 'Feilidentifikasjon – aria-invalid ved ugyldig input', 'bestått',
+          `${skjemaMedPåkrevde[0].antall} påkrevde felt funnet, ingen synlig submit-knapp`);
+      }
+    }
+  } catch (e) {
+    console.log(`  ⚠️  Ekstra WCAG-sjekk feilet: ${e.message.slice(0, 80)}`);
+  } finally {
+    await page.close();
+  }
+
+  const bestått = tester.filter(t => t.resultat === 'bestått').length;
+  const feil    = tester.filter(t => t.resultat === 'feil').length;
+  const advarsel = tester.filter(t => t.resultat === 'advarsel').length;
+  return { tester, bestått, feil, advarsel };
+}
+
 // Crawl alle sider
 while (kø.length > 0 && besøkte.size < MAX_SIDER) {
   const url = kø.shift();
@@ -661,6 +805,7 @@ while (kø.length > 0 && besøkte.size < MAX_SIDER) {
 const tastatur = await kjørTastaturSjekker(context, START_URL);
 const reflow = await kjørReflowSjekk(context, START_URL);
 const tekstmellomrom = await kjørTekstmellomromSjekk(context, START_URL);
+const ekstraWcag = await kjørEkstraWcagSjekker(context, START_URL);
 
 await browser.close();
 
@@ -685,13 +830,15 @@ const totalt = {
   reflowAdvarsel: reflow.advarsel,
   tekstmellomromFeil: tekstmellomrom.feil,
   tekstmellomromAdvarsel: tekstmellomrom.advarsel,
+  ekstraFeil: ekstraWcag.feil,
+  ekstraAdvarsel: ekstraWcag.advarsel,
 };
 
 // Lagre JSON (uten bildedata for å holde størrelsen nede)
-fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
+fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, ekstraWcag, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -711,6 +858,7 @@ console.log(`📝 Skjemafelt:       ${totalt.skjemafelt} (${farge(totalt.feltUte
 console.log(`⌨️  Tastatur:         ${tastatur.bestått} bestått · ${farge(tastatur.advarsel, 0, 0, 2)} adv. · ${farge(tastatur.feil, 0, 0, 1)} feil`);
 console.log(`📱 Reflow (1.4.10):  ${reflow.bestått} bestått · ${farge(reflow.advarsel, 0, 0, 2)} adv. · ${farge(reflow.feil, 0, 0, 1)} feil`);
 console.log(`📐 Tekstmellomrom:   ${tekstmellomrom.bestått} bestått · ${farge(tekstmellomrom.advarsel, 0, 0, 2)} adv. · ${farge(tekstmellomrom.feil, 0, 0, 1)} feil`);
+console.log(`🔎 Ekstra WCAG:      ${ekstraWcag.bestått} bestått · ${farge(ekstraWcag.advarsel, 0, 0, 2)} adv. · ${farge(ekstraWcag.feil, 0, 0, 1)} feil`);
 console.log('━'.repeat(60));
 console.log(`\n📁 HTML-rapport: ${path.join(rapportDir, 'uu-rapport.html')}\n`);
 const { exec } = await import('child_process');
@@ -727,7 +875,7 @@ function escapeHtml(str) {
 }
 
 function scoreBeregn(t) {
-  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5 - (t.reflowFeil || 0) * 10 - (t.reflowAdvarsel || 0) * 3 - (t.tekstmellomromFeil || 0) * 8 - (t.tekstmellomromAdvarsel || 0) * 2);
+  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5 - (t.reflowFeil || 0) * 10 - (t.reflowAdvarsel || 0) * 3 - (t.tekstmellomromFeil || 0) * 8 - (t.tekstmellomromAdvarsel || 0) * 2 - (t.ekstraFeil || 0) * 10 - (t.ekstraAdvarsel || 0) * 2);
 }
 
 function badge(n, klasse, tekst) {
@@ -739,7 +887,7 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = []) {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
@@ -1179,6 +1327,120 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     </table>
   </div>
 
+  <div class="seksjon" id="ekstra-wcag" style="margin-top:2rem">
+    <div class="seksjon-tittel">🔎 Ekstra WCAG-sjekker (1.3.4, 1.4.13, 3.2.1, 3.2.2, 3.3.1)</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Sjekker av kriterier som ikke dekkes av axe-core: orientering (portrett/landskap), hover/fokus-innhold, uventet kontekstendring ved fokus og inndata, og feilidentifikasjon med aria-invalid.
+    </p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
+      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${ekstraWcag.bestått} bestått</span>
+      ${ekstraWcag.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${ekstraWcag.advarsel} advarsler</span>` : ''}
+      ${ekstraWcag.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${ekstraWcag.feil} feil</span>` : ''}
+    </div>
+    <table>
+      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+      <tbody>
+        ${ekstraWcag.tester.map(t => `
+        <tr>
+          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
+          <td style="font-size:.83rem">${t.navn}</td>
+          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
+          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+
+  <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
+    <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>⚠️ WCAG 2.1 sjekkliste – Uutilsynet</span>
+      <span style="font-size:.75rem;opacity:.5;font-weight:400;text-transform:none;letter-spacing:0">klikk for å utvide ▼</span>
+    </summary>
+    <div style="padding:1.2rem 1.5rem 1.5rem;border-top:1px solid #f4ecdf">
+      <p style="font-size:.83rem;color:#374151;margin-bottom:1rem;line-height:1.6">
+        Fullstendig dekning mot <strong>Uutilsynets WCAG 2.1-sjekkliste</strong> (48 kriterier). Automatiserte verktøy dekker ~40 % – resten krever manuell testing.
+      </p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.82rem">
+        <span style="background:#ecfdf5;color:#07604f;padding:.25rem .8rem;border-radius:100px;font-weight:600">✅ 19 automatisk dekket</span>
+        <span style="background:#f3dda2;color:#713f12;padding:.25rem .8rem;border-radius:100px;font-weight:600">⚠️ 10 delvis dekket</span>
+        <span style="background:#f3f4f6;color:#374151;padding:.25rem .8rem;border-radius:100px;font-weight:600">❌ 19 ikke dekket (manuell)</span>
+      </div>
+      ${[
+        { prinsipp: '1 – Mulig å oppfatte', rader: [
+          ['1.1.1','Ikke-tekstlig innhold','A','✅','axe-core'],
+          ['1.2.1','Bare lyd og bare video (forhåndsinnspilt)','A','❌','Manuell gjennomgang av media'],
+          ['1.2.2','Teksting (forhåndsinnspilt)','A','❌','Manuell gjennomgang av video'],
+          ['1.2.5','Synstolking (forhåndsinnspilt)','AA','❌','Manuell gjennomgang av video'],
+          ['1.3.1','Informasjon og relasjoner','A','✅','axe-core (label, heading, landmark)'],
+          ['1.3.2','Meningsfull rekkefølge','A','⚠️','axe-core (delvis – visuell rekkefølge ikke dekket)'],
+          ['1.3.3','Sensoriske egenskaper','A','❌','Manuell vurdering'],
+          ['1.3.4','Orientering','AA','✅','Egendefinert test (portrett + landskap)'],
+          ['1.3.5','Identifiser formål med inndata','AA','⚠️','axe-core autocomplete-valid (delvis)'],
+          ['1.4.1','Bruk av farge','A','❌','Manuell – fargebruk som eneste markør'],
+          ['1.4.2','Lydkontroll','A','❌','Manuell – ingen lyd/video-innhold testet'],
+          ['1.4.3','Kontrast (minimum)','AA','✅','axe-core (color-contrast)'],
+          ['1.4.4','Endring av tekststørrelse','AA','⚠️','Reflow-test dekker zoom delvis; 200 % ikke sjekket'],
+          ['1.4.5','Bilder av tekst','AA','❌','axe-core oppdager ikke tekst i bilder'],
+          ['1.4.10','Dynamisk tilpasning (reflow)','AA','✅','Egendefinert test (320px)'],
+          ['1.4.11','Kontrast for ikke-tekstlig innhold','AA','✅','axe-core (non-text-contrast)'],
+          ['1.4.12','Tekstmellomrom','AA','✅','Egendefinert test (stilinjeksjon)'],
+          ['1.4.13','Innhold ved pek eller fokus','AA','⚠️','Egendefinert test – title-attributter sjekket, full atferd krever manuell verifisering'],
+        ]},
+        { prinsipp: '2 – Mulig å betjene', rader: [
+          ['2.1.1','Tastatur','A','⚠️','Egendefinert test (Tab-rekkevidden + Enter) – full funksjonstestning krever manuell sjekk'],
+          ['2.1.2','Ingen tastaturfelle','A','✅','Egendefinert test'],
+          ['2.1.4','Tegntaster som snarvei','A','❌','Tastatursnarveger testes ikke'],
+          ['2.2.1','Justerbar tidsbegrensning','A','❌','Tidsavbrudd testes ikke'],
+          ['2.2.2','Pause, stopp, skjul','A','❌','Animasjoner og bevegelig innhold testes ikke'],
+          ['2.3.1','Tre glimt eller under terskel','A','❌','Blinkende innhold analyseres ikke'],
+          ['2.4.1','Hoppe over blokker','A','✅','Egendefinert test (skiplink)'],
+          ['2.4.2','Sidetittel','A','✅','axe-core (document-title)'],
+          ['2.4.3','Fokusrekkefølge','A','⚠️','tabindex > 0 sjekkes – logisk rekkefølge i flertrinnsskjema krever manuell sjekk'],
+          ['2.4.4','Formål med lenke','A','✅','axe-core (link-name)'],
+          ['2.4.5','Flere måter','AA','❌','Manuell vurdering (søk, nettstedskart osv.)'],
+          ['2.4.6','Overskrifter og ledetekster','AA','⚠️','axe-core (heading-order) – meningsinnhold ikke vurdert'],
+          ['2.4.7','Synlig fokus','AA','✅','Egendefinert test'],
+          ['2.5.1','Pekerbevegelser','A','❌','Flerfingergestuser testes ikke'],
+          ['2.5.2','Avbrytelse ved pekeraktivering','A','❌','Testes ikke'],
+          ['2.5.3','Ledetekst i navn','A','✅','axe-core (label-content-name-mismatch)'],
+          ['2.5.4','Bevegelsesaktivering','A','❌','Testes ikke'],
+        ]},
+        { prinsipp: '3 – Mulig å forstå', rader: [
+          ['3.1.1','Språk på siden','A','✅','axe-core (html-has-lang, html-lang-valid)'],
+          ['3.1.2','Språk på deler av innhold','AA','⚠️','axe-core sjekker lang-attributt delvis'],
+          ['3.2.1','Fokus','A','✅','Egendefinert test (Tab utløser ikke uventet navigasjon)'],
+          ['3.2.2','Inndata','A','✅','Egendefinert test (select-endring utløser ikke uventet navigasjon)'],
+          ['3.2.3','Konsekvent navigasjon','AA','❌','Manuell vurdering på tvers av sider'],
+          ['3.2.4','Konsekvent identifikasjon','AA','❌','Manuell vurdering'],
+          ['3.3.1','Identifikasjon av feil','A','⚠️','Egendefinert test (aria-invalid + live-regions) – dekker ikke alle feilscenarier'],
+          ['3.3.2','Ledetekster og instruksjoner','A','✅','axe-core (label)'],
+          ['3.3.3','Feilforslag','AA','❌','Kvalitet på feilmeldinger krever manuell vurdering'],
+          ['3.3.4','Feilforebygging','AA','❌','Bekreftelse/angringsmulighet testes ikke'],
+        ]},
+        { prinsipp: '4 – Robust', rader: [
+          ['4.1.1','Parsing','A','✅','axe-core (duplicate-id, HTML-validering)'],
+          ['4.1.2','Navn, rolle, verdi','A','✅','axe-core (button-name, aria-*, frame-title)'],
+          ['4.1.3','Statusmeldinger','AA','⚠️','axe-core sjekker aria-live-regioner delvis'],
+        ]},
+      ].map(({ prinsipp, rader }) => `
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp ${prinsipp}</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            ${rader.map((r, i) => `
+            <tr style="background:${i % 2 === 0 ? 'white' : '#fafaf9'}">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">${r[0]}</td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">${r[1]}</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:${r[2]==='A'?'#dbeafe':'#e0e7ff'};color:${r[2]==='A'?'#1e40af':'#3730a3'}">${r[2]}</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">${r[3]}</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">${r[4]}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>`).join('')}
+    </div>
+  </details>
+
   ${innloggingsSteg.length > 0 ? `
   <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
     <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
@@ -1225,6 +1487,8 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
       <span style="color:#374151">Reflow-feil (1.4.10)</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
       <span style="color:#374151">Reflow-advarsel</span><span style="color:#9a3412;font-weight:700">× 3 poeng</span>
       <span style="color:#374151">Tekstmellomrom-advarsel (1.4.12)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-feil</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-advarsel</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
