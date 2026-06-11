@@ -36,8 +36,17 @@ if (GITHUB_PAGES_AUTH) await context.addInitScript(() => sessionStorage.setItem(
 
 const versjon = await hentVersjon(context, START_URL);
 
+const testdata = {
+  bruker: harAuth ? 'prod-auth.json (lagret sesjon)' : 'ikke innlogget',
+  modus: harAuth ? 'lagret sesjon' : 'anonym',
+  viewport: `${VIEWPORT.width}×${VIEWPORT.height}`,
+  startUrl: START_URL,
+};
+
 const besøkte = new Set();
 const kø = [START_URL];
+const oppdagetFraMap = new Map();
+oppdagetFraMap.set(START_URL.replace(/\/$/, '') || START_URL, null);
 const sideResultater = [];
 let sideIndeks = 0;
 
@@ -102,12 +111,19 @@ async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
   }
 }
 
-async function analyserSide(url, indeks) {
+async function analyserSide(url, indeks, oppdagetFra = null) {
   const page = await context.newPage();
   try {
     await page.goto(url, { waitUntil: 'networkidle', timeout: LAST_TIMEOUT });
 
     const tittel = await page.title();
+
+    // Hent org.nr. hvis det vises på siden (f.eks. på søknadssider)
+    const orgnr = await page.evaluate(() => {
+      const tekst = document.body.innerText;
+      const m = tekst.match(/org(?:anisasjon)?(?:snummer)?[.:\s]*(\d{3}[\s]?\d{3}[\s]?\d{3})/i);
+      return m ? m[1].replace(/\s/g, '') : null;
+    }).catch(() => null);
 
     // Finn og ekskluder versjonsnummer-element (f.eks. v0.4.3 / v.0.4.3)
     // Bruker CSS-attributtvelger på klassenavn som inneholder "version" / "Version"
@@ -205,6 +221,11 @@ async function analyserSide(url, indeks) {
     const lenkeSjekk = await Promise.all(
       allelenker.map(async (l) => {
         if (!l.href || l.href.startsWith('mailto:') || l.href.startsWith('tel:') || l.href.startsWith('javascript:') || l.href.includes('/authorize/')) {
+          return { ...l, status: 'skip', ok: true };
+        }
+        // Personvernerklæring og Tilgjengelighetserklæring er ikke implementert ennå – hopp over når href er plassholder
+        if (/personvern(?:erklæring)?|tilgjengelighet(?:serklæring)?/i.test(l.tekst) &&
+            (l.href === '#' || l.href.startsWith('#') || l.href === '')) {
           return { ...l, status: 'skip', ok: true };
         }
         try {
@@ -307,6 +328,8 @@ async function analyserSide(url, indeks) {
 
     return {
       url, tittel,
+      oppdagetFra,
+      orgnr,
       wcag: {
         brudd: axe.violations.length,
         bestått: axe.passes.length,
@@ -792,12 +815,15 @@ while (kø.length > 0 && besøkte.size < MAX_SIDER) {
   sideIndeks++;
 
   console.log(`📄 [${besøkte.size}/${MAX_SIDER}] Analyserer: ${normUrl}`);
-  const resultat = await analyserSide(normUrl, sideIndeks);
+  const resultat = await analyserSide(normUrl, sideIndeks, oppdagetFraMap.get(normUrl) ?? null);
   if (resultat) {
     sideResultater.push(resultat);
     for (const lenke of resultat.internelenker) {
       const norm = lenke.replace(/\/$/, '');
-      if (!besøkte.has(norm) && !kø.includes(norm)) kø.push(norm);
+      if (!besøkte.has(norm) && !kø.includes(norm)) {
+        kø.push(norm);
+        if (!oppdagetFraMap.has(norm)) oppdagetFraMap.set(norm, normUrl);
+      }
     }
   }
 }
@@ -838,7 +864,7 @@ const totalt = {
 fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, ekstraWcag, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag, testdata));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -887,7 +913,7 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }) {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, testdata = {}) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
@@ -914,6 +940,15 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
           ${badge(side.lenker.døde.length, 'dead', 'døde lenker')}
         </div>
       </summary>
+
+      <!-- Testkontekst for denne siden -->
+      <div class="testdata-strip">
+        <span class="testdata-chip">🔐 Innlogging: ${escapeHtml(testdata.bruker || '—')}</span>
+        ${side.oppdagetFra
+          ? `<span class="testdata-chip">📍 Funnet via: ${escapeHtml(side.oppdagetFra.replace(url.replace(/\/$/, ''), '') || '/')}</span>`
+          : '<span class="testdata-chip">🚪 Startside</span>'}
+        ${side.orgnr ? `<span class="testdata-chip">🏢 Org.nr.: ${escapeHtml(side.orgnr)}</span>` : ''}
+      </div>
 
       <!-- WCAG-brudd med skjermdumper -->
       <div class="wcag-seksjon">
@@ -1119,6 +1154,10 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   .side-url-link:hover{text-decoration:underline}
   .side-score-badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start}
 
+  /* Testdata strip */
+  .testdata-strip{display:flex;gap:.5rem;flex-wrap:wrap;padding:.7rem 0 .9rem;border-bottom:1px solid #f4ecdf;margin-bottom:1rem}
+  .testdata-chip{display:inline-flex;align-items:center;gap:.25rem;background:#f4ecdf;color:#374151;padding:.18rem .65rem;border-radius:100px;font-size:.71rem;font-weight:500}
+
   /* WCAG sections */
   .wcag-seksjon{margin-bottom:1.6rem}
   .wcag-seksjon h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:1px solid #f4ecdf}
@@ -1241,6 +1280,25 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   <div class="score-kort">
     <div class="score-sirkel ${scoreKlasse}">${s}</div>
     <div class="score-tekst"><strong>UU-score</strong><p>Basert på WCAG-brudd, døde lenker og manglende labels på tvers av ${totalt.sider} sider. Klikk på skjermdumper for å forstørre.</p></div>
+  </div>
+
+  <div class="seksjon" style="padding:1rem 1.4rem;margin-bottom:1.5rem">
+    <div class="seksjon-tittel">🧪 Testkontekst</div>
+    <div style="display:flex;gap:2rem;flex-wrap:wrap;font-size:.83rem;color:#374151;align-items:flex-start">
+      <div>
+        <span style="font-weight:600;color:#0a1355;display:block;margin-bottom:.25rem">Innlogging</span>
+        <code style="color:#2b3285">${escapeHtml(testdata.bruker || '—')}</code>
+      </div>
+      <div>
+        <span style="font-weight:600;color:#0a1355;display:block;margin-bottom:.25rem">Viewport</span>
+        <code style="color:#2b3285">${escapeHtml(testdata.viewport || '—')}</code>
+        <span style="color:#6b7280;font-size:.78rem;margin-left:.4rem">px</span>
+      </div>
+      <div>
+        <span style="font-weight:600;color:#0a1355;display:block;margin-bottom:.25rem">Start-URL</span>
+        <a href="${escapeHtml(testdata.startUrl || url)}" target="_blank" style="color:#07604f;font-size:.82rem">${escapeHtml(testdata.startUrl || url)}</a>
+      </div>
+    </div>
   </div>
 
   <div class="kort-grid">
