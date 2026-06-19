@@ -22,3 +22,5 @@ export const KRASJ_ORD = [
   '500', 'Internal Server Error', 'Something went wrong',
   'Uventet feil', 'Oops', 'Ops!', '404 – Siden',
 ];
+
+export const FIREFOX_KRYSSSJEKK = process.env.FIREFOX_KRYSSSJEKK !== 'false';

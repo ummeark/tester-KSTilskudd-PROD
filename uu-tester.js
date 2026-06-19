@@ -1,9 +1,9 @@
-import { chromium } from 'playwright';
+import { chromium, firefox } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { START_URL, MAX_SIDER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, LAST_TIMEOUT, LINK_TIMEOUT, RAPPORTDIR, GITHUB_PAGES_AUTH } from './config.js';
+import { START_URL, MAX_SIDER, VIEWPORT, SIDE_TIMEOUT, IDLE_TIMEOUT, LAST_TIMEOUT, LINK_TIMEOUT, RAPPORTDIR, GITHUB_PAGES_AUTH, FIREFOX_KRYSSSJEKK } from './config.js';
 import { hentVersjon } from './lib/common.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -111,7 +111,7 @@ async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
   }
 }
 
-async function analyserSide(url, indeks, oppdagetFra = null) {
+async function analyserSide(url, indeks, oppdagetFra = null, tarScreenshots = true) {
   const page = await context.newPage();
   try {
     await page.goto(url, { waitUntil: 'networkidle', timeout: LAST_TIMEOUT });
@@ -177,15 +177,19 @@ async function analyserSide(url, indeks, oppdagetFra = null) {
     };
 
     // Ta skjermdump av hvert WCAG-brudd
-    console.log(`  📸 Tar skjermdumper av ${axe.violations.length} brudd...`);
     const violasjonerMedBilder = [];
-    for (let vi = 0; vi < axe.violations.length; vi++) {
-      const v = axe.violations[vi];
-      const selectors = v.nodes.flatMap(n => n.target).slice(0, 5);
-      const filnavn = `s${indeks}-${v.id.replace(/[^a-z0-9]/gi, '-')}-${vi}`;
-      const farge = v.impact === 'critical' ? '#dc3545' : v.impact === 'serious' ? '#fd7e14' : '#ffc107';
-      const bilder = await taSkjermdump(page, selectors, filnavn, farge);
-      violasjonerMedBilder.push({ ...v, bilder });
+    if (tarScreenshots) {
+      console.log(`  📸 Tar skjermdumper av ${axe.violations.length} brudd...`);
+      for (let vi = 0; vi < axe.violations.length; vi++) {
+        const v = axe.violations[vi];
+        const selectors = v.nodes.flatMap(n => n.target).slice(0, 5);
+        const filnavn = `s${indeks}-${v.id.replace(/[^a-z0-9]/gi, '-')}-${vi}`;
+        const farge = v.impact === 'critical' ? '#dc3545' : v.impact === 'serious' ? '#fd7e14' : '#ffc107';
+        const bilder = await taSkjermdump(page, selectors, filnavn, farge);
+        violasjonerMedBilder.push({ ...v, bilder });
+      }
+    } else {
+      axe.violations.forEach(v => violasjonerMedBilder.push({ ...v, bilder: null }));
     }
 
     // Finn interne lenker
@@ -244,7 +248,7 @@ async function analyserSide(url, indeks, oppdagetFra = null) {
 
     // Skjermdump av sider med døde lenker
     const dødeLenker = lenkeSjekk.filter(l => !l.ok && l.status !== 'skip');
-    if (dødeLenker.length > 0) {
+    if (dødeLenker.length > 0 && tarScreenshots) {
       const dødFil = `s${indeks}-doede-lenker`;
       const dødSelectors = dødeLenker.map(l => `a[href="${l.href}"]`).slice(0, 5);
       const dødBilder = await taSkjermdump(page, dødSelectors, dødFil, '#6c757d');
@@ -835,6 +839,92 @@ const ekstraWcag = await kjørEkstraWcagSjekker(context, START_URL);
 
 await browser.close();
 
+function beregnTotaltFraRun(sr, ta, re, te, ek) {
+  const alleVIds = sr.flatMap(s => (s.wcag?.detaljer ?? []).map(v => ({ id: v.id, impact: v.impact })));
+  return {
+    sider: sr.length,
+    wcagBrudd: sr.reduce((s, r) => s + r.wcag.brudd, 0),
+    kritiske: sr.reduce((s, r) => s + r.wcag.kritiske, 0),
+    alvorlige: sr.reduce((s, r) => s + r.wcag.alvorlige, 0),
+    moderate: sr.reduce((s, r) => s + r.wcag.moderate, 0),
+    mindre: sr.reduce((s, r) => s + r.wcag.mindre, 0),
+    uniqKritiske: new Set(alleVIds.filter(v => v.impact === 'critical').map(v => v.id)).size,
+    uniqAlvorlige: new Set(alleVIds.filter(v => v.impact === 'serious').map(v => v.id)).size,
+    uniqModerate: new Set(alleVIds.filter(v => v.impact === 'moderate').map(v => v.id)).size,
+    uniqMindre: new Set(alleVIds.filter(v => v.impact === 'minor').map(v => v.id)).size,
+    dødelenker: sr.reduce((s, r) => s + r.lenker.døde.length, 0),
+    knapper: sr.reduce((s, r) => s + r.knapper.length, 0),
+    knappUtenLabel: sr.reduce((s, r) => s + r.knapper.filter(k => !k.harLabel).length, 0),
+    bilder: sr.reduce((s, r) => s + r.bilder.length, 0),
+    bilderUtenAlt: sr.reduce((s, r) => s + r.bilder.filter(b => !b.harAlt).length, 0),
+    skjemafelt: sr.reduce((s, r) => s + r.skjemafelt.length, 0),
+    feltUtenLabel: sr.reduce((s, r) => s + r.skjemafelt.filter(f => !f.harLabel).length, 0),
+    tastaturFeil: ta.feil, tastaturAdvarsel: ta.advarsel,
+    reflowFeil: re.feil, reflowAdvarsel: re.advarsel,
+    tekstmellomromFeil: te.feil, tekstmellomromAdvarsel: te.advarsel,
+    ekstraFeil: ek.feil, ekstraAdvarsel: ek.advarsel,
+  };
+}
+
+let firefoxRun = null;
+if (FIREFOX_KRYSSSJEKK) {
+  console.log('\n🦊 Kjører Firefox full test...');
+  try {
+    const ffBrowser = await firefox.launch();
+    const ffCtx = await ffBrowser.newContext({
+      userAgent: 'Mozilla/5.0 UU-Tester/1.0 Firefox',
+      viewport: VIEWPORT,
+      ...(harAuth ? { storageState: authFile } : {})
+    });
+    if (GITHUB_PAGES_AUTH) await ffCtx.addInitScript(() => sessionStorage.setItem('ks-auth', '1'));
+
+    const ffBesøkte = new Set();
+    const ffKø = [START_URL];
+    const ffOppdagetFraMap = new Map();
+    ffOppdagetFraMap.set(START_URL.replace(/\/$/, '') || START_URL, null);
+    const ffSider = [];
+    let ffSideIndeks = 0;
+
+    while (ffKø.length > 0 && ffBesøkte.size < MAX_SIDER) {
+      const ffUrl = ffKø.shift();
+      const ffNorm = ffUrl.replace(/\/$/, '') || START_URL;
+      if (ffBesøkte.has(ffNorm)) continue;
+      ffBesøkte.add(ffNorm);
+      ffSideIndeks++;
+      console.log(`  🦊 [${ffBesøkte.size}/${MAX_SIDER}] Analyserer: ${ffNorm}`);
+      const res = await analyserSide(ffNorm, ffSideIndeks, ffOppdagetFraMap.get(ffNorm) ?? null, false);
+      if (res) {
+        ffSider.push(res);
+        for (const lenke of res.internelenker) {
+          const norm = lenke.replace(/\/$/, '');
+          if (!ffBesøkte.has(norm) && !ffKø.includes(norm)) {
+            ffKø.push(norm);
+            if (!ffOppdagetFraMap.has(norm)) ffOppdagetFraMap.set(norm, ffNorm);
+          }
+        }
+      }
+    }
+
+    const ffTastatur = await kjørTastaturSjekker(ffCtx, START_URL);
+    const ffReflow = await kjørReflowSjekk(ffCtx, START_URL);
+    const ffTekstmellomrom = await kjørTekstmellomromSjekk(ffCtx, START_URL);
+    const ffEkstraWcag = await kjørEkstraWcagSjekker(ffCtx, START_URL);
+    await ffBrowser.close();
+
+    firefoxRun = {
+      sider: ffSider,
+      tastatur: ffTastatur,
+      reflow: ffReflow,
+      tekstmellomrom: ffTekstmellomrom,
+      ekstraWcag: ffEkstraWcag,
+      totalt: beregnTotaltFraRun(ffSider, ffTastatur, ffReflow, ffTekstmellomrom, ffEkstraWcag)
+    };
+    console.log(`🦊 Firefox: ${firefoxRun.totalt.sider} sider · ${firefoxRun.totalt.wcagBrudd} WCAG-brudd`);
+  } catch (e) {
+    console.log(`⚠️  Firefox-test feilet: ${e.message.slice(0, 80)}`);
+  }
+}
+
 // Aggregert oppsummering
 const totalt = {
   sider: sideResultater.length,
@@ -861,10 +951,10 @@ const totalt = {
 };
 
 // Lagre JSON (uten bildedata for å holde størrelsen nede)
-fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, ekstraWcag, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
+fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, ekstraWcag, firefoxRun: firefoxRun ? { totalt: firefoxRun.totalt, tastatur: firefoxRun.tastatur, reflow: firefoxRun.reflow, tekstmellomrom: firefoxRun.tekstmellomrom, ekstraWcag: firefoxRun.ekstraWcag } : null, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag, testdata));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag, testdata, firefoxRun));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -913,7 +1003,7 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, testdata = {}) {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, testdata = {}, firefoxRun = null) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
@@ -1222,7 +1312,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   <div class="rapport-header">
     <div>
       <h1>Tilgjengelighetsrapport</h1>
-      <div class="meta"><a href="${url}" target="_blank">${url}</a> · ${dato} ${tidspunkt} · ${totalt.sider} sider testet${nettleser ? ` · Chromium ${nettleser.split('.')[0]}` : ''}</div>
+      <div class="meta"><a href="${url}" target="_blank">${url}</a> · ${dato} ${tidspunkt} · ${totalt.sider} sider testet${nettleser ? ` · 🌐 Chromium ${nettleser.split('.')[0]}` : ''}${firefoxRun ? ' · 🦊 Firefox' : ''}</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -1408,6 +1498,55 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
       </tbody>
     </table>
   </div>
+
+  ${firefoxRun ? `
+  <div class="seksjon" id="firefox" style="margin-top:2rem;border-color:#fde68a;background:#fffbeb">
+    <div class="seksjon-tittel" style="color:#78350f">🦊 Firefox krysssjekk</div>
+    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
+      Identiske tester kjørt i Firefox for å avdekke nettleserspesifikke tilgjengelighetsproblemer. ${firefoxRun.totalt.sider} sider analysert.
+    </p>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.5rem">
+      <div style="background:white;border:1px solid #fde68a;padding:.7rem 1.2rem;border-radius:.4rem;min-width:110px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:700;color:#0a1355">${firefoxRun.totalt.wcagBrudd}</div>
+        <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">WCAG-brudd</div>
+        <div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">${firefoxRun.totalt.kritiske} krit. · ${firefoxRun.totalt.alvorlige} alv.</div>
+      </div>
+      <div style="background:white;border:1px solid #fde68a;padding:.7rem 1.2rem;border-radius:.4rem;min-width:110px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:700;color:#0a1355">${firefoxRun.totalt.dødelenker}</div>
+        <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">Døde lenker</div>
+      </div>
+      <div style="background:white;border:1px solid #fde68a;padding:.7rem 1.2rem;border-radius:.4rem;min-width:110px;text-align:center">
+        <div style="font-size:1.5rem;font-weight:700;color:#0a1355">${firefoxRun.tastatur.feil + firefoxRun.reflow.feil + firefoxRun.tekstmellomrom.feil + firefoxRun.ekstraWcag.feil}</div>
+        <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">Feil totalt</div>
+        <div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">tas. · ref. · tekst · ekstra</div>
+      </div>
+    </div>
+
+    ${[
+      { id: 'ff-tastatur', tittel: '⌨️ Tastaturnavigasjon', data: firefoxRun.tastatur },
+      { id: 'ff-reflow', tittel: '📱 Reflow (1.4.10)', data: firefoxRun.reflow },
+      { id: 'ff-tekstmellomrom', tittel: '📐 Tekstmellomrom (1.4.12)', data: firefoxRun.tekstmellomrom },
+      { id: 'ff-ekstra', tittel: '🔎 Ekstra WCAG-sjekker', data: firefoxRun.ekstraWcag },
+    ].map(({ id, tittel, data }) => `
+    <details open style="margin-bottom:1rem;border:1px solid #fde68a;background:white;padding:.8rem 1rem">
+      <summary style="cursor:pointer;font-size:.8rem;font-weight:600;color:#78350f;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+        <span>${tittel} – <span style="color:#07604f">✅ ${data.bestått}</span>${data.advarsel > 0 ? ` · <span style="color:#713f12">⚠️ ${data.advarsel}</span>` : ''}${data.feil > 0 ? ` · <span style="color:#c53030">❌ ${data.feil}</span>` : ''}</span>
+        <span style="font-size:.7rem;opacity:.5;font-weight:400">▼</span>
+      </summary>
+      <table style="margin-top:.7rem">
+        <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
+        <tbody>
+          ${(data.tester ?? []).map(t => `
+          <tr>
+            <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
+            <td style="font-size:.83rem">${t.navn}</td>
+            <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
+            <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </details>`).join('')}
+  </div>` : ''}
 
   <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
     <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
