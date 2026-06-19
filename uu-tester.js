@@ -51,7 +51,8 @@ const sideResultater = [];
 let sideIndeks = 0;
 
 // --- Ta skjermdump av et feilende element ---
-async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
+async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545', dir = skjermDir) {
+  const relPrefix = path.basename(dir);
   try {
     // Marker alle feilende elementer
     await page.evaluate(({ selectors, farge }) => {
@@ -75,7 +76,7 @@ async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
       if (await el.count() > 0) {
         const boks = await el.boundingBox();
         if (boks && boks.width > 0 && boks.height > 0) {
-          const nærFil = path.join(skjermDir, `${filnavn}-element.png`);
+          const nærFil = path.join(dir, `${filnavn}-element.png`);
           await page.screenshot({
             path: nærFil,
             clip: {
@@ -85,15 +86,15 @@ async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
               height: Math.min(boks.height + 40, 600)
             }
           });
-          nærbilde = `skjermbilder/${filnavn}-element.png`;
+          nærbilde = `${relPrefix}/${filnavn}-element.png`;
         }
       }
     } catch {}
 
     // Ta helsidebilde med kontekst
-    const helFil = path.join(skjermDir, `${filnavn}-side.png`);
+    const helFil = path.join(dir, `${filnavn}-side.png`);
     await page.screenshot({ path: helFil, fullPage: false });
-    const helside = `skjermbilder/${filnavn}-side.png`;
+    const helside = `${relPrefix}/${filnavn}-side.png`;
 
     // Fjern markering
     await page.evaluate(() => {
@@ -111,7 +112,7 @@ async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
   }
 }
 
-async function analyserSide(url, indeks, oppdagetFra = null, tarScreenshots = true, ctx = context) {
+async function analyserSide(url, indeks, oppdagetFra = null, ctx = context, tarScreenshots = true, skjermDirParam = skjermDir) {
   const page = await ctx.newPage();
   try {
     await page.goto(url, { waitUntil: 'networkidle', timeout: LAST_TIMEOUT });
@@ -180,16 +181,18 @@ async function analyserSide(url, indeks, oppdagetFra = null, tarScreenshots = tr
     const violasjonerMedBilder = [];
     if (tarScreenshots) {
       console.log(`  📸 Tar skjermdumper av ${axe.violations.length} brudd...`);
-      for (let vi = 0; vi < axe.violations.length; vi++) {
-        const v = axe.violations[vi];
-        const selectors = v.nodes.flatMap(n => n.target).slice(0, 5);
-        const filnavn = `s${indeks}-${v.id.replace(/[^a-z0-9]/gi, '-')}-${vi}`;
-        const farge = v.impact === 'critical' ? '#dc3545' : v.impact === 'serious' ? '#fd7e14' : '#ffc107';
-        const bilder = await taSkjermdump(page, selectors, filnavn, farge);
-        violasjonerMedBilder.push({ ...v, bilder });
+    }
+    for (let vi = 0; vi < axe.violations.length; vi++) {
+      const v = axe.violations[vi];
+      if (!tarScreenshots) {
+        violasjonerMedBilder.push({ ...v, bilder: { nærbilde: null, helside: null } });
+        continue;
       }
-    } else {
-      axe.violations.forEach(v => violasjonerMedBilder.push({ ...v, bilder: null }));
+      const selectors = v.nodes.flatMap(n => n.target).slice(0, 5);
+      const filnavn = `s${indeks}-${v.id.replace(/[^a-z0-9]/gi, '-')}-${vi}`;
+      const farge = v.impact === 'critical' ? '#dc3545' : v.impact === 'serious' ? '#fd7e14' : '#ffc107';
+      const bilder = await taSkjermdump(page, selectors, filnavn, farge, skjermDirParam);
+      violasjonerMedBilder.push({ ...v, bilder });
     }
 
     // Finn interne lenker
@@ -251,7 +254,7 @@ async function analyserSide(url, indeks, oppdagetFra = null, tarScreenshots = tr
     if (dødeLenker.length > 0 && tarScreenshots) {
       const dødFil = `s${indeks}-doede-lenker`;
       const dødSelectors = dødeLenker.map(l => `a[href="${l.href}"]`).slice(0, 5);
-      const dødBilder = await taSkjermdump(page, dødSelectors, dødFil, '#6c757d');
+      const dødBilder = await taSkjermdump(page, dødSelectors, dødFil, '#6c757d', skjermDirParam);
       dødeLenker.forEach(l => { l.bilder = dødBilder; });
     }
 
@@ -892,7 +895,7 @@ if (FIREFOX_KRYSSSJEKK) {
       ffBesøkte.add(ffNorm);
       ffSideIndeks++;
       console.log(`  🦊 [${ffBesøkte.size}/${MAX_SIDER}] Analyserer: ${ffNorm}`);
-      const res = await analyserSide(ffNorm, ffSideIndeks, ffOppdagetFraMap.get(ffNorm) ?? null, false, ffCtx);
+      const res = await analyserSide(ffNorm, ffSideIndeks, ffOppdagetFraMap.get(ffNorm) ?? null, ffCtx, false, skjermDir);
       if (res) {
         ffSider.push(res);
         for (const lenke of res.internelenker) {
@@ -911,21 +914,19 @@ if (FIREFOX_KRYSSSJEKK) {
     const ffEkstraWcag = await kjørEkstraWcagSjekker(ffCtx, START_URL);
     await ffBrowser.close();
 
+    const ffTotalt = beregnTotaltFraRun(ffSider, ffTastatur, ffReflow, ffTekstmellomrom, ffEkstraWcag);
     firefoxRun = {
-      sider: ffSider,
-      tastatur: ffTastatur,
-      reflow: ffReflow,
-      tekstmellomrom: ffTekstmellomrom,
-      ekstraWcag: ffEkstraWcag,
-      totalt: beregnTotaltFraRun(ffSider, ffTastatur, ffReflow, ffTekstmellomrom, ffEkstraWcag)
+      fast: { bruker: testdata.bruker, sider: ffSider, tastatur: ffTastatur, reflow: ffReflow, tekstmellomrom: ffTekstmellomrom, ekstraWcag: ffEkstraWcag, totalt: ffTotalt },
+      tilfeldig: null
     };
-    console.log(`🦊 Firefox: ${firefoxRun.totalt.sider} sider · ${firefoxRun.totalt.wcagBrudd} WCAG-brudd`);
+    console.log(`🦊 Firefox: ${ffTotalt.sider} sider · ${ffTotalt.wcagBrudd} WCAG-brudd`);
   } catch (e) {
     console.log(`⚠️  Firefox-test feilet: ${e.message.slice(0, 80)}`);
   }
 }
 
 // Aggregert oppsummering
+const alleViolasjonIds = sideResultater.flatMap(s => (s.wcag?.detaljer ?? []).map(v => ({ id: v.id, impact: v.impact })));
 const totalt = {
   sider: sideResultater.length,
   wcagBrudd: sideResultater.reduce((s, r) => s + r.wcag.brudd, 0),
@@ -933,6 +934,10 @@ const totalt = {
   alvorlige: sideResultater.reduce((s, r) => s + r.wcag.alvorlige, 0),
   moderate: sideResultater.reduce((s, r) => s + r.wcag.moderate, 0),
   mindre: sideResultater.reduce((s, r) => s + r.wcag.mindre, 0),
+  uniqKritiske: new Set(alleViolasjonIds.filter(v => v.impact === 'critical').map(v => v.id)).size,
+  uniqAlvorlige: new Set(alleViolasjonIds.filter(v => v.impact === 'serious').map(v => v.id)).size,
+  uniqModerate: new Set(alleViolasjonIds.filter(v => v.impact === 'moderate').map(v => v.id)).size,
+  uniqMindre: new Set(alleViolasjonIds.filter(v => v.impact === 'minor').map(v => v.id)).size,
   dødelenker: sideResultater.reduce((s, r) => s + r.lenker.døde.length, 0),
   knapper: sideResultater.reduce((s, r) => s + r.knapper.length, 0),
   knappUtenLabel: sideResultater.reduce((s, r) => s + r.knapper.filter(k => !k.harLabel).length, 0),
@@ -954,7 +959,7 @@ const totalt = {
 fs.writeFileSync(path.join(rapportDir, 'resultat.json'), JSON.stringify({ url: START_URL, dato, versjon, nettleser, totalt, tastatur, reflow, tekstmellomrom, ekstraWcag, firefoxRun: firefoxRun ? { totalt: firefoxRun.totalt, tastatur: firefoxRun.tastatur, reflow: firefoxRun.reflow, tekstmellomrom: firefoxRun.tekstmellomrom, ekstraWcag: firefoxRun.ekstraWcag } : null, sider: sideResultater.map(s => ({ ...s, wcag: { ...s.wcag, detaljer: s.wcag.detaljer.map(v => ({ ...v, bilder: v.bilder })) } })) }, null, 2));
 
 // Generer HTML
-fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag, testdata, firefoxRun));
+fs.writeFileSync(path.join(rapportDir, 'uu-rapport.html'), genererRapport(START_URL, dato, tidspunkt, totalt, sideResultater, versjon, tastatur, nettleser, reflow, tekstmellomrom, [], ekstraWcag, testdata, null, firefoxRun));
 
 // Lagre tidsstemplet kopi for arkiv (bevarer alle kjøringer samme dag)
 const tidFil = tidspunkt.replace(':', '-');
@@ -991,7 +996,21 @@ function escapeHtml(str) {
 }
 
 function scoreBeregn(t) {
-  return Math.max(0, 100 - t.kritiske * 15 - t.alvorlige * 8 - t.moderate * 3 - t.mindre - t.dødelenker * 5 - t.knappUtenLabel * 4 - t.bilderUtenAlt * 4 - t.feltUtenLabel * 4 - (t.tastaturFeil || 0) * 15 - (t.tastaturAdvarsel || 0) * 5 - (t.reflowFeil || 0) * 10 - (t.reflowAdvarsel || 0) * 3 - (t.tekstmellomromFeil || 0) * 8 - (t.tekstmellomromAdvarsel || 0) * 2 - (t.ekstraFeil || 0) * 10 - (t.ekstraAdvarsel || 0) * 2);
+  // Axe-core: fradrag basert på unike regeltyper (ikke per side-forekomst)
+  const axe = (t.uniqKritiske ?? t.kritiske) * 15
+            + (t.uniqAlvorlige ?? t.alvorlige) * 8
+            + (t.uniqModerate  ?? t.moderate)  * 3
+            + (t.uniqMindre    ?? t.mindre)    * 1;
+  // Øvrige funn: per forekomst, men med tak slik at gjentakelser på mange sider ikke nullstiller alt
+  const lenker  = Math.min(t.dødelenker    * 4, 20);
+  const knapper = Math.min(t.knappUtenLabel * 2, 15);
+  const bilder  = Math.min(t.bilderUtenAlt  * 2, 10);
+  const felt    = Math.min(t.feltUtenLabel  * 2, 10);
+  const tastatur  = (t.tastaturFeil  || 0) * 10 + (t.tastaturAdvarsel  || 0) * 3;
+  const reflow    = (t.reflowFeil    || 0) * 8  + (t.reflowAdvarsel    || 0) * 2;
+  const mellomrom = (t.tekstmellomromFeil || 0) * 5 + (t.tekstmellomromAdvarsel || 0) * 1;
+  const ekstra    = (t.ekstraFeil    || 0) * 8  + (t.ekstraAdvarsel    || 0) * 1;
+  return Math.max(0, 100 - axe - lenker - knapper - bilder - felt - tastatur - reflow - mellomrom - ekstra);
 }
 
 function badge(n, klasse, tekst) {
@@ -1003,166 +1022,200 @@ function impactFarge(impact) {
   return { critical: '#c53030', serious: '#9a3412', moderate: '#b8860b', minor: '#6b7280' }[impact] || '#6b7280';
 }
 
-function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, testdata = {}, firefoxRun = null) {
+function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tastatur = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, nettleser = '', reflow = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, tekstmellomrom = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, innloggingsSteg = [], ekstraWcag = { tester: [], bestått: 0, feil: 0, advarsel: 0 }, testdata = {}, ekstraRun = null, firefoxRun = null) {
   const s = scoreBeregn(totalt);
   const scoreKlasse = s >= 80 ? 'god' : s >= 50 ? 'middels' : 'dårlig';
 
-  const sidenavigasjon = sider.map((side, i) =>
-    `<li><a href="#side-${i}" class="sidenav-link ${side.wcag.kritiske > 0 ? 'har-kritiske' : side.wcag.brudd > 0 ? 'har-brudd' : 'ok'}">
-      <span class="sidenavn">${side.tittel || side.url}</span>
-      <span class="side-url">${side.url.replace(url.replace(/\/$/, ''), '') || '/'}</span>
-      <span class="side-badge">${side.wcag.brudd > 0 ? `${side.wcag.brudd} brudd` : '✅'}</span>
-    </a></li>`
-  ).join('');
+  // WCAG 2.1 – testbare kriterier
+  const WCAG_INFO = {
+    '1.1.1': { navn: 'Ikke-tekstlig innhold', kilde: 'axe-core', level: 'A', prinsipp: 1, tags: ['wcag111'] },
+    '1.3.1': { navn: 'Informasjon og relasjoner', kilde: 'axe-core', level: 'A', prinsipp: 1, tags: ['wcag131'] },
+    '1.3.4': { navn: 'Orientering', kilde: 'ekstra-sjekk', level: 'AA', prinsipp: 1, ekstraKat: ['orientering'] },
+    '1.4.3': { navn: 'Kontrast (minimum)', kilde: 'axe-core', level: 'AA', prinsipp: 1, tags: ['wcag143'] },
+    '1.4.10': { navn: 'Reflow – 320px / 400 % zoom', kilde: 'reflow', level: 'AA', prinsipp: 1, reflowKat: ['reflow', 'klipping'] },
+    '1.4.12': { navn: 'Tekstmellomrom', kilde: 'tekstmellomrom', level: 'AA', prinsipp: 1, mellomromKat: ['klipping', 'overflyt'] },
+    '1.4.13': { navn: 'Innhold ved pek eller fokus', kilde: 'ekstra-sjekk', level: 'AA', prinsipp: 1, ekstraKat: ['hover-fokus'] },
+    '2.1.1': { navn: 'Tastatur', kilde: 'tastatur-sjekk', level: 'A', prinsipp: 2, tags: ['wcag211'], tastaturKat: ['rekkevidden', 'aktivering'] },
+    '2.1.2': { navn: 'Ingen tastaturfelle', kilde: 'tastatur-sjekk', level: 'A', prinsipp: 2, tastaturKat: ['tastaturfelle'] },
+    '2.4.1': { navn: 'Hoppe over blokker (skiplink)', kilde: 'tastatur-sjekk', level: 'A', prinsipp: 2, tastaturKat: ['hopplenke'] },
+    '2.4.2': { navn: 'Sidetittel', kilde: 'axe-core', level: 'A', prinsipp: 2, tags: ['wcag242'] },
+    '2.4.3': { navn: 'Fokusrekkefølge', kilde: 'tastatur-sjekk', level: 'A', prinsipp: 2, tastaturKat: ['tabindeks'] },
+    '2.4.4': { navn: 'Formål med lenke (i kontekst)', kilde: 'axe-core', level: 'A', prinsipp: 2, tags: ['wcag244'] },
+    '2.4.7': { navn: 'Synlig fokus', kilde: 'tastatur-sjekk', level: 'AA', prinsipp: 2, tastaturKat: ['synligfokus'] },
+    '3.2.1': { navn: 'Fokus – ingen uventet kontekstendring', kilde: 'ekstra-sjekk', level: 'A', prinsipp: 3, ekstraKat: ['fokus-kontekst'] },
+    '3.2.2': { navn: 'Inndata – ingen uventet kontekstendring', kilde: 'ekstra-sjekk', level: 'A', prinsipp: 3, ekstraKat: ['inndata-kontekst'] },
+    '3.3.1': { navn: 'Feilidentifikasjon', kilde: 'ekstra-sjekk', level: 'A', prinsipp: 3, ekstraKat: ['feilidentifikasjon'] },
+    '4.1.1': { navn: 'Parsing', kilde: 'axe-core', level: 'A', prinsipp: 4, tags: ['wcag411'] },
+    '4.1.2': { navn: 'Navn, rolle, verdi', kilde: 'axe-core', level: 'A', prinsipp: 4, tags: ['wcag412'] },
+  };
+  const PRINSIPP_NAVN = { 1: 'Mulig å oppfatte', 2: 'Mulig å betjene', 3: 'Mulig å forstå', 4: 'Robust' };
 
-  const sideDetaljer = sider.map((side, i) => {
-    const harProblemer = side.wcag.brudd > 0 || side.lenker.døde.length > 0;
-    return `
-    <details class="side-seksjon" id="side-${i}"${harProblemer ? ' open' : ''}>
-      <summary class="side-header">
-        <div>
-          <h2>${side.tittel || '(ingen tittel)'}</h2>
-          <a href="${side.url}" target="_blank" class="side-url-link" onclick="event.stopPropagation()">${side.url}</a>
-        </div>
-        <div class="side-score-badges">
-          ${badge(side.wcag.kritiske, 'critical', 'kritiske')}
-          ${badge(side.wcag.alvorlige, 'serious', 'alvorlige')}
-          ${badge(side.lenker.døde.length, 'dead', 'døde lenker')}
-        </div>
-      </summary>
+  function wMatch(v, id) {
+    return (v.tags ?? []).some(tag => { const m = tag.match(/^wcag(\d)(\d)(\d+)$/); return m ? `${m[1]}.${m[2]}.${m[3]}` === id : false; });
+  }
 
-      <!-- Testkontekst for denne siden -->
-      <div class="testdata-strip">
-        <span class="testdata-chip">🔐 Innlogging: ${escapeHtml(testdata.bruker || '—')}</span>
-        ${side.oppdagetFra
-          ? `<span class="testdata-chip">📍 Funnet via: ${escapeHtml(side.oppdagetFra.replace(url.replace(/\/$/, ''), '') || '/')}</span>`
-          : '<span class="testdata-chip">🚪 Startside</span>'}
-        ${side.orgnr ? `<span class="testdata-chip">🏢 Org.nr.: ${escapeHtml(side.orgnr)}</span>` : ''}
+  function worstSt(a, b) { const r = ['ok', 'advarsel', 'feil']; return r[Math.max(r.indexOf(a), r.indexOf(b))]; }
+
+  function kSt(id, info, sp, ta, re, me, ek) {
+    let st = 'ok';
+    if (info.tags?.length) {
+      outer: for (const side of sp) { for (const v of (side.wcag?.detaljer ?? [])) { if (wMatch(v, id)) { st = 'feil'; break outer; } } }
+    }
+    const upd = (tstr, kat) => { for (const t of (tstr?.tester ?? [])) { if (kat.includes(t.kategori)) st = worstSt(st, t.resultat === 'feil' ? 'feil' : t.resultat === 'advarsel' ? 'advarsel' : 'ok'); } };
+    if (info.tastaturKat)  upd(ta, info.tastaturKat);
+    if (info.reflowKat)    upd(re, info.reflowKat);
+    if (info.mellomromKat) upd(me, info.mellomromKat);
+    if (info.ekstraKat)    upd(ek, info.ekstraKat);
+    return st;
+  }
+
+  function innholdAxe(id, sp) {
+    const brudd = sp.map(side => ({ ...side, rel: (side.wcag?.detaljer ?? []).filter(v => wMatch(v, id)) })).filter(s => s.rel.length > 0);
+    if (!brudd.length) return '<div class="ok-rad">✅ Bestått – ingen brudd funnet</div>';
+    return brudd.map(side => `<div class="side-rad">
+      <div class="side-rad-header">
+        <a href="${side.url}" target="_blank" class="side-lenke">${escapeHtml(side.tittel || side.url)}</a>
+        <span class="side-url-kort">${escapeHtml(side.url.replace(url.replace(/\/$/, ''), '') || '/')}</span>
       </div>
-
-      <!-- WCAG-brudd med skjermdumper -->
-      <div class="wcag-seksjon">
-        <h3>♿ WCAG-brudd (${side.wcag.brudd})</h3>
-        ${side.wcag.detaljer.length === 0
-          ? '<div class="wcag-ok">✅ Ingen WCAG-brudd på denne siden</div>'
-          : side.wcag.detaljer.map(v => `
-            <div class="brudd-kort" style="border-left-color: ${impactFarge(v.impact)}">
-              <div class="brudd-header">
-                <div>
-                  <span class="badge ${v.impact}">${v.impact}</span>
-                  <code class="regel-id">${v.id}</code>
-                  <span class="regel-desc">${escapeHtml(v.description)}</span>
-                </div>
-                <span class="brudd-teller">${v.nodes.length} element${v.nodes.length !== 1 ? 'er' : ''}</span>
-              </div>
-              ${v.help ? `<p class="brudd-hjelp">💡 ${escapeHtml(v.help)} — <a href="${v.helpUrl}" target="_blank">Les mer</a></p>` : ''}
-              ${v.nodes.slice(0, 3).map(n => `
-                <div class="node-info">
-                  <code class="node-selector">${Array.isArray(n.target) ? n.target.join(' > ') : n.target}</code>
-                  ${n.failureSummary ? `<p class="failure-summary">${escapeHtml(n.failureSummary.replace('Fix any of the following:\n', '').replace('Fix all of the following:\n', '').trim())}</p>` : ''}
-                </div>`).join('')}
-              ${v.bilder?.nærbilde || v.bilder?.helside ? `
-              <div class="skjermdump-gruppe">
-                ${v.bilder.nærbilde ? `
-                  <div class="skjermdump-wrapper">
-                    <p class="skjermdump-label">📍 Nærbilde av feilende element</p>
-                    <a href="${v.bilder.nærbilde}" target="_blank">
-                      <img src="${v.bilder.nærbilde}" alt="Nærbilde av feilende element for ${v.id}" class="skjermdump nærbilde" loading="lazy">
-                    </a>
-                  </div>` : ''}
-                ${v.bilder.helside ? `
-                  <div class="skjermdump-wrapper">
-                    <p class="skjermdump-label">🖥️ Sidekontekst (element markert)</p>
-                    <a href="${v.bilder.helside}" target="_blank">
-                      <img src="${v.bilder.helside}" alt="Skjermdump av siden med feilende element markert" class="skjermdump helside" loading="lazy">
-                    </a>
-                  </div>` : ''}
-              </div>` : ''}
-            </div>`).join('')}
+      ${side.rel.map(v => `<div class="brudd-linje">
+        <span class="badge ${v.impact}">${v.impact}</span>
+        <code class="regel-id">${escapeHtml(v.id)}</code>
+        <span class="regel-desc">${escapeHtml(v.description)}</span>
+        <span class="node-teller">${v.nodes.length} element${v.nodes.length !== 1 ? 'er' : ''}</span>
       </div>
+      ${v.bilder?.nærbilde || v.bilder?.helside ? `<details style="margin:.2rem 0 .5rem 0">
+        <summary style="cursor:pointer;font-size:.72rem;color:#2b3285;user-select:none;list-style:none;display:inline-flex;align-items:center;gap:.3rem">📸 Vis skjermdumper ▾</summary>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.7rem;margin-top:.5rem;padding:.6rem .7rem;background:#f8f7f5;border:1px solid #ede9e3">
+          ${v.bilder?.nærbilde ? `<div>
+            <p style="font-size:.67rem;color:#6b7280;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em">📍 Nærbilde av element</p>
+            <a href="${v.bilder.nærbilde}" target="_blank">
+              <img src="${v.bilder.nærbilde}" loading="lazy" alt="Nærbilde av feilende element" style="width:100%;max-height:180px;object-fit:contain;border:1px solid #e5e3de;background:white;cursor:zoom-in;display:block">
+            </a>
+          </div>` : ''}
+          ${v.bilder?.helside ? `<div>
+            <p style="font-size:.67rem;color:#6b7280;margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.05em">🖥️ Sidekontekst</p>
+            <a href="${v.bilder.helside}" target="_blank">
+              <img src="${v.bilder.helside}" loading="lazy" alt="Skjermdump av siden med feilende element" style="width:100%;max-height:180px;object-fit:cover;object-position:top;border:1px solid #e5e3de;cursor:zoom-in;display:block">
+            </a>
+          </div>` : ''}
+        </div>
+      </details>` : ''}`).join('')}
+    </div>`).join('');
+  }
 
-      <!-- Døde lenker med skjermdump -->
-      ${side.lenker.døde.length > 0 ? `
-      <div class="wcag-seksjon">
-        <h3>🔗 Døde lenker (${side.lenker.døde.length})</h3>
-        ${side.lenker.døde.map(l => `
-          <div class="brudd-kort" style="border-left-color:#6c757d">
-            <div class="brudd-header">
-              <div><span class="badge dead">${l.status}</span> <span>${l.tekst}</span></div>
+  function innholdSjekk(kat, tstr) {
+    const rel = (tstr?.tester ?? []).filter(t => kat.includes(t.kategori));
+    if (!rel.length) return '<div class="ok-rad">✅ Bestått – ingen data</div>';
+    return `<div class="sjekk-liste">${rel.map(t => {
+      const bg = t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#fef3c7';
+      const fg = t.resultat === 'bestått' ? '#064e3b' : t.resultat === 'feil' ? '#c53030' : '#92400e';
+      const ik = t.resultat === 'bestått' ? '✅' : t.resultat === 'feil' ? '❌' : '⚠️';
+      return `<div class="sjekk-rad"><span class="sjekk-status" style="background:${bg};color:${fg}">${ik} ${t.resultat}</span><span class="sjekk-navn">${escapeHtml(t.navn)}</span>${t.detalj ? `<span class="sjekk-detalj">${escapeHtml(t.detalj)}</span>` : ''}</div>`;
+    }).join('')}</div>`;
+  }
+
+  function kriterieInnholdFn(id, info, sp, ta, re, me, ek) {
+    if (info.tags?.length)   return innholdAxe(id, sp);
+    if (info.tastaturKat)    return innholdSjekk(info.tastaturKat, ta);
+    if (info.reflowKat)      return innholdSjekk(info.reflowKat, re);
+    if (info.mellomromKat)   return innholdSjekk(info.mellomromKat, me);
+    if (info.ekstraKat)      return innholdSjekk(info.ekstraKat, ek);
+    return '<div class="ok-rad">✅ Bestått</div>';
+  }
+
+  function kjøringContainerFn(id, info, sp, ta, re, me, ek, fnr, erTilfeldig) {
+    const farge = erTilfeldig ? '#065f46' : '#0a1355';
+    const border = erTilfeldig ? '#a7f3d0' : '#f4ecdf';
+    const ikon  = erTilfeldig ? '🎲' : '🔐';
+    const label = erTilfeldig ? 'Tilfeldig bruker' : 'Fast bruker';
+    return `<details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:${farge};user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>${ikon} ${label} <code style="font-size:.71rem;font-weight:700;color:${farge};background:none;margin-left:.3rem">${escapeHtml(fnr ?? 'ukjent')}</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid ${border}">
+      ${kriterieInnholdFn(id, info, sp, ta, re, me, ek)}
+    </div>
+  </details>`;
+  }
+
+  // Kombiner status for alle kjøringer (verste vinner)
+  const kStatus = {};
+  for (const [id, info] of Object.entries(WCAG_INFO)) {
+    const s1 = kSt(id, info, sider, tastatur, reflow, tekstmellomrom, ekstraWcag);
+    const s2 = ekstraRun ? kSt(id, info, ekstraRun.sider ?? [], ekstraRun.tastatur, ekstraRun.reflow, ekstraRun.tekstmellomrom, ekstraRun.ekstraWcag) : 'ok';
+    const s3 = firefoxRun ? kSt(id, info, firefoxRun.fast.sider, firefoxRun.fast.tastatur, firefoxRun.fast.reflow, firefoxRun.fast.tekstmellomrom, firefoxRun.fast.ekstraWcag) : 'ok';
+    kStatus[id] = worstSt(worstSt(s1, s2), s3);
+  }
+
+  const sidenavigasjon = [1, 2, 3, 4].flatMap(p => [
+    `<li class="wcag-prinsipp-header">Prinsipp ${p}: ${PRINSIPP_NAVN[p]}</li>`,
+    ...Object.entries(WCAG_INFO).filter(([, info]) => info.prinsipp === p).map(([id]) => {
+      const st = kStatus[id];
+      const cls = st === 'feil' ? 'har-brudd' : st === 'advarsel' ? 'har-advarsel' : 'ok';
+      const ik = st === 'feil' ? '❌' : st === 'advarsel' ? '⚠️' : '✅';
+      return `<li><a href="#wcag-${id.replace(/\./g, '-')}" class="sidenav-link ${cls}">
+        <span class="sidenavn">${id}</span>
+        <span class="side-url">${WCAG_INFO[id].navn}</span>
+        <span class="side-badge">${ik} ${st}</span>
+      </a></li>`;
+    }),
+  ]).join('');
+
+  const wcagSeksjonerHtml = [1, 2, 3, 4].map(p => {
+    const kriterier = Object.entries(WCAG_INFO).filter(([, info]) => info.prinsipp === p);
+    return `<div class="prinsipp-gruppe">
+    <div class="prinsipp-label">Prinsipp ${p} – ${PRINSIPP_NAVN[p]}</div>
+    ${kriterier.map(([id, info]) => {
+      const st = kStatus[id];
+      const ik = st === 'feil' ? '❌' : st === 'advarsel' ? '⚠️' : '✅';
+      const badgeKls = st === 'feil' ? 'feil' : st === 'advarsel' ? 'advarsel' : 'bestått';
+      let badgeTekst;
+      if (st === 'ok') {
+        badgeTekst = 'Bestått';
+      } else if (info.tags?.length) {
+        const uniqSider = new Set([
+          ...sider.filter(s => (s.wcag?.detaljer ?? []).some(v => wMatch(v, id))).map(s => s.url),
+        ]);
+        const n = uniqSider.size;
+        badgeTekst = `${n} side${n !== 1 ? 'r' : ''} med brudd`;
+      } else {
+        badgeTekst = st === 'feil' ? 'Feil' : 'Advarsel';
+      }
+      const ffFastSider = firefoxRun?.fast.sider ?? [];
+      return `<section class="kriterie-seksjon" id="wcag-${id.replace(/\./g, '-')}">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">${id}</span>
+              <span class="level-badge level-${info.level.toLowerCase()}">${info.level}</span>
+              <span class="kilde-chip">${info.kilde}</span>
             </div>
-            <code class="node-selector">${l.href}</code>
-            ${l.bilder?.helside ? `
-            <div class="skjermdump-gruppe">
-              <div class="skjermdump-wrapper">
-                <p class="skjermdump-label">🖥️ Siden med den døde lenken markert</p>
-                <a href="${l.bilder.helside}" target="_blank">
-                  <img src="${l.bilder.helside}" alt="Skjermdump som viser plasseringen av den døde lenken" class="skjermdump helside" loading="lazy">
-                </a>
-              </div>
-            </div>` : ''}
-          </div>`).join('')}
-      </div>` : ''}
-
-      <!-- Artefakter -->
-      <div class="artefakt-grid">
-        <div class="artefakt-kort">
-          <h3>🏗️ Sidestruktur</h3>
-          <table><tbody>
-            <tr><td>Språkattributt</td><td>${side.struktur.langAttr ? `<code>${side.struktur.langAttr}</code> ✅` : '<span class="mangler">Mangler ❌</span>'}</td></tr>
-            <tr><td>Skip-lenke</td><td>${side.struktur.harSkipLink ? '✅ Funnet' : '<span class="mangler">Mangler ❌</span>'}</td></tr>
-            <tr><td>Landmarks</td><td>${side.struktur.landmarks.length > 0 ? side.struktur.landmarks.map(l => `<code>${l.tag}</code>`).join(' ') : '<span class="mangler">Ingen ❌</span>'}</td></tr>
-          </tbody></table>
-          ${side.struktur.overskrifter.length > 0 ? `
-          <h4 style="margin-top:0.8rem">Overskriftshierarki</h4>
-          <ul class="overskrift-liste">
-            ${side.struktur.overskrifter.map(h => `<li style="padding-left:${(h.nivå-1)}rem"><span class="h-badge">H${h.nivå}</span> ${h.tekst}</li>`).join('')}
-          </ul>` : ''}
+            <h2 class="kriterie-navn">${ik} ${escapeHtml(info.navn)}</h2>
+          </div>
+          <div><span class="status-badge ${badgeKls}">${badgeTekst}</span></div>
         </div>
-        <div class="artefakt-kort">
-          <h3>🔘 Knapper testet (${side.knapper.length})</h3>
-          ${side.knapper.length === 0 ? '<p class="ingen">Ingen knapper funnet</p>'
-            : `<table><thead><tr><th>Element</th><th>Tekst/Label</th><th>Status</th></tr></thead><tbody>
-            ${side.knapper.map(k => `<tr>
-              <td><code>${k.tag}${k.type ? `[${k.type}]` : ''}</code></td>
-              <td>${k.tekst || '<em>(ingen)</em>'}</td>
-              <td>${k.harLabel ? '✅' : '<span class="mangler">❌ Mangler</span>'}</td>
-            </tr>`).join('')}</tbody></table>`}
-        </div>
-        <div class="artefakt-kort">
-          <h3>🖼️ Bilder testet (${side.bilder.length})</h3>
-          ${side.bilder.length === 0 ? '<p class="ingen">Ingen bilder funnet</p>'
-            : `<table><thead><tr><th>Fil</th><th>Alt-tekst</th><th>Status</th></tr></thead><tbody>
-            ${side.bilder.map(b => `<tr>
-              <td style="font-size:0.8rem">${b.src.slice(0, 35)}</td>
-              <td>${b.alt !== null ? (b.alt || '<em>(tom)</em>') : '<em>(ikke satt)</em>'}</td>
-              <td>${b.harAlt ? (b.altErTom ? '⚠️ Tom' : '✅') : '<span class="mangler">❌ Mangler</span>'}</td>
-            </tr>`).join('')}</tbody></table>`}
-        </div>
-        ${side.skjemafelt.length > 0 ? `
-        <div class="artefakt-kort">
-          <h3>📝 Skjemafelt testet (${side.skjemafelt.length})</h3>
-          <table><thead><tr><th>Type</th><th>ID</th><th>Label</th><th>Status</th></tr></thead><tbody>
-          ${side.skjemafelt.map(f => `<tr>
-            <td><code>${f.type}</code></td>
-            <td><code>${f.id !== '(ingen id)' ? f.id : f.navn || '—'}</code></td>
-            <td>${f.labelTekst || '<em>(ingen)</em>'}</td>
-            <td>${f.harLabel ? '✅' : '<span class="mangler">❌ Mangler</span>'}</td>
-          </tr>`).join('')}</tbody></table>
-        </div>` : ''}
-        <div class="artefakt-kort">
-          <h3>🔗 Lenker sjekket (${side.lenker.totalt})</h3>
-          ${side.lenker.døde.length === 0
-            ? '<p class="ok-tekst">✅ Ingen døde lenker</p>'
-            : `<table><thead><tr><th>Status</th><th>Tekst</th><th>URL</th></tr></thead><tbody>
-            ${side.lenker.døde.map(l => `<tr>
-              <td><span class="badge dead">${l.status}</span></td>
-              <td>${l.tekst.slice(0, 30)}</td>
-              <td style="font-size:0.75rem;word-break:break-all">${l.href}</td>
-            </tr>`).join('')}</tbody></table>`}
-        </div>
-      </div>
-    </details>
-  `;
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            ${kjøringContainerFn(id, info, sider, tastatur, reflow, tekstmellomrom, ekstraWcag, testdata.bruker, false)}
+          </div>
+        </details>
+        ${firefoxRun ? `<details open style="margin-top:.4rem;border:1px solid #fde68a;border-radius:4px;background:#fffbeb">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#92400e;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🦊 Firefox</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            ${kjøringContainerFn(id, info, ffFastSider, firefoxRun.fast.tastatur, firefoxRun.fast.reflow, firefoxRun.fast.tekstmellomrom, firefoxRun.fast.ekstraWcag, firefoxRun.fast.bruker, false)}
+          </div>
+        </details>` : ''}
+      </section>`;
+    }).join('')}
+  </div>`;
   }).join('');
 
   return `<!DOCTYPE html>
@@ -1189,10 +1242,12 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   .sidenav-link:hover{background:rgba(255,255,255,.07);color:white}
   .sidenav-link.har-kritiske{border-color:#fc8181}
   .sidenav-link.har-brudd{border-color:#f3dda2}
+  .sidenav-link.har-advarsel{border-color:#fcd34d}
   .sidenav-link.ok{border-color:#abd1b1}
   .sidenavn{display:block;font-size:.84rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .side-url{display:block;font-size:.68rem;opacity:.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.15rem}
   .side-badge{display:block;font-size:.68rem;margin-top:.2rem;opacity:.6}
+  .wcag-prinsipp-header{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:.9rem 1.4rem .35rem;margin-top:.25rem;list-style:none}
 
   /* Main */
   .hoveddel{flex:1;padding:2.5rem 3rem;overflow-y:auto;max-width:1060px}
@@ -1297,6 +1352,41 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   .ingen{color:#9ca3af;font-style:italic;font-size:.84rem}
   .wcag-ok{background:#ecfdf5;color:#064e3b;padding:.8rem 1rem;border-left:3px solid #07604f;font-size:.88rem}
   footer{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.78rem;border-top:1px solid #f1f0ee;margin-top:2rem}
+
+  /* WCAG-kriterie-layout */
+  .prinsipp-gruppe{margin-bottom:.5rem}
+  .prinsipp-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#0a1355;padding:.7rem 0 .4rem;border-bottom:2px solid #f4ecdf;margin-bottom:.6rem;margin-top:2rem}
+  .kriterie-seksjon{background:white;border:1px solid #f1f0ee;padding:1.4rem 1.6rem;margin-bottom:.7rem;box-shadow:0 1px 4px rgba(10,19,85,.05)}
+  .kriterie-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}
+  .kriterie-nummerrad{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+  .kriterie-num{font-size:.8rem;font-weight:700;color:#2b3285;font-family:ui-monospace,monospace}
+  .level-badge{font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:3px}
+  .level-a{background:#fee2e2;color:#c53030}
+  .level-aa{background:#eff6ff;color:#1d4ed8}
+  .kilde-chip{font-size:.65rem;background:#f4ecdf;color:#713f12;padding:.1rem .5rem;border-radius:100px}
+  .kriterie-navn{font-size:.95rem;font-weight:600;color:#0a1355}
+  .status-badge{display:inline-block;padding:.2rem .7rem;border-radius:100px;font-size:.7rem;font-weight:600}
+  .status-badge.feil{background:#fee2e2;color:#c53030}
+  .status-badge.advarsel{background:#fef3c7;color:#92400e}
+  .status-badge.bestått{background:#ecfdf5;color:#065f46}
+  .ok-rad{font-size:.83rem;color:#065f46;padding:.5rem .7rem;background:#ecfdf5;border-left:3px solid #07604f}
+  .side-rad{margin:.5rem 0;padding:.6rem .8rem;background:#faf6f0;border-left:3px solid #e5e3de}
+  .side-rad-header{margin-bottom:.4rem}
+  .side-lenke{font-size:.83rem;font-weight:600;color:#0a1355;text-decoration:none}
+  .side-lenke:hover{text-decoration:underline}
+  .side-url-kort{display:block;font-size:.7rem;color:#9ca3af;margin-top:.1rem}
+  .brudd-linje{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.8rem;margin:.3rem 0;padding:.25rem 0;border-top:1px solid #f1f0ee}
+  .node-teller{font-size:.72rem;color:#9ca3af;margin-left:auto;white-space:nowrap}
+  .sjekk-liste{display:flex;flex-direction:column;gap:.3rem}
+  .sjekk-rad{display:flex;align-items:center;gap:.6rem;font-size:.82rem;flex-wrap:wrap}
+  .sjekk-status{padding:.15rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;flex-shrink:0}
+  .sjekk-navn{flex:1}
+  .sjekk-detalj{font-size:.75rem;color:#6b7280;font-style:italic}
+  .sider-liste{display:flex;flex-direction:column;gap:.25rem}
+  .side-url-rad{padding:.4rem .7rem;background:#faf6f0;border-left:3px solid #e5e3de;font-size:.82rem}
+  .side-url-rad a{color:#0a1355;text-decoration:none;font-weight:500}
+  .side-url-rad a:hover{text-decoration:underline}
+  .side-path{display:block;font-size:.72rem;color:#9ca3af}
 </style>
 </head>
 <body>
@@ -1372,25 +1462,6 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     <div class="score-tekst"><strong>UU-score</strong><p>Basert på WCAG-brudd, døde lenker og manglende labels på tvers av ${totalt.sider} sider. Klikk på skjermdumper for å forstørre.</p></div>
   </div>
 
-  <div class="seksjon" style="padding:1rem 1.4rem;margin-bottom:1.5rem">
-    <div class="seksjon-tittel">🧪 Testkontekst</div>
-    <div style="display:flex;gap:2rem;flex-wrap:wrap;font-size:.83rem;color:#374151;align-items:flex-start">
-      <div>
-        <span style="font-weight:600;color:#0a1355;display:block;margin-bottom:.25rem">Innlogging</span>
-        <code style="color:#2b3285">${escapeHtml(testdata.bruker || '—')}</code>
-      </div>
-      <div>
-        <span style="font-weight:600;color:#0a1355;display:block;margin-bottom:.25rem">Viewport</span>
-        <code style="color:#2b3285">${escapeHtml(testdata.viewport || '—')}</code>
-        <span style="color:#6b7280;font-size:.78rem;margin-left:.4rem">px</span>
-      </div>
-      <div>
-        <span style="font-weight:600;color:#0a1355;display:block;margin-bottom:.25rem">Start-URL</span>
-        <a href="${escapeHtml(testdata.startUrl || url)}" target="_blank" style="color:#07604f;font-size:.82rem">${escapeHtml(testdata.startUrl || url)}</a>
-      </div>
-    </div>
-  </div>
-
   <div class="kort-grid">
     <div class="kort ${totalt.sider > 0 ? 'ok' : 'advarsel'}"><div class="tall">${totalt.sider}</div><div class="etikett">Sider testet</div></div>
     <div class="kort ${totalt.wcagBrudd === 0 ? 'ok' : totalt.wcagBrudd < 5 ? 'advarsel' : 'kritisk'}"><div class="tall">${totalt.wcagBrudd}</div><div class="etikett">WCAG-brudd</div><div class="undertekst">${totalt.kritiske} kritiske · ${totalt.alvorlige} alvorlige</div></div>
@@ -1405,154 +1476,38 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)" style="background:transparent;border:1px solid #d1d5db;color:#374151;font-size:.75rem;padding:.3rem .85rem;border-radius:100px;cursor:pointer;font-family:inherit;transition:background .15s" onmouseover="this.style.background='#f4ecdf'" onmouseout="this.style.background='transparent'">↕ Lukk alle</button>
   </div>
 
-  ${sideDetaljer}
-  <div class="seksjon" id="tastatur" style="margin-top:2rem">
-    <div class="seksjon-tittel">⌨️ Tastaturnavigasjon (WCAG 2.1 A/AA)</div>
-    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
-      Automatisk sjekk av om siden kan betjenes fullt ut med kun tastatur.
-      Dekker WCAG 2.1.1, 2.1.2, 2.4.1, 2.4.3 og 2.4.7.
-    </p>
-    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
-      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${tastatur.bestått} bestått</span>
-      ${tastatur.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${tastatur.advarsel} advarsler</span>` : ''}
-      ${tastatur.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${tastatur.feil} feil</span>` : ''}
-    </div>
-    <table>
-      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
-      <tbody>
-        ${tastatur.tester.map(t => `
-        <tr>
-          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
-          <td style="font-size:.83rem">${t.navn}</td>
-          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
-          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
-  <div class="seksjon" id="reflow" style="margin-top:2rem">
-    <div class="seksjon-tittel">📱 Reflow – 320px / 400 % zoom (WCAG 1.4.10)</div>
-    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
-      Sjekker at innhold ikke krever horisontal rulling ved 320px bredde (tilsvarer 400 % zoom på 1280px-skjerm),
-      og at ingenting er avskåret med <code>overflow:hidden</code> i smal visning.
-    </p>
-    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
-      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${reflow.bestått} bestått</span>
-      ${reflow.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${reflow.advarsel} advarsler</span>` : ''}
-      ${reflow.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${reflow.feil} feil</span>` : ''}
-    </div>
-    <table>
-      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
-      <tbody>
-        ${reflow.tester.map(t => `
-        <tr>
-          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
-          <td style="font-size:.83rem">${t.navn}</td>
-          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
-          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
-  <div class="seksjon" id="tekstmellomrom" style="margin-top:2rem">
-    <div class="seksjon-tittel">📐 Tekstmellomrom (WCAG 1.4.12)</div>
-    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
-      Injiserer økt linjehøyde (×1,5), bokstavmellomrom (0,12em), ordmellomrom (0,16em) og avsnittsavstand (2em)
-      og sjekker at ingen tekst klippes eller forsvinner.
-    </p>
-    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
-      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${tekstmellomrom.bestått} bestått</span>
-      ${tekstmellomrom.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${tekstmellomrom.advarsel} advarsler</span>` : ''}
-      ${tekstmellomrom.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${tekstmellomrom.feil} feil</span>` : ''}
-    </div>
-    <table>
-      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
-      <tbody>
-        ${tekstmellomrom.tester.map(t => `
-        <tr>
-          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
-          <td style="font-size:.83rem">${t.navn}</td>
-          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
-          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
-  <div class="seksjon" id="ekstra-wcag" style="margin-top:2rem">
-    <div class="seksjon-tittel">🔎 Ekstra WCAG-sjekker (1.3.4, 1.4.13, 3.2.1, 3.2.2, 3.3.1)</div>
-    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
-      Sjekker av kriterier som ikke dekkes av axe-core: orientering (portrett/landskap), hover/fokus-innhold, uventet kontekstendring ved fokus og inndata, og feilidentifikasjon med aria-invalid.
-    </p>
-    <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1rem;font-size:.82rem">
-      <span style="background:#ecfdf5;color:#07604f;padding:.2rem .7rem;border-radius:100px;font-weight:600">✅ ${ekstraWcag.bestått} bestått</span>
-      ${ekstraWcag.advarsel > 0 ? `<span style="background:#f3dda2;color:#713f12;padding:.2rem .7rem;border-radius:100px;font-weight:600">⚠️ ${ekstraWcag.advarsel} advarsler</span>` : ''}
-      ${ekstraWcag.feil > 0 ? `<span style="background:#fee2e2;color:#c53030;padding:.2rem .7rem;border-radius:100px;font-weight:600">❌ ${ekstraWcag.feil} feil</span>` : ''}
-    </div>
-    <table>
-      <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
-      <tbody>
-        ${ekstraWcag.tester.map(t => `
-        <tr>
-          <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
-          <td style="font-size:.83rem">${t.navn}</td>
-          <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
-          <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
-  ${firefoxRun ? `
-  <div class="seksjon" id="firefox" style="margin-top:2rem;border-color:#fde68a;background:#fffbeb">
-    <div class="seksjon-tittel" style="color:#78350f">🦊 Firefox krysssjekk</div>
-    <p style="font-size:.83rem;color:#374151;line-height:1.6;margin-bottom:1rem">
-      Identiske tester kjørt i Firefox for å avdekke nettleserspesifikke tilgjengelighetsproblemer. ${firefoxRun.totalt.sider} sider analysert.
-    </p>
-    <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:1.5rem">
-      <div style="background:white;border:1px solid #fde68a;padding:.7rem 1.2rem;border-radius:.4rem;min-width:110px;text-align:center">
-        <div style="font-size:1.5rem;font-weight:700;color:#0a1355">${firefoxRun.totalt.wcagBrudd}</div>
-        <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">WCAG-brudd</div>
-        <div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">${firefoxRun.totalt.kritiske} krit. · ${firefoxRun.totalt.alvorlige} alv.</div>
-      </div>
-      <div style="background:white;border:1px solid #fde68a;padding:.7rem 1.2rem;border-radius:.4rem;min-width:110px;text-align:center">
-        <div style="font-size:1.5rem;font-weight:700;color:#0a1355">${firefoxRun.totalt.dødelenker}</div>
-        <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">Døde lenker</div>
-      </div>
-      <div style="background:white;border:1px solid #fde68a;padding:.7rem 1.2rem;border-radius:.4rem;min-width:110px;text-align:center">
-        <div style="font-size:1.5rem;font-weight:700;color:#0a1355">${firefoxRun.tastatur.feil + firefoxRun.reflow.feil + firefoxRun.tekstmellomrom.feil + firefoxRun.ekstraWcag.feil}</div>
-        <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em">Feil totalt</div>
-        <div style="font-size:.7rem;color:#9ca3af;margin-top:.15rem">tas. · ref. · tekst · ekstra</div>
+  <details style="margin-top:1.5rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
+    <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>📄 Sider analysert (${totalt.sider} sider)</span>
+      <span style="font-size:.75rem;opacity:.5;font-weight:400;text-transform:none;letter-spacing:0">klikk for å utvide ▼</span>
+    </summary>
+    <div style="padding:1.2rem 1.5rem 1.5rem;border-top:1px solid #f4ecdf">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem">
+        <div style="border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff;padding:.8rem">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1d4ed8;margin-bottom:.6rem">🌐 Chromium</div>
+          <div style="font-size:.72rem;font-weight:600;color:#0a1355;margin-bottom:.5rem">🔐 Fast bruker (${escapeHtml(testdata.bruker ?? 'ukjent')})</div>
+          <div class="sider-liste">
+            ${sider.map(side => `<div class="side-url-rad">
+              <a href="${side.url}" target="_blank">${escapeHtml(side.tittel || side.url)}</a>
+              <span class="side-path">${escapeHtml(side.url.replace(url.replace(/\/$/, ''), '') || '/')}</span>
+            </div>`).join('')}
+          </div>
+        </div>
+        ${firefoxRun ? `<div style="border:1px solid #fde68a;border-radius:4px;background:#fffbeb;padding:.8rem">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#92400e;margin-bottom:.6rem">🦊 Firefox</div>
+          <div style="font-size:.72rem;font-weight:600;color:#0a1355;margin-bottom:.5rem">🔐 Fast bruker (${escapeHtml(firefoxRun.fast.bruker ?? 'ukjent')})</div>
+          <div class="sider-liste">
+            ${firefoxRun.fast.sider.map(side => `<div class="side-url-rad">
+              <a href="${side.url}" target="_blank">${escapeHtml(side.tittel || side.url)}</a>
+              <span class="side-path">${escapeHtml(side.url.replace(url.replace(/\/$/, ''), '') || '/')}</span>
+            </div>`).join('')}
+          </div>
+        </div>` : ''}
       </div>
     </div>
+  </details>
 
-    ${[
-      { id: 'ff-tastatur', tittel: '⌨️ Tastaturnavigasjon', data: firefoxRun.tastatur },
-      { id: 'ff-reflow', tittel: '📱 Reflow (1.4.10)', data: firefoxRun.reflow },
-      { id: 'ff-tekstmellomrom', tittel: '📐 Tekstmellomrom (1.4.12)', data: firefoxRun.tekstmellomrom },
-      { id: 'ff-ekstra', tittel: '🔎 Ekstra WCAG-sjekker', data: firefoxRun.ekstraWcag },
-    ].map(({ id, tittel, data }) => `
-    <details open style="margin-bottom:1rem;border:1px solid #fde68a;background:white;padding:.8rem 1rem">
-      <summary style="cursor:pointer;font-size:.8rem;font-weight:600;color:#78350f;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
-        <span>${tittel} – <span style="color:#07604f">✅ ${data.bestått}</span>${data.advarsel > 0 ? ` · <span style="color:#713f12">⚠️ ${data.advarsel}</span>` : ''}${data.feil > 0 ? ` · <span style="color:#c53030">❌ ${data.feil}</span>` : ''}</span>
-        <span style="font-size:.7rem;opacity:.5;font-weight:400">▼</span>
-      </summary>
-      <table style="margin-top:.7rem">
-        <thead><tr><th>WCAG</th><th>Test</th><th>Resultat</th><th>Detalj</th></tr></thead>
-        <tbody>
-          ${(data.tester ?? []).map(t => `
-          <tr>
-            <td><code style="font-size:.75rem;color:#2b3285">${t.wcag}</code></td>
-            <td style="font-size:.83rem">${t.navn}</td>
-            <td><span style="display:inline-block;padding:.1rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;background:${t.resultat === 'bestått' ? '#ecfdf5' : t.resultat === 'feil' ? '#fee2e2' : '#f3dda2'};color:${t.resultat === 'bestått' ? '#07604f' : t.resultat === 'feil' ? '#c53030' : '#713f12'}">${t.resultat === 'bestått' ? '✅ bestått' : t.resultat === 'feil' ? '❌ feil' : '⚠️ advarsel'}</span></td>
-            <td style="font-size:.78rem;color:#6b7280">${t.detalj || '—'}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </details>`).join('')}
-  </div>` : ''}
+  ${wcagSeksjonerHtml}
 
   <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
     <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
@@ -1644,54 +1599,27 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     </div>
   </details>
 
-  ${innloggingsSteg.length > 0 ? `
-  <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
-    <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
-      <span>🔐 Innloggingsflyt – ID-porten TestID (${innloggingsSteg.length} steg)</span>
-      <span style="font-size:.75rem;opacity:.5;font-weight:400;text-transform:none;letter-spacing:0">klikk for å utvide ▼</span>
-    </summary>
-    <div style="padding:1.2rem 1.5rem 1.5rem;border-top:1px solid #f4ecdf">
-      <p style="font-size:.83rem;color:#374151;margin-bottom:1.2rem;line-height:1.6">
-        Automatisk dokumentasjon av innloggingsflyten fanget under denne testkjøringen. Viser hvert steg fra applikasjonsstart via ID-porten TestID og tilbake til applikasjonen.
-      </p>
-      <div style="display:flex;flex-direction:column;gap:0">
-        ${innloggingsSteg.map((s, i) => `
-        <div style="display:flex;gap:1.4rem;align-items:flex-start">
-          <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-            <div style="width:36px;height:36px;border-radius:50%;background:#0a1355;color:white;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem">${s.nr}</div>
-            ${i < innloggingsSteg.length - 1 ? '<div style="width:2px;background:#e5e3de;flex:1;min-height:1rem;margin:.3rem 0"></div>' : ''}
-          </div>
-          <div style="flex:1;padding-bottom:${i < innloggingsSteg.length - 1 ? '1.4rem' : '0'}">
-            <div style="font-weight:600;color:#0a1355;font-size:.9rem;margin-bottom:.2rem">${s.tittel}</div>
-            <div style="font-size:.82rem;color:#6b7280;line-height:1.5;margin-bottom:.7rem">${s.beskriv}</div>
-            <a href="${s.fil}" target="_blank">
-              <img src="${s.fil}" alt="${s.tittel}" loading="lazy"
-                style="width:100%;max-width:780px;border:1px solid #e5e3de;border-radius:4px;box-shadow:0 2px 8px rgba(10,19,85,.08);cursor:zoom-in;display:block">
-            </a>
-          </div>
-        </div>`).join('')}
-      </div>
-    </div>
-  </details>` : ''}
-
   <div class="seksjon" style="margin-top:2rem">
     <div class="seksjon-tittel">Slik beregnes UU-scoren</div>
+    <p style="font-size:.82rem;color:#374151;margin-bottom:.9rem;line-height:1.6">
+      WCAG-brudd telles per <strong>unik regeltype</strong> (ikke per side-forekomst), slik at én feil på ti sider gir samme trekk som én feil på én side. Knapper og lenker har tak på maks 15–20 poengs fradrag.
+    </p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
-      <span style="color:#374151">Kritisk WCAG-brudd</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
-      <span style="color:#374151">Alvorlig WCAG-brudd</span><span style="color:#9a3412;font-weight:700">× 8 poeng</span>
-      <span style="color:#374151">Moderat WCAG-brudd</span><span style="color:#713f12;font-weight:700">× 3 poeng</span>
-      <span style="color:#374151">Mindre WCAG-brudd</span><span style="color:#6b7280;font-weight:700">× 1 poeng</span>
-      <span style="color:#374151">Død lenke</span><span style="color:#c53030;font-weight:700">× 5 poeng</span>
-      <span style="color:#374151">Knapp uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
-      <span style="color:#374151">Bilde uten alt-tekst</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
-      <span style="color:#374151">Skjemafelt uten label</span><span style="color:#9a3412;font-weight:700">× 4 poeng</span>
-      <span style="color:#374151">Tastatur-feil (WCAG-brudd)</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
-      <span style="color:#374151">Tastatur-advarsel</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
-      <span style="color:#374151">Reflow-feil (1.4.10)</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
-      <span style="color:#374151">Reflow-advarsel</span><span style="color:#9a3412;font-weight:700">× 3 poeng</span>
-      <span style="color:#374151">Tekstmellomrom-advarsel (1.4.12)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
-      <span style="color:#374151">Ekstra WCAG-feil</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
-      <span style="color:#374151">Ekstra WCAG-advarsel</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Kritisk WCAG-regeltype (unik)</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
+      <span style="color:#374151">Alvorlig WCAG-regeltype (unik)</span><span style="color:#9a3412;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Moderat WCAG-regeltype (unik)</span><span style="color:#713f12;font-weight:700">× 3 poeng</span>
+      <span style="color:#374151">Mindre WCAG-regeltype (unik)</span><span style="color:#6b7280;font-weight:700">× 1 poeng</span>
+      <span style="color:#374151">Død lenke (maks 20 p)</span><span style="color:#c53030;font-weight:700">× 4 poeng</span>
+      <span style="color:#374151">Knapp uten label (maks 15 p)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Bilde uten alt-tekst (maks 10 p)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Skjemafelt uten label (maks 10 p)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Tastatur-feil (WCAG-brudd)</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
+      <span style="color:#374151">Tastatur-advarsel</span><span style="color:#9a3412;font-weight:700">× 3 poeng</span>
+      <span style="color:#374151">Reflow-feil (1.4.10)</span><span style="color:#c53030;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Reflow-advarsel</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Tekstmellomrom-feil (1.4.12)</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-feil</span><span style="color:#c53030;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-advarsel</span><span style="color:#9a3412;font-weight:700">× 1 poeng</span>
     </div>
     <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
   </div>
