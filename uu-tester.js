@@ -1399,6 +1399,12 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
     <div class="kort ${totalt.bilderUtenAlt === 0 ? 'ok' : 'advarsel'}"><div class="tall">${totalt.bilder}</div><div class="etikett">Bilder testet</div><div class="undertekst">${totalt.bilderUtenAlt} uten alt</div></div>
     <div class="kort ${totalt.feltUtenLabel === 0 ? 'ok' : 'advarsel'}"><div class="tall">${totalt.skjemafelt}</div><div class="etikett">Skjemafelt</div><div class="undertekst">${totalt.feltUtenLabel} uten label</div></div>
   </div>
+
+  <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.2rem;margin-bottom:-.2rem">
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)" style="background:transparent;border:1px solid #d1d5db;color:#374151;font-size:.75rem;padding:.3rem .85rem;border-radius:100px;cursor:pointer;font-family:inherit;transition:background .15s" onmouseover="this.style.background='#f4ecdf'" onmouseout="this.style.background='transparent'">↕ Åpne alle</button>
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)" style="background:transparent;border:1px solid #d1d5db;color:#374151;font-size:.75rem;padding:.3rem .85rem;border-radius:100px;cursor:pointer;font-family:inherit;transition:background .15s" onmouseover="this.style.background='#f4ecdf'" onmouseout="this.style.background='transparent'">↕ Lukk alle</button>
+  </div>
+
   ${sideDetaljer}
   <div class="seksjon" id="tastatur" style="margin-top:2rem">
     <div class="seksjon-tittel">⌨️ Tastaturnavigasjon (WCAG 2.1 A/AA)</div>
