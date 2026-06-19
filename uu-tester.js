@@ -111,8 +111,8 @@ async function taSkjermdump(page, selectors, filnavn, farge = '#dc3545') {
   }
 }
 
-async function analyserSide(url, indeks, oppdagetFra = null, tarScreenshots = true) {
-  const page = await context.newPage();
+async function analyserSide(url, indeks, oppdagetFra = null, tarScreenshots = true, ctx = context) {
+  const page = await ctx.newPage();
   try {
     await page.goto(url, { waitUntil: 'networkidle', timeout: LAST_TIMEOUT });
 
@@ -892,7 +892,7 @@ if (FIREFOX_KRYSSSJEKK) {
       ffBesøkte.add(ffNorm);
       ffSideIndeks++;
       console.log(`  🦊 [${ffBesøkte.size}/${MAX_SIDER}] Analyserer: ${ffNorm}`);
-      const res = await analyserSide(ffNorm, ffSideIndeks, ffOppdagetFraMap.get(ffNorm) ?? null, false);
+      const res = await analyserSide(ffNorm, ffSideIndeks, ffOppdagetFraMap.get(ffNorm) ?? null, false, ffCtx);
       if (res) {
         ffSider.push(res);
         for (const lenke of res.internelenker) {
