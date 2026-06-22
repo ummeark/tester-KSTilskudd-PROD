@@ -24,3 +24,4 @@ export const KRASJ_ORD = [
 ];
 
 export const FIREFOX_KRYSSSJEKK = process.env.FIREFOX_KRYSSSJEKK !== 'false';
+export const WEBKIT_KRYSSSJEKK  = process.env.WEBKIT_KRYSSSJEKK  !== 'false';
