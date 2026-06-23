@@ -1171,12 +1171,13 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   }
 
   function kriterieInnholdFn(id, info, sp, ta, re, me, ek) {
-    if (info.tags?.length)   return innholdAxe(id, sp);
-    if (info.tastaturKat)    return innholdSjekk(info.tastaturKat, ta);
-    if (info.reflowKat)      return innholdSjekk(info.reflowKat, re);
-    if (info.mellomromKat)   return innholdSjekk(info.mellomromKat, me);
-    if (info.ekstraKat)      return innholdSjekk(info.ekstraKat, ek);
-    return '<div class="ok-rad">✅ Bestått</div>';
+    let html = '';
+    if (info.tags?.length)   html += innholdAxe(id, sp);
+    if (info.tastaturKat)    html += innholdSjekk(info.tastaturKat, ta);
+    if (info.reflowKat)      html += innholdSjekk(info.reflowKat, re);
+    if (info.mellomromKat)   html += innholdSjekk(info.mellomromKat, me);
+    if (info.ekstraKat)      html += innholdSjekk(info.ekstraKat, ek);
+    return html || '<div class="ok-rad">✅ Bestått</div>';
   }
 
   function kjøringContainerFn(id, info, sp, ta, re, me, ek, fnr, erTilfeldig) {
