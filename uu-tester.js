@@ -1106,6 +1106,57 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
   };
   const PRINSIPP_NAVN = { 1: 'Mulig å oppfatte', 2: 'Mulig å betjene', 3: 'Mulig å forstå', 4: 'Robust' };
 
+  const UUTIL_URLS = {
+    '1.1.1':  'https://www.uutilsynet.no/wcag-standarden/111-ikke-tekstlig-innhold-niva/87',
+    '1.2.1':  'https://www.uutilsynet.no/wcag-standarden/121-bare-lyd-og-bare-video-forhandsinnspilt-niva/88',
+    '1.2.2':  'https://www.uutilsynet.no/wcag-standarden/122-teksting-forhandsinnspilt-niva/89',
+    '1.2.5':  'https://www.uutilsynet.no/wcag-standarden/125-synstolking-forhandsinnspilt-niva-aa/842',
+    '1.3.1':  'https://www.uutilsynet.no/wcag-standarden/131-informasjon-og-relasjoner-niva/90',
+    '1.3.2':  'https://www.uutilsynet.no/wcag-standarden/132-meningsfylt-rekkefolge-niva/91',
+    '1.3.3':  'https://www.uutilsynet.no/wcag-standarden/133-sensoriske-egenskaper-niva/92',
+    '1.3.4':  'https://www.uutilsynet.no/wcag-standarden/134-visningsretning-niva-aa/141',
+    '1.3.5':  'https://www.uutilsynet.no/wcag-standarden/135-identifiser-formal-med-inndata-niva-aa/142',
+    '1.4.1':  'https://www.uutilsynet.no/wcag-standarden/141-bruk-av-farge-niva/93',
+    '1.4.2':  'https://www.uutilsynet.no/wcag-standarden/142-styring-av-lyd-niva/94',
+    '1.4.3':  'https://www.uutilsynet.no/wcag-standarden/143-kontrast-minimum-niva-aa/95',
+    '1.4.4':  'https://www.uutilsynet.no/wcag-standarden/144-endring-av-tekststorrelse-niva-aa/96',
+    '1.4.5':  'https://www.uutilsynet.no/wcag-standarden/145-bilder-av-tekst-niva-aa/97',
+    '1.4.10': 'https://www.uutilsynet.no/wcag-standarden/1410-dynamisk-tilpasning-reflow-niva-aa/144',
+    '1.4.11': 'https://www.uutilsynet.no/wcag-standarden/1411-kontrast-ikke-tekstlig-innhold-niva-aa/145',
+    '1.4.12': 'https://www.uutilsynet.no/wcag-standarden/1412-tekstavstand-niva-aa/146',
+    '1.4.13': 'https://www.uutilsynet.no/wcag-standarden/1413-pekerfolsomt-innhold-eller-innhold-ved-tastaturfokus-niva-aa/147',
+    '2.1.1':  'https://www.uutilsynet.no/wcag-standarden/211-tastatur-niva/98',
+    '2.1.2':  'https://www.uutilsynet.no/wcag-standarden/212-ingen-tastaturfelle-niva/99',
+    '2.1.4':  'https://www.uutilsynet.no/wcag-standarden/214-hurtigtaster-som-bestar-av-ett-tegn-niva/782',
+    '2.2.1':  'https://www.uutilsynet.no/wcag-standarden/221-justerbar-hastighet-niva/100',
+    '2.2.2':  'https://www.uutilsynet.no/wcag-standarden/222-pause-stopp-skjul-niva/101',
+    '2.3.1':  'https://www.uutilsynet.no/wcag-standarden/231-terskelverdi-pa-maksimalt-tre-glimt-niva/102',
+    '2.4.1':  'https://www.uutilsynet.no/wcag-standarden/241-hoppe-over-blokker-niva/103',
+    '2.4.2':  'https://www.uutilsynet.no/wcag-standarden/242-sidetitler-niva/104',
+    '2.4.3':  'https://www.uutilsynet.no/wcag-standarden/243-fokusrekkefolge-niva/105',
+    '2.4.4':  'https://www.uutilsynet.no/wcag-standarden/244-formal-med-lenke-i-kontekst-niva/106',
+    '2.4.5':  'https://www.uutilsynet.no/wcag-standarden/245-flere-mater-niva-aa/107',
+    '2.4.6':  'https://www.uutilsynet.no/wcag-standarden/246-overskrifter-og-ledetekster-niva-aa/108',
+    '2.4.7':  'https://www.uutilsynet.no/wcag-standarden/247-synlig-fokus-niva-aa/109',
+    '2.5.1':  'https://www.uutilsynet.no/wcag-standarden/251-pekerbevegelser-niva/148',
+    '2.5.2':  'https://www.uutilsynet.no/wcag-standarden/252-pekeravbrytelse-niva/149',
+    '2.5.3':  'https://www.uutilsynet.no/wcag-standarden/253-ledetekst-i-navn-niva/150',
+    '2.5.4':  'https://www.uutilsynet.no/wcag-standarden/254-bevegelsesaktivering-niva/151',
+    '3.1.1':  'https://www.uutilsynet.no/wcag-standarden/311-sprak-pa-siden-niva/110',
+    '3.1.2':  'https://www.uutilsynet.no/wcag-standarden/312-sprak-pa-deler-av-innhold-niva-aa/111',
+    '3.2.1':  'https://www.uutilsynet.no/wcag-standarden/321-fokus-niva/112',
+    '3.2.2':  'https://www.uutilsynet.no/wcag-standarden/322-inndata-niva/114',
+    '3.2.3':  'https://www.uutilsynet.no/wcag-standarden/323-konsekvent-navigering-niva-aa/113',
+    '3.2.4':  'https://www.uutilsynet.no/wcag-standarden/324-konsekvent-identifikasjon-niva-aa/115',
+    '3.3.1':  'https://www.uutilsynet.no/wcag-standarden/331-identifikasjon-av-feil-niva/116',
+    '3.3.2':  'https://www.uutilsynet.no/wcag-standarden/332-ledetekster-eller-instruksjoner-niva/117',
+    '3.3.3':  'https://www.uutilsynet.no/wcag-standarden/333-forslag-ved-feil-niva-aa/118',
+    '3.3.4':  'https://www.uutilsynet.no/wcag-standarden/334-forhindring-av-feil-juridiske-feil-okonomiske-feil-datafeil-niva-aa/119',
+    '4.1.1':  'https://www.uutilsynet.no/wcag-standarden/411-parsing-oppdeling-niva/120',
+    '4.1.2':  'https://www.uutilsynet.no/wcag-standarden/412-navn-rolle-verdi-niva/121',
+    '4.1.3':  'https://www.uutilsynet.no/wcag-standarden/413-statusbeskjeder-niva-aa/152',
+  };
+
   function wMatch(v, id) {
     return (v.tags ?? []).some(tag => { const m = tag.match(/^wcag(\d)(\d)(\d+)$/); return m ? `${m[1]}.${m[2]}.${m[3]}` === id : false; });
   }
@@ -1665,7 +1716,7 @@ function genererRapport(url, dato, tidspunkt, totalt, sider, versjon = null, tas
           <tbody>
             ${rader.map((r, i) => `
             <tr style="background:${i % 2 === 0 ? 'white' : '#fafaf9'}">
-              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">${r[0]}</td>
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem">${UUTIL_URLS[r[0]] ? `<a href="${UUTIL_URLS[r[0]]}" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om ${r[0]} på uutilsynet.no">${r[0]}</a>` : r[0]}</td>
               <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">${r[1]}</td>
               <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:${r[2]==='A'?'#dbeafe':'#e0e7ff'};color:${r[2]==='A'?'#1e40af':'#3730a3'}">${r[2]}</span></td>
               <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">${r[3]}</td>
