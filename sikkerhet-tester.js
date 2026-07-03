@@ -123,13 +123,15 @@ for (const [header, info] of Object.entries(SIKKERHETSHODER)) {
     leggTilFunn('hoder', info.alvorlighet,
       `Manglende ${info.navn}`,
       info.beskrivelse,
-      START_URL
+      START_URL,
+      { steg: [`Sender HTTP-forespørsel til ${START_URL}`, `Sjekker om respons-hodet "${header}" er satt`, `Hodet mangler – flagges som ${info.alvorlighet}`] }
     );
   } else {
     leggTilFunn('hoder', 'ok',
       `${info.navn} er satt`,
       `Verdi: ${hoved_hoder[header]}`,
-      START_URL
+      START_URL,
+      { steg: [`Sender HTTP-forespørsel til ${START_URL}`, `Sjekker om respons-hodet "${header}" er satt`, `Hodet er satt – verdi: ${hoved_hoder[header]}`] }
     );
   }
 }
@@ -142,7 +144,8 @@ for (const header of INFO_LEKKASJE_HODER) {
     leggTilFunn('informasjonslekkasje', 'middels',
       `Server avslører teknologiinformasjon: ${header}`,
       `Verdi: "${hoved_hoder[header]}" – gir angriper innsikt i teknologistakk`,
-      START_URL
+      START_URL,
+      { steg: [`Sender HTTP-forespørsel til ${START_URL}`, `Sjekker om informasjonshodet "${header}" er til stede i responsen`, `Hodet funnet med verdi "${hoved_hoder[header]}"`] }
     );
   }
 }
@@ -154,16 +157,24 @@ const httpUrl = START_URL.replace('https://', 'http://');
 if (httpUrl !== START_URL) {
   const { status: httpStatus, hoder: httpHoder } = await hentHoder(httpUrl);
   if (httpStatus === 0) {
-    leggTilFunn('https', 'ok', 'HTTP-tilkobling avvist', 'Serveren svarer ikke på HTTP', httpUrl);
+    leggTilFunn('https', 'ok', 'HTTP-tilkobling avvist', 'Serveren svarer ikke på HTTP', httpUrl,
+      { steg: [`Sender HTTP-forespørsel til ${httpUrl}`, 'Sjekker om serveren svarer på HTTP', 'Serveren svarer ikke på HTTP – tilkobling avvist'] }
+    );
   } else if ([301, 302, 307, 308].includes(httpStatus)) {
     const loc = httpHoder['location'] || '';
     if (loc.startsWith('https://')) {
-      leggTilFunn('https', 'ok', 'HTTP omdirigerer til HTTPS', `Redirect: ${loc}`, httpUrl);
+      leggTilFunn('https', 'ok', 'HTTP omdirigerer til HTTPS', `Redirect: ${loc}`, httpUrl,
+        { steg: [`Sender HTTP-forespørsel til ${httpUrl}`, 'Sjekker om serveren omdirigerer til HTTPS', `Videresendes til ${loc}`] }
+      );
     } else {
-      leggTilFunn('https', 'alvorlig', 'HTTP omdirigerer ikke til HTTPS', `Redirect går til: ${loc}`, httpUrl);
+      leggTilFunn('https', 'alvorlig', 'HTTP omdirigerer ikke til HTTPS', `Redirect går til: ${loc}`, httpUrl,
+        { steg: [`Sender HTTP-forespørsel til ${httpUrl}`, 'Sjekker om serveren omdirigerer til HTTPS', `Redirect går IKKE til HTTPS: ${loc}`] }
+      );
     }
   } else if (httpStatus >= 200 && httpStatus < 300) {
-    leggTilFunn('https', 'kritisk', 'Siden er tilgjengelig over usikker HTTP', 'Innhold serveres over HTTP uten omdiriging til HTTPS', httpUrl);
+    leggTilFunn('https', 'kritisk', 'Siden er tilgjengelig over usikker HTTP', 'Innhold serveres over HTTP uten omdiriging til HTTPS', httpUrl,
+      { steg: [`Sender HTTP-forespørsel til ${httpUrl}`, 'Sjekker om siden er tilgjengelig over HTTP uten redirect', 'HTTP-200 uten redirect – kritisk'] }
+    );
   }
 }
 
@@ -179,13 +190,15 @@ for (const { sti, beskrivelse } of SENSITIVE_STIER) {
       sti.startsWith('/.env') || sti.includes('.git') ? 'kritisk' : 'alvorlig',
       `Sensitiv sti tilgjengelig: ${sti}`,
       `${beskrivelse} – HTTP ${status}${harInnhold ? `, ${innhold.length} tegn innhold` : ''}`,
-      url
+      url,
+      { steg: [`Sender forespørsel til ${url}`, 'Sjekker HTTP-statuskode', `Sti returnerte HTTP 200 – innhold tilgjengelig: ${beskrivelse}`] }
     );
   } else if (status === 403) {
     leggTilFunn('sensitive-stier', 'middels',
       `Sti gir 403 Forbidden: ${sti}`,
       `${beskrivelse} – eksisterer men er sperret`,
-      url
+      url,
+      { steg: [`Sender forespørsel til ${url}`, 'Sjekker HTTP-statuskode', 'Sti returnerte 403 Forbidden – eksisterer men sperret'] }
     );
   }
   // 404 = OK, ikke rapport
@@ -233,7 +246,8 @@ for (const cookie of cookies) {
     leggTilFunn('cookies', 'ok',
       `Cookie "${cookie.name}" (${cookie.domain}) er fra ekstern leverandør – sjekkes ikke`,
       'ID-porten og andre tredjeparts-cookies er ikke i bruk i portalen',
-      START_URL
+      START_URL,
+      { steg: ['Logger inn og henter alle cookies fra nettleserkonteksten', 'Identifiserer cookie-domene', 'Cookie tilhører ekstern leverandør – sjekkes ikke'] }
     );
     continue;
   }
@@ -258,25 +272,29 @@ for (const cookie of cookies) {
       !cookie.secure ? 'alvorlig' : 'middels',
       `Cookie "${cookie.name}" har svake sikkerhetsattributter`,
       problemer.join(', '),
-      START_URL
+      START_URL,
+      { steg: ['Logger inn og henter alle cookies', `Sjekker cookie "${cookie.name}" for Secure, HttpOnly og SameSite`, `Problemer funnet: ${problemer.join(', ')}`] }
     );
   } else if (cookie.name === 'ingress-csrf') {
     leggTilFunn('cookies', 'lav',
       `Cookie "ingress-csrf" mangler HttpOnly (akseptert)`,
       'Må leses av JavaScript for CSRF-beskyttelse – HttpOnly er ikke mulig. Dette er standarden.',
-      START_URL
+      START_URL,
+      { steg: ['Logger inn og henter alle cookies', 'Sjekker cookie "ingress-csrf"', 'Mangler HttpOnly – akseptert unntak, nødvendig for CSRF-beskyttelse'] }
     );
   } else if (sessionSamesiteUndtak) {
     leggTilFunn('cookies', 'lav',
       `Cookie "session" har SameSite=None (avventes – platform-teamet avgjør)`,
       'Platform-teamet er kontaktet og avgjør om dette skal utbedres.',
-      START_URL
+      START_URL,
+      { steg: ['Logger inn og henter alle cookies', 'Sjekker cookie "session" for SameSite', 'SameSite=None – avventes platform-teamet'] }
     );
   } else {
     leggTilFunn('cookies', 'ok',
       `Cookie "${cookie.name}" har korrekte sikkerhetsattributter`,
       'Secure + HttpOnly + SameSite er satt',
-      START_URL
+      START_URL,
+      { steg: ['Logger inn og henter alle cookies', `Sjekker cookie "${cookie.name}" for Secure, HttpOnly og SameSite`, 'Alle sikkerhetsattributter korrekt satt'] }
     );
   }
 }
@@ -304,11 +322,14 @@ if (mixedContent.length > 0) {
     leggTilFunn('mixed-content', 'alvorlig',
       'Mixed content – HTTP-ressurs på HTTPS-side',
       `Usikker ressurs lastes inn: ${url}`,
-      page.url()
+      page.url(),
+      { steg: ['Registrerer lytter på alle HTTP-forespørsler under sidelasting', 'Laster siden over HTTPS', `Oppdaget HTTP-ressurs på HTTPS-side: ${url}`] }
     );
   }
 } else {
-  leggTilFunn('mixed-content', 'ok', 'Ingen mixed content funnet', 'Alle ressurser lastes over HTTPS', START_URL);
+  leggTilFunn('mixed-content', 'ok', 'Ingen mixed content funnet', 'Alle ressurser lastes over HTTPS', START_URL,
+    { steg: ['Registrerer lytter på alle HTTP-forespørsler under sidelasting', `Laster ${START_URL} over HTTPS`, 'Ingen HTTP-ressurser lastet – ingen mixed content'] }
+  );
 }
 
 // ── Test 7: Input-refleksjon (XSS) ────────────────────────────────────────────
@@ -337,17 +358,19 @@ if (await søkefelt.count() > 0) {
       leggTilFunn('xss', 'kritisk',
         'XSS-payload kjørte i nettleseren',
         'Skript fra søkefeltet ble utført – kritisk sårbarhet',
-        page.url(), { skjermdump: skjerm }
+        page.url(), { skjermdump: skjerm, steg: [`Navigerer til ${START_URL}`, 'Finner søkefelt og fyller inn XSS-payload', 'Sender skjemaet og sjekker om scriptet kjørte', 'window.__xsstest === 1 – payload ble utført i nettleseren'] }
       );
     } else if (reflektert) {
       const skjerm = await taSkjermdump(page, 'xss-reflektert');
       leggTilFunn('xss', 'alvorlig',
         'Input reflekteres urensket i HTML',
         'Søkepayload finnes uendret i HTML – potensiell XSS',
-        page.url(), { skjermdump: skjerm }
+        page.url(), { skjermdump: skjerm, steg: [`Navigerer til ${START_URL}`, 'Finner søkefelt og fyller inn XSS-payload', 'Sender skjemaet og sjekker HTML-innhold', 'Payload funnet urensket i HTML-kildekoden'] }
       );
     } else {
-      leggTilFunn('xss', 'ok', 'Søkefelt ser ut til å rense input', 'Payload ble ikke reflektert urensket', page.url());
+      leggTilFunn('xss', 'ok', 'Søkefelt ser ut til å rense input', 'Payload ble ikke reflektert urensket', page.url(),
+        { steg: [`Navigerer til ${START_URL}`, 'Finner søkefelt og fyller inn XSS-payload', 'Sender skjemaet', 'Sjekker HTML-innhold og window.__xsstest', 'Payload ikke reflektert urensket'] }
+      );
     }
   } catch (e) {
     console.log(`  ⚠️ Kunne ikke teste XSS: ${e.message}`);
@@ -380,12 +403,17 @@ if (corsOrigin === '*') {
   leggTilFunn('cors', 'alvorlig',
     'CORS tillater alle opphav (wildcard *)',
     'Access-Control-Allow-Origin: * – alle domener kan gjøre cross-origin-forespørsler',
-    START_URL
+    START_URL,
+    { steg: [`Sender OPTIONS-forespørsel til ${START_URL} med Origin: https://ondomain.eksempel.no`, 'Sjekker Access-Control-Allow-Origin i respons', 'Fant wildcard "*" – alle domener tillatt'] }
   );
 } else if (corsOrigin) {
-  leggTilFunn('cors', 'ok', `CORS er begrenset til spesifikt opphav`, `Tillatt: ${corsOrigin}`, START_URL);
+  leggTilFunn('cors', 'ok', `CORS er begrenset til spesifikt opphav`, `Tillatt: ${corsOrigin}`, START_URL,
+    { steg: [`Sender OPTIONS-forespørsel til ${START_URL} med Origin: https://ondomain.eksempel.no`, 'Sjekker Access-Control-Allow-Origin i respons', `Begrenset til: ${corsOrigin}`] }
+  );
 } else {
-  leggTilFunn('cors', 'ok', 'Ingen CORS-hoder – standard same-origin-policy gjelder', '', START_URL);
+  leggTilFunn('cors', 'ok', 'Ingen CORS-hoder – standard same-origin-policy gjelder', '', START_URL,
+    { steg: [`Sender OPTIONS-forespørsel til ${START_URL} med Origin: https://ondomain.eksempel.no`, 'Sjekker Access-Control-Allow-Origin i respons', 'Ingen CORS-hoder – standard same-origin-policy'] }
+  );
 }
 
 await browser.close();
@@ -455,6 +483,16 @@ const sidenavigasjon = Object.entries(KATEGORIER).map(([id, { tittel, ikon }]) =
   </a></li>`;
 }).join('');
 
+function renderSteg(steg) {
+  if (!steg?.length) return '';
+  return `<details style="margin:.5rem 0 .3rem 0">
+    <summary style="cursor:pointer;font-size:.72rem;color:#2b3285;user-select:none;list-style:none;display:inline-flex;align-items:center;gap:.3rem">🔍 Teststeg ▾</summary>
+    <ol style="margin:.5rem 0 0 .5rem;padding:0;list-style:none;display:flex;flex-direction:column;gap:.2rem">
+      ${steg.map((s, i) => `<li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">${i+1}.</span><span>${s}</span></li>`).join('')}
+    </ol>
+  </details>`;
+}
+
 function funnKort(f) {
   if (f.alvorlighet === 'ok') return '';
   return `
@@ -466,6 +504,7 @@ function funnKort(f) {
       </div>
     </div>
     ${f.detalj ? `<p class="brudd-hjelp">${f.detalj}</p>` : ''}
+    ${renderSteg(f.steg ?? [])}
     ${f.url && f.url !== START_URL ? `<div class="node-info"><span class="node-selector">${f.url}</span></div>` : ''}
     ${f.skjermdump ? `
     <div class="skjermdump-gruppe">
@@ -482,9 +521,9 @@ function funnKort(f) {
 function okListe(kfunn) {
   const bestått = kfunn.filter(f => f.alvorlighet === 'ok');
   if (bestått.length === 0) return '';
-  return `<details style="margin-top:.8rem"><summary style="font-size:.78rem;color:#07604f;cursor:pointer;padding:.4rem 0">✅ ${bestått.length} sjekk bestått</summary>
+  return `<details style="margin-top:.8rem"><summary style="font-size:.78rem;color:#07604f;cursor:pointer;padding:.4rem 0;display:flex;align-items:center;gap:.5rem;list-style:none">✅ ${bestått.length} sjekk bestått</summary>
     <ul style="list-style:none;margin-top:.5rem;display:flex;flex-direction:column;gap:.3rem">
-      ${bestått.map(f => `<li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ ${f.tittel}${f.detalj ? ` — <span style="color:#6b7280">${f.detalj}</span>` : ''}</li>`).join('')}
+      ${bestått.map(f => `<li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ ${f.tittel}${f.detalj ? ` — <span style="color:#6b7280">${f.detalj}</span>` : ''}${renderSteg(f.steg ?? [])}</li>`).join('')}
     </ul>
   </details>`;
 }

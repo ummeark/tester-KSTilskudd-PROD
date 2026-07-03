@@ -62,7 +62,7 @@ async function skjermdump(prefix) {
   } catch { return null; }
 }
 
-async function leggTilTest(kategori, navn, input, forventet, testFn) {
+async function leggTilTest(kategori, navn, input, forventet, testFn, steg = []) {
   const jsForFør = jsErrors.length;
   let faktisk = '';
   let resultat = 'bestått';
@@ -88,7 +88,7 @@ async function leggTilTest(kategori, navn, input, forventet, testFn) {
     if (!skjerm) skjerm = await skjermdump('js-feil');
   }
 
-  tester.push({ kategori, navn, input, forventet, faktisk, resultat, detalj, skjerm });
+  tester.push({ kategori, navn, input, forventet, faktisk, resultat, detalj, skjerm, steg });
   logg(resultat, navn, detalj);
 }
 
@@ -113,7 +113,7 @@ await leggTilTest('skjema', 'Tom søkeinnsending', '(tomt)', 'Viser feilmelding 
     return { faktisk: 'Siden krasjet', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Siden håndterte tom søk uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner søkefelt på siden', 'Tømmer feltet og trykker Enter', 'Sjekker at siden ikke krasjer']);
 
 // 1b. Veldig lang søkestreng (2000 tegn)
 await leggTilTest('skjema', 'Søk med ekstremt lang tekst (2000 tegn)', 'a'.repeat(2000), 'Håndteres uten krasj', async () => {
@@ -129,7 +129,7 @@ await leggTilTest('skjema', 'Søk med ekstremt lang tekst (2000 tegn)', 'a'.repe
     return { faktisk: 'Siden krasjet', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Håndterte lang tekst uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner søkefelt', 'Skriver inn 2000 tegn og trykker Enter', 'Sjekker at siden ikke krasjer']);
 
 // 1c. Spesialtegn i søk
 const spesialtegn = '!@#$%^&*()<>{}[]|\\;:\'",.?/`~';
@@ -146,7 +146,7 @@ await leggTilTest('skjema', 'Søk med spesialtegn', spesialtegn, 'Håndteres ute
     return { faktisk: 'Siden krasjet', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Håndterte spesialtegn uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner søkefelt', 'Skriver inn spesialtegn og trykker Enter', 'Sjekker at siden ikke krasjer og ingen XSS utføres']);
 
 // 1d. Kun mellomrom i søk
 await leggTilTest('skjema', 'Søk med kun mellomrom', '     ', 'Behandles som tom søk eller gir feilmelding', async () => {
@@ -162,7 +162,7 @@ await leggTilTest('skjema', 'Søk med kun mellomrom', '     ', 'Behandles som to
     return { faktisk: 'Siden krasjet', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Håndterte mellomrom uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner søkefelt', 'Skriver inn kun mellomrom og trykker Enter', 'Sjekker at siden behandler input som tom søk']);
 
 // 1e. Norske tegn i søk
 await leggTilTest('skjema', 'Søk med norske tegn (æøå)', 'æøå ÆØÅ tilskudd', 'Håndteres korrekt', async () => {
@@ -178,7 +178,7 @@ await leggTilTest('skjema', 'Søk med norske tegn (æøå)', 'æøå ÆØÅ tils
     return { faktisk: 'Siden krasjet', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Håndterte norske tegn uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner søkefelt', 'Skriver inn "æøå ÆØÅ tilskudd" og trykker Enter', 'Sjekker at tegn håndteres korrekt uten krasj']);
 
 // 1f. SQL-lignende input (ikke angrep, bare validering)
 await leggTilTest('skjema', 'SQL-lignende søketekst', "' OR '1'='1", 'Renses og vises trygt', async () => {
@@ -194,7 +194,7 @@ await leggTilTest('skjema', 'SQL-lignende søketekst', "' OR '1'='1", 'Renses og
     return { faktisk: 'Siden krasjet – mulig SQL-feil i svar', resultat: 'feil', skjerm };
   }
   return { faktisk: 'SQL-lignende input håndtert uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner søkefelt', 'Skriver inn SQL-lignende streng og trykker Enter', 'Sjekker at siden ikke krasjer (ingen SQL-feil i respons)']);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // KATEGORI 2: URL-validering
@@ -231,7 +231,7 @@ for (const { sti, beskrivelse } of ugyldigeUrler) {
     }
     const skjerm = await skjermdump('url-ingen-feilside');
     return { faktisk: 'Ingen tydelig feilhåndtering', resultat: 'advarsel', skjerm };
-  });
+  }, [`Navigerer til ${baseOrigin + sti}`, 'Sjekker HTTP-status og sideinnhold', 'Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer']);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -249,7 +249,7 @@ await leggTilTest('navigasjon', 'Direkte tilgang til søknadsskjema uten forside
     return { faktisk: 'Siden krasjet', resultat: 'feil', skjerm };
   }
   return { faktisk: `Lastet uten krasj (URL: ${page.url()})`, resultat: 'bestått' };
-});
+}, [`Navigerer direkte til ${baseOrigin}/soknad/opprett`, 'Sjekker om siden laster uten krasj', 'Kontrollerer at skjema vises eller siden omdirigerer forsvarlig']);
 
 // 3b. Tilbake-knapp etter søknad
 await leggTilTest('navigasjon', 'Browser tilbake fra søknadsskjema', 'goBack()', 'Håndteres uten krasj', async () => {
@@ -263,7 +263,7 @@ await leggTilTest('navigasjon', 'Browser tilbake fra søknadsskjema', 'goBack()'
     return { faktisk: 'Siden krasjet etter tilbake-navigasjon', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Tilbake-navigasjon håndtert uten krasj', resultat: 'bestått' };
-});
+}, ['Navigerer til START_URL', 'Navigerer videre til /soknad/opprett', 'Klikker nettleserens tilbake-knapp', 'Sjekker at siden laster uten krasj']);
 
 // 3c. Rask frem-og-tilbake navigasjon
 await leggTilTest('navigasjon', 'Rask frem-og-tilbake-navigasjon (5x)', '5x goBack/goForward', 'Ingen krasj', async () => {
@@ -281,7 +281,7 @@ await leggTilTest('navigasjon', 'Rask frem-og-tilbake-navigasjon (5x)', '5x goBa
     return { faktisk: 'Krasjet under rask navigasjon', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Rask navigasjon håndtert uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til START_URL og /ordninger`, 'Klikker tilbake og frem 5 ganger i rask rekkefølge', 'Sjekker at siden ikke krasjer under rask navigasjon']);
 
 // 3d. Dobbelt-klikk på knapp
 await leggTilTest('navigasjon', 'Dobbelt-klikk på handlingsknapp', 'dblclick', 'Ingen dobbel-innsending eller krasj', async () => {
@@ -296,7 +296,7 @@ await leggTilTest('navigasjon', 'Dobbelt-klikk på handlingsknapp', 'dblclick', 
     return { faktisk: 'Krasjet ved dobbelt-klikk', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Dobbelt-klikk håndtert uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Finner første synlige knapp', 'Dobbeltklikker på knappen', 'Sjekker at ingen dobbel-innsending eller krasj skjer']);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // KATEGORI 4: Nettleserfunksjoner
@@ -314,7 +314,7 @@ await leggTilTest('nettleser', 'Sideoppdatering (F5) under søknad', 'reload()',
     return { faktisk: 'Krasjet etter reload', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Reload håndtert uten krasj', resultat: 'bestått' };
-});
+}, ['Navigerer til /soknad/opprett', 'Laster siden på nytt (F5)', 'Sjekker at siden håndterer reload uten krasj']);
 
 // 4b. JavaScript deaktivert (ny kontekst)
 await leggTilTest('nettleser', 'Siden uten JavaScript', 'noScript', 'Viser innhold eller tydelig feilmelding', async () => {
@@ -334,7 +334,7 @@ await leggTilTest('nettleser', 'Siden uten JavaScript', 'noScript', 'Viser innho
     await noJsCtx.close();
     return { faktisk: `Feil: ${e.message.slice(0, 80)}`, resultat: 'advarsel' };
   }
-});
+}, ['Oppretter ny nettleserkontekst med JavaScript deaktivert', `Navigerer til ${START_URL}`, 'Sjekker om siden viser innhold eller tydelig feilmelding']);
 
 // 4c. Mobilvisning (320px)
 await leggTilTest('nettleser', 'Smal mobilvisning (320px bredde)', '320px viewport', 'Ingen krasj, siden er brukbar', async () => {
@@ -359,7 +359,7 @@ await leggTilTest('nettleser', 'Smal mobilvisning (320px bredde)', '320px viewpo
     await mobilCtx.close();
     return { faktisk: `Feil: ${e.message.slice(0, 80)}`, resultat: 'advarsel' };
   }
-});
+}, ['Oppretter nettleserkontekst med viewport 320×568 px', `Navigerer til ${START_URL}`, 'Sjekker at siden laster uten krasj og tar skjermbilde']);
 
 // 4d. Veldig stor viewport (4K)
 await leggTilTest('nettleser', 'Stor skjerm (3840×2160)', '4K viewport', 'Ingen krasj, layout er stabil', async () => {
@@ -375,7 +375,7 @@ await leggTilTest('nettleser', 'Stor skjerm (3840×2160)', '4K viewport', 'Ingen
     await storCtx.close();
     return { faktisk: `Feil: ${e.message.slice(0, 80)}`, resultat: 'advarsel' };
   }
-});
+}, ['Oppretter nettleserkontekst med viewport 3840×2160 px', `Navigerer til ${START_URL}`, 'Sjekker at layout er stabil og ingen krasj skjer']);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // KATEGORI 5: Tilstand og sesjon
@@ -394,7 +394,7 @@ await leggTilTest('sesjon', 'Last side etter sletting av alle cookies', 'clearCo
     return { faktisk: 'Krasjet uten cookies', resultat: 'feil', skjerm };
   }
   return { faktisk: `Siden lastet uten cookies (URL: ${page.url()})`, resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Sletter alle cookies fra nettleserkonteksten', 'Laster siden på nytt', 'Sjekker at siden laster eller viser innloggingsside – ikke krasjer']);
 
 // 5b. LocalStorage tømt
 await leggTilTest('sesjon', 'Last side etter tømming av localStorage', 'localStorage.clear()', 'Siden laster – ingen krasj', async () => {
@@ -407,7 +407,7 @@ await leggTilTest('sesjon', 'Last side etter tømming av localStorage', 'localSt
     return { faktisk: 'Krasjet etter localStorage.clear()', resultat: 'feil', skjerm };
   }
   return { faktisk: 'Siden lastet uten localStorage uten krasj', resultat: 'bestått' };
-});
+}, [`Navigerer til ${START_URL}`, 'Tømmer localStorage via JavaScript', 'Laster siden på nytt', 'Sjekker at siden laster uten krasj']);
 
 // 5c. Tilgang til beskyttet side uten sesjon
 await leggTilTest('sesjon', 'Direkte tilgang til "Min side" uten innlogging', '/minside', 'Omdirigerer til innlogging – ikke krasj', async () => {
@@ -428,7 +428,7 @@ await leggTilTest('sesjon', 'Direkte tilgang til "Min side" uten innlogging', '/
     await nyCtx.close();
     return { faktisk: `Feil: ${e.message.slice(0, 80)}`, resultat: 'advarsel' };
   }
-});
+}, ['Oppretter ny nettleserkontekst uten autentisering', `Navigerer direkte til /minside`, 'Sjekker at siden omdirigerer til innlogging – ikke viser beskyttet innhold']);
 
 await browser.close();
 
@@ -485,6 +485,16 @@ const sidenavigasjon = Object.entries(KATEGORIER).map(([id, { tittel, ikon }]) =
   </a></li>`;
 }).join('');
 
+function renderSteg(steg) {
+  if (!steg?.length) return '';
+  return `<details style="margin:.5rem 0 .3rem 0">
+    <summary style="cursor:pointer;font-size:.72rem;color:#2b3285;user-select:none;list-style:none;display:inline-flex;align-items:center;gap:.3rem">🔍 Teststeg ▾</summary>
+    <ol style="margin:.5rem 0 0 .5rem;padding:0;list-style:none;display:flex;flex-direction:column;gap:.2rem">
+      ${steg.map((s, i) => `<li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">${i+1}.</span><span>${s}</span></li>`).join('')}
+    </ol>
+  </details>`;
+}
+
 function testKort(t) {
   const farger = { bestått: '#07604f', feil: '#c53030', advarsel: '#b8860b' };
   const ikoner = { bestått: '✅', feil: '❌', advarsel: '⚠️' };
@@ -507,6 +517,7 @@ function testKort(t) {
       </div>
     </div>
     ${t.detalj ? `<p class="brudd-hjelp">${t.detalj}</p>` : ''}
+    ${renderSteg(t.steg ?? [])}
     ${t.skjerm ? `
     <div class="skjermdump-gruppe">
       <div class="skjermdump-wrapper">
