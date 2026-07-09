@@ -1,0 +1,175 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-07-09",
+  "versjon": "v0.7.0",
+  "nettleser": "147.0.7727.15",
+  "score": 82,
+  "totalt": {
+    "kritiske": 0,
+    "alvorlige": 1,
+    "middels": 0,
+    "lave": 4,
+    "ok": 8,
+    "varighet": 7
+  },
+  "funn": [
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "HSTS er satt",
+      "detalj": "Verdi: max-age=31536000; includeSubDomains",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"strict-transport-security\" er satt",
+        "Hodet er satt – verdi: max-age=31536000; includeSubDomains"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "Content-Security-Policy er satt",
+      "detalj": "Verdi: default-src *.ks.no min.kommune.no *.skyra.no; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.ks.no min.kommune.no https://survey.skyra.no; object-src 'none'; style-src 'self' 'unsafe-inline' *.ks.no min.kommune.no; img-src 'self' data: *.ks.no min.kommune.no; base-uri 'self';",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"content-security-policy\" er satt",
+        "Hodet er satt – verdi: default-src *.ks.no min.kommune.no *.skyra.no; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.ks.no min.kommune.no https://survey.skyra.no; object-src 'none'; style-src 'self' 'unsafe-inline' *.ks.no min.kommune.no; img-src 'self' data: *.ks.no min.kommune.no; base-uri 'self';"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "X-Frame-Options er satt",
+      "detalj": "Verdi: sameorigin",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"x-frame-options\" er satt",
+        "Hodet er satt – verdi: sameorigin"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "ok",
+      "tittel": "X-Content-Type-Options er satt",
+      "detalj": "Verdi: nosniff",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"x-content-type-options\" er satt",
+        "Hodet er satt – verdi: nosniff"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende Referrer-Policy",
+      "detalj": "Kontrollerer referrer-informasjon i forespørsler",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"referrer-policy\" er satt",
+        "Hodet mangler – flagges som lav"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende Permissions-Policy",
+      "detalj": "Begrenser tilgang til nettleserfunksjoner (kamera, GPS osv.)",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"permissions-policy\" er satt",
+        "Hodet mangler – flagges som lav"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende COOP",
+      "detalj": "Isolerer nettleservinduet mot cross-origin-angrep",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"cross-origin-opener-policy\" er satt",
+        "Hodet mangler – flagges som lav"
+      ]
+    },
+    {
+      "kategori": "hoder",
+      "alvorlighet": "lav",
+      "tittel": "Manglende CORP",
+      "detalj": "Begrenser hvem som kan laste inn sidens ressurser",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til https://tilskudd.fiks.ks.no/",
+        "Sjekker om respons-hodet \"cross-origin-resource-policy\" er satt",
+        "Hodet mangler – flagges som lav"
+      ]
+    },
+    {
+      "kategori": "https",
+      "alvorlighet": "ok",
+      "tittel": "HTTP omdirigerer til HTTPS",
+      "detalj": "Redirect: https://tilskudd.fiks.ks.no/",
+      "url": "http://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender HTTP-forespørsel til http://tilskudd.fiks.ks.no/",
+        "Sjekker om serveren omdirigerer til HTTPS",
+        "Videresendes til https://tilskudd.fiks.ks.no/"
+      ]
+    },
+    {
+      "kategori": "sensitive-stier",
+      "alvorlighet": "alvorlig",
+      "tittel": "Sensitiv sti tilgjengelig: /robots.txt",
+      "detalj": "Robot-eksklusjonsfil – HTTP 200, 67 tegn innhold",
+      "url": "https://tilskudd.fiks.ks.no/robots.txt",
+      "steg": [
+        "Sender forespørsel til https://tilskudd.fiks.ks.no/robots.txt",
+        "Sjekker HTTP-statuskode",
+        "Sti returnerte HTTP 200 – innhold tilgjengelig: Robot-eksklusjonsfil"
+      ]
+    },
+    {
+      "kategori": "mixed-content",
+      "alvorlighet": "ok",
+      "tittel": "Ingen mixed content funnet",
+      "detalj": "Alle ressurser lastes over HTTPS",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Registrerer lytter på alle HTTP-forespørsler under sidelasting",
+        "Laster https://tilskudd.fiks.ks.no/ over HTTPS",
+        "Ingen HTTP-ressurser lastet – ingen mixed content"
+      ]
+    },
+    {
+      "kategori": "xss",
+      "alvorlighet": "ok",
+      "tittel": "Søkefelt ser ut til å rense input",
+      "detalj": "Payload ble ikke reflektert urensket",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=%22%3E%3Cimg+src%3Dx+onerror%3Dalert%281%29%3E&currentPage=1&pageSize=10",
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt og fyller inn XSS-payload",
+        "Sender skjemaet",
+        "Sjekker HTML-innhold og window.__xsstest",
+        "Payload ikke reflektert urensket"
+      ]
+    },
+    {
+      "kategori": "cors",
+      "alvorlighet": "ok",
+      "tittel": "Ingen CORS-hoder – standard same-origin-policy gjelder",
+      "detalj": "",
+      "url": "https://tilskudd.fiks.ks.no/",
+      "steg": [
+        "Sender OPTIONS-forespørsel til https://tilskudd.fiks.ks.no/ med Origin: https://ondomain.eksempel.no",
+        "Sjekker Access-Control-Allow-Origin i respons",
+        "Ingen CORS-hoder – standard same-origin-policy"
+      ]
+    }
+  ]
+}
