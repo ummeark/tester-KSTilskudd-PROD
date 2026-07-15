@@ -1,0 +1,371 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-07-15",
+  "versjon": "v0.7.0",
+  "nettleser": "147.0.7727.15",
+  "score": 80,
+  "totalt": {
+    "bestått": 19,
+    "feil": 0,
+    "advarsel": 4,
+    "totalt": 23,
+    "varighet": 13
+  },
+  "tester": [
+    {
+      "kategori": "skjema",
+      "navn": "Tom søkeinnsending",
+      "input": "(tomt)",
+      "forventet": "Viser feilmelding eller ingen resultatendring",
+      "faktisk": "Siden håndterte tom søk uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt på siden",
+        "Tømmer feltet og trykker Enter",
+        "Sjekker at siden ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "skjema",
+      "navn": "Søk med ekstremt lang tekst (2000 tegn)",
+      "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "forventet": "Håndteres uten krasj",
+      "faktisk": "Håndterte lang tekst uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt",
+        "Skriver inn 2000 tegn og trykker Enter",
+        "Sjekker at siden ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "skjema",
+      "navn": "Søk med spesialtegn",
+      "input": "!@#$%^&*()<>{}[]|\\;:'\",.?/`~",
+      "forventet": "Håndteres uten krasj eller XSS",
+      "faktisk": "Håndterte spesialtegn uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt",
+        "Skriver inn spesialtegn og trykker Enter",
+        "Sjekker at siden ikke krasjer og ingen XSS utføres"
+      ]
+    },
+    {
+      "kategori": "skjema",
+      "navn": "Søk med kun mellomrom",
+      "input": "     ",
+      "forventet": "Behandles som tom søk eller gir feilmelding",
+      "faktisk": "Håndterte mellomrom uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt",
+        "Skriver inn kun mellomrom og trykker Enter",
+        "Sjekker at siden behandler input som tom søk"
+      ]
+    },
+    {
+      "kategori": "skjema",
+      "navn": "Søk med norske tegn (æøå)",
+      "input": "æøå ÆØÅ tilskudd",
+      "forventet": "Håndteres korrekt",
+      "faktisk": "Håndterte norske tegn uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt",
+        "Skriver inn \"æøå ÆØÅ tilskudd\" og trykker Enter",
+        "Sjekker at tegn håndteres korrekt uten krasj"
+      ]
+    },
+    {
+      "kategori": "skjema",
+      "navn": "SQL-lignende søketekst",
+      "input": "' OR '1'='1",
+      "forventet": "Renses og vises trygt",
+      "faktisk": "SQL-lignende input håndtert uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner søkefelt",
+        "Skriver inn SQL-lignende streng og trykker Enter",
+        "Sjekker at siden ikke krasjer (ingen SQL-feil i respons)"
+      ]
+    },
+    {
+      "kategori": "url",
+      "navn": "Ukjent side",
+      "input": "https://tilskudd.fiks.ks.no/finnesikke",
+      "forventet": "Viser 404-side eller feilmelding – ikke krasj",
+      "faktisk": "Ingen tydelig feilhåndtering",
+      "resultat": "advarsel",
+      "detalj": "",
+      "skjerm": "skjermbilder-negativ/negativ-url-ingen-feilside-1.png",
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/finnesikke",
+        "Sjekker HTTP-status og sideinnhold",
+        "Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "url",
+      "navn": "Ugyldig UUID i URL",
+      "input": "https://tilskudd.fiks.ks.no/ordninger/ikke-en-gyldig-uuid",
+      "forventet": "Viser 404-side eller feilmelding – ikke krasj",
+      "faktisk": "Ingen tydelig feilhåndtering",
+      "resultat": "advarsel",
+      "detalj": "",
+      "skjerm": "skjermbilder-negativ/negativ-url-ingen-feilside-2.png",
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/ordninger/ikke-en-gyldig-uuid",
+        "Sjekker HTTP-status og sideinnhold",
+        "Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "url",
+      "navn": "Null-UUID",
+      "input": "https://tilskudd.fiks.ks.no/ordninger/00000000-0000-0000-0000-000000000000",
+      "forventet": "Viser 404-side eller feilmelding – ikke krasj",
+      "faktisk": "Ingen tydelig feilhåndtering",
+      "resultat": "advarsel",
+      "detalj": "",
+      "skjerm": "skjermbilder-negativ/negativ-url-ingen-feilside-3.png",
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/ordninger/00000000-0000-0000-0000-000000000000",
+        "Sjekker HTTP-status og sideinnhold",
+        "Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "url",
+      "navn": "Path traversal-forsøk",
+      "input": "https://tilskudd.fiks.ks.no/ordninger/../admin",
+      "forventet": "Viser 404-side eller feilmelding – ikke krasj",
+      "faktisk": "Omdirigerte til: https://tilskudd.fiks.ks.no/admin",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/ordninger/../admin",
+        "Sjekker HTTP-status og sideinnhold",
+        "Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "url",
+      "navn": "Kodet path traversal",
+      "input": "https://tilskudd.fiks.ks.no/%2e%2e%2fadmin",
+      "forventet": "Viser 404-side eller feilmelding – ikke krasj",
+      "faktisk": "Ingen tydelig feilhåndtering",
+      "resultat": "advarsel",
+      "detalj": "",
+      "skjerm": "skjermbilder-negativ/negativ-url-ingen-feilside-4.png",
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/%2e%2e%2fadmin",
+        "Sjekker HTTP-status og sideinnhold",
+        "Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "url",
+      "navn": "Ugyldig søknads-ID",
+      "input": "https://tilskudd.fiks.ks.no/søknad/opprett/ugyldigid",
+      "forventet": "Viser 404-side eller feilmelding – ikke krasj",
+      "faktisk": "Omdirigerte til: https://tilskudd.fiks.ks.no/s%C3%B8knad/opprett/ugyldigid",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/søknad/opprett/ugyldigid",
+        "Sjekker HTTP-status og sideinnhold",
+        "Verifiserer at siden viser 404, omdirigerer, eller gir tydelig feilmelding – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "navigasjon",
+      "navn": "Direkte tilgang til søknadsskjema uten forside",
+      "input": "/soknad/opprett",
+      "forventet": "Håndteres – viser skjema eller omdirigerer",
+      "faktisk": "Lastet uten krasj (URL: https://login.idporten.no/authorize/selector)",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer direkte til https://tilskudd.fiks.ks.no/soknad/opprett",
+        "Sjekker om siden laster uten krasj",
+        "Kontrollerer at skjema vises eller siden omdirigerer forsvarlig"
+      ]
+    },
+    {
+      "kategori": "navigasjon",
+      "navn": "Browser tilbake fra søknadsskjema",
+      "input": "goBack()",
+      "forventet": "Håndteres uten krasj",
+      "faktisk": "Tilbake-navigasjon håndtert uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til START_URL",
+        "Navigerer videre til /soknad/opprett",
+        "Klikker nettleserens tilbake-knapp",
+        "Sjekker at siden laster uten krasj"
+      ]
+    },
+    {
+      "kategori": "navigasjon",
+      "navn": "Rask frem-og-tilbake-navigasjon (5x)",
+      "input": "5x goBack/goForward",
+      "forventet": "Ingen krasj",
+      "faktisk": "Rask navigasjon håndtert uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til START_URL og /ordninger",
+        "Klikker tilbake og frem 5 ganger i rask rekkefølge",
+        "Sjekker at siden ikke krasjer under rask navigasjon"
+      ]
+    },
+    {
+      "kategori": "navigasjon",
+      "navn": "Dobbelt-klikk på handlingsknapp",
+      "input": "dblclick",
+      "forventet": "Ingen dobbel-innsending eller krasj",
+      "faktisk": "Dobbelt-klikk håndtert uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Finner første synlige knapp",
+        "Dobbeltklikker på knappen",
+        "Sjekker at ingen dobbel-innsending eller krasj skjer"
+      ]
+    },
+    {
+      "kategori": "nettleser",
+      "navn": "Sideoppdatering (F5) under søknad",
+      "input": "reload()",
+      "forventet": "Håndteres – viser skjema eller forklaring",
+      "faktisk": "Reload håndtert uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til /soknad/opprett",
+        "Laster siden på nytt (F5)",
+        "Sjekker at siden håndterer reload uten krasj"
+      ]
+    },
+    {
+      "kategori": "nettleser",
+      "navn": "Siden uten JavaScript",
+      "input": "noScript",
+      "forventet": "Viser innhold eller tydelig feilmelding",
+      "faktisk": "Siden viser innhold uten JavaScript",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Oppretter ny nettleserkontekst med JavaScript deaktivert",
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Sjekker om siden viser innhold eller tydelig feilmelding"
+      ]
+    },
+    {
+      "kategori": "nettleser",
+      "navn": "Smal mobilvisning (320px bredde)",
+      "input": "320px viewport",
+      "forventet": "Ingen krasj, siden er brukbar",
+      "faktisk": "Siden lastet på 320px uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": "skjermbilder-negativ/negativ-mobil-5.png",
+      "steg": [
+        "Oppretter nettleserkontekst med viewport 320×568 px",
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Sjekker at siden laster uten krasj og tar skjermbilde"
+      ]
+    },
+    {
+      "kategori": "nettleser",
+      "navn": "Stor skjerm (3840×2160)",
+      "input": "4K viewport",
+      "forventet": "Ingen krasj, layout er stabil",
+      "faktisk": "Siden lastet på 4K uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Oppretter nettleserkontekst med viewport 3840×2160 px",
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Sjekker at layout er stabil og ingen krasj skjer"
+      ]
+    },
+    {
+      "kategori": "sesjon",
+      "navn": "Last side etter sletting av alle cookies",
+      "input": "clearCookies()",
+      "forventet": "Siden laster – viser innloggingsside eller offentlig innhold",
+      "faktisk": "Siden lastet uten cookies (URL: https://tilskudd.fiks.ks.no/)",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Sletter alle cookies fra nettleserkonteksten",
+        "Laster siden på nytt",
+        "Sjekker at siden laster eller viser innloggingsside – ikke krasjer"
+      ]
+    },
+    {
+      "kategori": "sesjon",
+      "navn": "Last side etter tømming av localStorage",
+      "input": "localStorage.clear()",
+      "forventet": "Siden laster – ingen krasj",
+      "faktisk": "Siden lastet uten localStorage uten krasj",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Navigerer til https://tilskudd.fiks.ks.no/",
+        "Tømmer localStorage via JavaScript",
+        "Laster siden på nytt",
+        "Sjekker at siden laster uten krasj"
+      ]
+    },
+    {
+      "kategori": "sesjon",
+      "navn": "Direkte tilgang til \"Min side\" uten innlogging",
+      "input": "/minside",
+      "forventet": "Omdirigerer til innlogging – ikke krasj",
+      "faktisk": "Omdirigerte til innlogging: https://login.idporten.no/authorize/selector",
+      "resultat": "bestått",
+      "detalj": "",
+      "skjerm": null,
+      "steg": [
+        "Oppretter ny nettleserkontekst uten autentisering",
+        "Navigerer direkte til /minside",
+        "Sjekker at siden omdirigerer til innlogging – ikke viser beskyttet innhold"
+      ]
+    }
+  ]
+}
