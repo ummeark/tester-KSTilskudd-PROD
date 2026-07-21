@@ -1,0 +1,42 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-07-21",
+  "versjon": "v0.7.0",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "iterasjoner": 60,
+    "siderBesøkt": 3,
+    "jsErrors": 0,
+    "konsollFeil": 3,
+    "nettverksFeil": 0,
+    "kritiske": 0,
+    "alvorlige": 0,
+    "varighet": 16
+  },
+  "score": 91,
+  "jsErrors": [],
+  "konsollFeil": [
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:12:126793)\n    at async Pt (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:43244)\n    at async r (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:45015)\n    at async Ft (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:45909)\n    at async Promise.all (index 1)\n    at async It (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:46790)\n    at async https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:65382",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-07-21T09:11:39.594Z"
+    },
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:12:126793)\n    at async Pt (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:43244)\n    at async r (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:45015)\n    at async Ft (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:45909)\n    at async Promise.all (index 1)\n    at async It (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:46790)\n    at async https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:65382",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-07-21T09:11:39.924Z"
+    },
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:12:126793)\n    at async Pt (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:43244)\n    at async r (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:45015)\n    at async Ft (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:45909)\n    at async Promise.all (index 1)\n    at async It (https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:46790)\n    at async https://tilskudd.fiks.ks.no/assets/index-F9UOzhR7.js:10:65382",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10",
+      "tid": "2026-07-21T09:11:40.302Z"
+    }
+  ],
+  "nettverksFeil": [],
+  "interaksjoner": [],
+  "besøkte": [
+    "https://tilskudd.fiks.ks.no/",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10"
+  ]
+}
