@@ -1,2 +1,4 @@
 node_modules/
 prod-auth.json
+brukerhistorie-resultater/auth.json
+brukerhistorie-resultater/traces/
