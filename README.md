@@ -150,4 +150,42 @@ Kjør `npm run login-prod` på nytt for å fornye sesjonen i `prod-auth.json`.
 
 ---
 
+## Claude Code-skills
+
+Testene kan også kjøres direkte fra Claude Code med følgende skills:
+
+**TEST-miljø (tilskudd.fiks.test.ks.no)**
+
+| Skill | Beskrivelse |
+|-------|-------------|
+| `/kstilskudd-uu-testing` | UU/WCAG-analyse |
+| `/kstilskudd-monkey-testing` | Monkey-testing |
+| `/kstilskudd-sikkerhet-testing` | Sikkerhetstest |
+| `/kstilskudd-negativ-testing` | Negativ testing |
+| `/kstilskudd-ytelse-testing` | Ytelsestest |
+| `/kstilskudd-brukerhistorie-testing` | Brukerhistorietester |
+| `/kstilskudd-alle-tester-TEST` | Alle seks tester + publisering til GitHub Pages |
+
+**PROD-miljø (tilskudd.fiks.ks.no)**
+
+| Skill | Beskrivelse |
+|-------|-------------|
+| `/kstilskudd-uu-testing-PROD` | UU/WCAG-analyse |
+| `/kstilskudd-monkey-testing-PROD` | Monkey-testing |
+| `/kstilskudd-sikkerhet-testing-PROD` | Sikkerhetstest |
+| `/kstilskudd-negativ-testing-PROD` | Negativ testing |
+| `/kstilskudd-ytelse-testing-PROD` | Ytelsestest |
+| `/kstilskudd-brukerhistorie-testing-PROD` | Brukerhistorietester |
+| `/kstilskudd-alle-tester-PROD` | Alle seks tester + publisering til GitHub Pages |
+
+**Andre**
+
+| Skill | Beskrivelse |
+|-------|-------------|
+| `/sikkerhet-rapport-cookie-sjekk` | Kun cookie-sjekk mot TEST |
+| `/KSTilskudd-test-av-testverktøy-githubpages-TEST` | Test av selve rapportsiden på GitHub Pages |
+| `/kstilskudd-bytt-passord` | Bytt passord for innlogging på GitHub Pages-rapportene |
+
+---
+
 Se [CLAUDE.md](./CLAUDE.md) for detaljer beregnet på Claude Code-assistenten.
