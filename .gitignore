@@ -1,4 +1,7 @@
 node_modules/
 prod-auth.json
+# Sesjonstoken fra ID-porten-innlogging – sensitiv, utløper
 brukerhistorie-resultater/auth.json
+
+# Store binærfiler fra Playwright – uegnet for versjonskontroll
 brukerhistorie-resultater/traces/
