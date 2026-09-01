@@ -1,0 +1,38 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-09-01",
+  "versjon": "v0.9.0",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "iterasjoner": 60,
+    "siderBesøkt": 4,
+    "jsErrors": 0,
+    "konsollFeil": 2,
+    "nettverksFeil": 0,
+    "kritiske": 0,
+    "alvorlige": 0,
+    "varighet": 315
+  },
+  "score": 94,
+  "jsErrors": [],
+  "konsollFeil": [
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-Evi3Cefk.js:32:13872)\n    at async Bn (https://tilskudd.fiks.ks.no/assets/index-Evi3Cefk.js:10:66251)",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+      "tid": "2026-09-01T11:57:29.269Z"
+    },
+    {
+      "melding": "TypeError: Cannot read properties of undefined (reading 'code')\n    at loader (https://tilskudd.fiks.ks.no/assets/index-Evi3Cefk.js:32:13872)\n    at async Bn (https://tilskudd.fiks.ks.no/assets/index-Evi3Cefk.js:10:66251)",
+      "url": "https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10",
+      "tid": "2026-09-01T11:57:31.487Z"
+    }
+  ],
+  "nettverksFeil": [],
+  "interaksjoner": [],
+  "besøkte": [
+    "https://tilskudd.fiks.ks.no/",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=%3Cb%3Ebold%3C%2Fb%3E&currentPage=1&pageSize=10"
+  ]
+}
