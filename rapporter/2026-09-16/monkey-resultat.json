@@ -1,0 +1,28 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-09-16",
+  "versjon": "v0.9.0",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "iterasjoner": 60,
+    "siderBesøkt": 5,
+    "jsErrors": 0,
+    "konsollFeil": 0,
+    "nettverksFeil": 0,
+    "kritiske": 0,
+    "alvorlige": 0,
+    "varighet": 16
+  },
+  "score": 100,
+  "jsErrors": [],
+  "konsollFeil": [],
+  "nettverksFeil": [],
+  "interaksjoner": [],
+  "besøkte": [
+    "https://tilskudd.fiks.ks.no/",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=9ior4btdi6c+ftdv8qa2hcr+dpgzsbldajh+hd2zzgugugp+z2hbkyj6gmb+4x32ryf6rum+nemt7722c3k+lbvqul4j0b&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?searchString=%220%22&currentPage=1&pageSize=10",
+    "https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10"
+  ]
+}
