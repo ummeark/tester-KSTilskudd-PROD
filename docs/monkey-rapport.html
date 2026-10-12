@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Monkey-testrapport – 2026-10-09 13:38</title>
+<title>Monkey-testrapport – 2026-10-12 15:57</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -81,8 +81,8 @@
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Monkey-tester</div>
-    <div class="env-badge">PRODUKSJON · v0.9.0</div>
-    <h1>Monkey-testrapport <span>2026-10-09 13:38 · 60 iterasjoner</span></h1>
+    <div class="env-badge">PRODUKSJON · v0.12.0</div>
+    <h1>Monkey-testrapport <span>2026-10-12 15:57 · 60 iterasjoner</span></h1>
   </div>
   <ul><li><a href="#sammendrag" class="sidenav-link ">
     <span class="sidenavn">Sammendrag</span>
@@ -90,9 +90,9 @@
   </a></li><li><a href="#js-feil" class="sidenav-link ok">
     <span class="sidenavn">JS-feil</span>
     <span class="side-badge">0 funn</span>
-  </a></li><li><a href="#konsoll" class="sidenav-link har-brudd">
+  </a></li><li><a href="#konsoll" class="sidenav-link ok">
     <span class="sidenavn">Konsoll-feil</span>
-    <span class="side-badge">1 funn</span>
+    <span class="side-badge">0 funn</span>
   </a></li><li><a href="#nettverk" class="sidenav-link ok">
     <span class="sidenavn">Nettverksfeil</span>
     <span class="side-badge">0 funn</span>
@@ -101,14 +101,14 @@
     <span class="side-badge">0 funn</span>
   </a></li><li><a href="#sider" class="sidenav-link ">
     <span class="sidenavn">Sider besøkt</span>
-    <span class="side-badge">6 funn</span>
+    <span class="side-badge">1 funn</span>
   </a></li></ul>
 </nav>
 <div class="hoveddel">
   <div class="rapport-header">
     <div>
       <h1>Monkey-testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-09 13:38 · 23s · 60 tilfeldige handlinger · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-12 15:57 · 6s · 60 tilfeldige handlinger · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -163,18 +163,18 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel god">97</div>
+    <div class="score-sirkel god">100</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 6 sider. Lavere score indikerer ustabilitet.</p>
+      <p>Basert på JS-feil, nettverksfeil og kritiske funn etter 60 tilfeldige interaksjoner på 1 sider. Lavere score indikerer ustabilitet.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">60</div><div class="etikett">Iterasjoner</div></div>
-    <div class="kort ok"><div class="tall">6</div><div class="etikett">Sider besøkt</div></div>
+    <div class="kort ok"><div class="tall">1</div><div class="etikett">Sider besøkt</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">JS-feil</div></div>
-    <div class="kort advarsel"><div class="tall">1</div><div class="etikett">Konsoll-feil</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">Konsoll-feil</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Nettverksfeil</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Kritiske funn</div></div>
   </div>
@@ -187,15 +187,8 @@
 
   <!-- Konsoll-feil -->
   <div class="seksjon" id="konsoll">
-    <div class="seksjon-tittel">Konsoll-feil (1)</div>
-    <table><thead><tr><th>Tidspunkt</th><th>Melding</th><th>URL</th></tr></thead><tbody>
-          <tr>
-            <td style="white-space:nowrap">13:39:11</td>
-            <td>TypeError: Cannot read properties of undefined (reading 'code')
-    at loader (https://tilskudd.fiks.ks.no/assets/index-</td>
-            <td style="font-size:.75rem;word-break:break-all">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</td>
-          </tr>
-        </tbody></table>
+    <div class="seksjon-tittel">Konsoll-feil (0)</div>
+    <div class="wcag-ok">Ingen console.error()-kall oppdaget</div>
   </div>
 
   <!-- Nettverksfeil -->
@@ -212,9 +205,9 @@
 
   <!-- Sider besøkt -->
   <div class="seksjon" id="sider">
-    <div class="seksjon-tittel">Sider besøkt (6)</div>
+    <div class="seksjon-tittel">Sider besøkt (1)</div>
     <ul class="url-liste">
-      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li><li title="https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=%21%40%23%24%25%26*%28%29&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=%21%40%23%24%25%26*%28%29&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=%2299999999999999999999%22&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=%2299999999999999999999%22&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=%C3%A6%C3%B8%C3%A5+%C3%86%C3%98%C3%85&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=%C3%A6%C3%B8%C3%A5+%C3%86%C3%98%C3%85&currentPage=1&pageSize=10</li><li title="https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10">https://tilskudd.fiks.ks.no/utlysinger?searchString=&currentPage=1&pageSize=10</li>
+      <li title="https://tilskudd.fiks.ks.no/">https://tilskudd.fiks.ks.no/</li>
     </ul>
   </div>
 
@@ -246,7 +239,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-10-09 13:38</footer>
+  <footer>KS Tilskudd · Monkey-tester · Playwright · 2026-10-12 15:57</footer>
 </div>
 </body>
 </html>

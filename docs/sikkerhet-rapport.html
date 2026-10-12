@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sikkerhetsrapport – 2026-10-09 13:39</title>
+<title>Sikkerhetsrapport – 2026-10-12 15:57</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -73,8 +73,8 @@
 <nav class="sidemeny">
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Sikkerhetstester</div>
-    <div class="env-badge">PRODUKSJON · v0.9.0</div>
-    <h1>Sikkerhetsrapport <span>2026-10-09 13:39</span></h1>
+    <div class="env-badge">PRODUKSJON · v0.12.0</div>
+    <h1>Sikkerhetsrapport <span>2026-10-12 15:57</span></h1>
   </div>
   <ul><li><a href="#hoder" class="sidenav-link ok">
     <span class="sidenavn">📋 HTTP-sikkerhetshoder</span>
@@ -106,7 +106,7 @@
   <div class="rapport-header">
     <div>
       <h1>Sikkerhetsrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-09 13:39 · 10s · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-12 15:57 · 7s · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -172,7 +172,7 @@
     <div class="kort advarsel"><div class="tall">1</div><div class="etikett">Alvorlige</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Moderate</div></div>
     <div class="kort nøytral"><div class="tall">4</div><div class="etikett">Lave</div></div>
-    <div class="kort ok"><div class="tall">8</div><div class="etikett">Bestått</div></div>
+    <div class="kort ok"><div class="tall">7</div><div class="etikett">Bestått</div></div>
   </div>
 
   
@@ -336,16 +336,7 @@
   <div class="seksjon" id="xss">
     <div class="seksjon-tittel">💉 Input-refleksjon (XSS) (0 funn)</div>
     <div class="wcag-ok">Ingen funn i denne kategorien</div>
-    <details style="margin-top:.8rem"><summary style="font-size:.78rem;color:#07604f;cursor:pointer;padding:.4rem 0;display:flex;align-items:center;gap:.5rem;list-style:none">✅ 1 sjekk bestått</summary>
-    <ul style="list-style:none;margin-top:.5rem;display:flex;flex-direction:column;gap:.3rem">
-      <li style="font-size:.78rem;color:#374151;padding:.3rem .6rem;background:#ecfdf5;border-left:3px solid #07604f">✅ Søkefelt ser ut til å rense input — <span style="color:#6b7280">Payload ble ikke reflektert urensket</span><details style="margin:.5rem 0 .3rem 0">
-    <summary style="cursor:pointer;font-size:.72rem;color:#2b3285;user-select:none;list-style:none;display:inline-flex;align-items:center;gap:.3rem">🔍 Teststeg ▾</summary>
-    <ol style="margin:.5rem 0 0 .5rem;padding:0;list-style:none;display:flex;flex-direction:column;gap:.2rem">
-      <li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">1.</span><span>Navigerer til https://tilskudd.fiks.ks.no/</span></li><li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">2.</span><span>Finner søkefelt og fyller inn XSS-payload</span></li><li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">3.</span><span>Sender skjemaet</span></li><li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">4.</span><span>Sjekker HTML-innhold og window.__xsstest</span></li><li style="font-size:.76rem;color:#374151;display:flex;gap:.5rem"><span style="font-weight:700;min-width:1.2rem;color:#2b3285">5.</span><span>Payload ikke reflektert urensket</span></li>
-    </ol>
-  </details></li>
-    </ul>
-  </details>
+    
   </div>
   <div class="seksjon" id="cors">
     <div class="seksjon-tittel">🌐 CORS-konfigurasjon (0 funn)</div>
@@ -395,7 +386,7 @@
       </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-10-09 13:39</footer>
+  <footer>KS Tilskudd · Sikkerhetstester · Playwright · 2026-10-12 15:57</footer>
 </div>
 </body>
 </html>
