@@ -1,0 +1,277 @@
+{
+  "url": "https://tilskudd.fiks.ks.no/",
+  "dato": "2026-10-13",
+  "versjon": "v0.12.0",
+  "nettleser": "147.0.7727.15",
+  "totalt": {
+    "sider": 1,
+    "wcagBrudd": 0,
+    "kritiske": 0,
+    "alvorlige": 0,
+    "moderate": 0,
+    "mindre": 0,
+    "uniqKritiske": 0,
+    "uniqAlvorlige": 0,
+    "uniqModerate": 0,
+    "uniqMindre": 0,
+    "dødelenker": 0,
+    "knapper": 0,
+    "knappUtenLabel": 0,
+    "bilder": 1,
+    "bilderUtenAlt": 0,
+    "skjemafelt": 0,
+    "feltUtenLabel": 0,
+    "tastaturFeil": 0,
+    "tastaturAdvarsel": 2,
+    "reflowFeil": 0,
+    "reflowAdvarsel": 0,
+    "tekstmellomromFeil": 0,
+    "tekstmellomromAdvarsel": 0,
+    "ekstraFeil": 0,
+    "ekstraAdvarsel": 0
+  },
+  "tastatur": {
+    "tester": [
+      {
+        "kategori": "synligfokus",
+        "wcag": "2.4.7",
+        "navn": "Synlig fokus på interaktive elementer",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "tabindeks",
+        "wcag": "2.4.3",
+        "navn": "Ingen tabindex > 0",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "rekkevidden",
+        "wcag": "2.1.1",
+        "navn": "Interaktive elementer nåbare via Tab",
+        "resultat": "bestått",
+        "detalj": "3 elementer nådd (3 i DOM)"
+      },
+      {
+        "kategori": "tastaturfelle",
+        "wcag": "2.1.2",
+        "navn": "Ingen tastaturfelle",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "hopplenke",
+        "wcag": "2.4.1",
+        "navn": "Hopplenke til hovedinnhold",
+        "resultat": "advarsel",
+        "detalj": "Første Tab: A \"ks tilskudd\""
+      },
+      {
+        "kategori": "aktivering",
+        "wcag": "2.1.1",
+        "navn": "Enter aktiverer navigasjonslenke",
+        "resultat": "advarsel",
+        "detalj": "Ingen navigasjonslenke aktivert i de første 15 Tab-stegene"
+      }
+    ],
+    "bestått": 4,
+    "feil": 0,
+    "advarsel": 2
+  },
+  "reflow": {
+    "tester": [
+      {
+        "kategori": "reflow",
+        "wcag": "1.4.10",
+        "navn": "Ingen horisontal rulling ved 320px (400 % zoom)",
+        "resultat": "bestått",
+        "detalj": "Ingen horisontal rulling ved 320px bredde"
+      },
+      {
+        "kategori": "klipping",
+        "wcag": "1.4.10",
+        "navn": "Innhold ikke avskåret ved 320px",
+        "resultat": "bestått",
+        "detalj": ""
+      }
+    ],
+    "bestått": 2,
+    "feil": 0,
+    "advarsel": 0
+  },
+  "tekstmellomrom": {
+    "tester": [
+      {
+        "kategori": "klipping",
+        "wcag": "1.4.12",
+        "navn": "Ingen tekstklipping ved økt linjehøyde og bokstavmellomrom",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "overflyt",
+        "wcag": "1.4.12",
+        "navn": "Ingen horisontal overflyt etter økt tekstmellomrom",
+        "resultat": "bestått",
+        "detalj": ""
+      }
+    ],
+    "bestått": 2,
+    "feil": 0,
+    "advarsel": 0
+  },
+  "ekstraWcag": {
+    "tester": [
+      {
+        "kategori": "orientering",
+        "wcag": "1.3.4",
+        "navn": "Innhold tilgjengelig i begge orienteringer",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "hover-fokus",
+        "wcag": "1.4.13",
+        "navn": "Innhold ved pek eller fokus",
+        "resultat": "bestått",
+        "detalj": "Ingen tooltip-elementer (title-attributt) funnet"
+      },
+      {
+        "kategori": "fokus-kontekst",
+        "wcag": "3.2.1",
+        "navn": "Fokus utløser ikke uventet kontekstendring",
+        "resultat": "bestått",
+        "detalj": ""
+      },
+      {
+        "kategori": "inndata-kontekst",
+        "wcag": "3.2.2",
+        "navn": "Inndata utløser ikke uventet kontekstendring",
+        "resultat": "bestått",
+        "detalj": "Ingen select-elementer funnet"
+      },
+      {
+        "kategori": "feilidentifikasjon",
+        "wcag": "3.3.1",
+        "navn": "Feilidentifikasjon – aria-invalid ved ugyldig input",
+        "resultat": "bestått",
+        "detalj": "Ingen skjema med påkrevde felt på forsiden"
+      }
+    ],
+    "bestått": 5,
+    "feil": 0,
+    "advarsel": 0
+  },
+  "firefoxRun": null,
+  "webkitRun": null,
+  "sider": [
+    {
+      "url": "https://tilskudd.fiks.ks.no",
+      "tittel": "KS Tilskudd - Hjem",
+      "oppdagetFra": null,
+      "orgnr": null,
+      "wcag": {
+        "brudd": 0,
+        "bestått": 30,
+        "kritiske": 0,
+        "alvorlige": 0,
+        "moderate": 0,
+        "mindre": 0,
+        "detaljer": []
+      },
+      "lenker": {
+        "totalt": 2,
+        "døde": [],
+        "tomTekst": [],
+        "alle": [
+          {
+            "tekst": "KS Tilskudd",
+            "href": "https://tilskudd.fiks.ks.no/",
+            "intern": true,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "Finn mer informasjon om KS Tilskudd og når du kan bruke tjenesten på ksdigital.no.",
+            "href": "https://ksdigital.no/tjenestene/prosjekter-i-utvikling/tilskuddsforvaltning-2/",
+            "intern": false,
+            "harTekst": true,
+            "status": 200,
+            "ok": true
+          },
+          {
+            "tekst": "fiks@ksdigital.no",
+            "href": "mailto:fiks@ksdigital.no",
+            "intern": false,
+            "harTekst": true,
+            "status": "skip",
+            "ok": true
+          }
+        ]
+      },
+      "knapper": [],
+      "bilder": [
+        {
+          "src": "trafikkjegler-CvHGBWVT.svg",
+          "fullSrc": "/assets/trafikkjegler-CvHGBWVT.svg",
+          "alt": "",
+          "harAlt": true,
+          "altErTom": true,
+          "rolle": "",
+          "bredde": 295,
+          "høyde": 140
+        }
+      ],
+      "skjemafelt": [],
+      "struktur": {
+        "overskrifter": [
+          {
+            "nivå": 1,
+            "tekst": "Nasjonal portal for å søke om offentlige tilskudd"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Vi holder på å bygge nettsiden"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Har du spørsmål?"
+          },
+          {
+            "nivå": 2,
+            "tekst": "Om KS Tilskudd"
+          }
+        ],
+        "landmarks": [
+          {
+            "tag": "header",
+            "rolle": "header",
+            "label": ""
+          },
+          {
+            "tag": "nav",
+            "rolle": "nav",
+            "label": "header"
+          },
+          {
+            "tag": "main",
+            "rolle": "main",
+            "label": ""
+          },
+          {
+            "tag": "footer",
+            "rolle": "footer",
+            "label": ""
+          }
+        ],
+        "harSkipLink": false,
+        "langAttr": "nb"
+      },
+      "internelenker": [
+        "https://tilskudd.fiks.ks.no"
+      ]
+    }
+  ]
+}

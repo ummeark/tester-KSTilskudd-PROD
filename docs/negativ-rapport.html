@@ -5,7 +5,7 @@
 <script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Negativ testrapport – 2026-10-12 15:57</title>
+<title>Negativ testrapport – 2026-10-13 14:30</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
@@ -73,7 +73,7 @@
   <div class="sidemeny-header">
     <div class="sidemeny-logo">KS Tilskudd · Negativ testing</div>
     <div class="env-badge">PRODUKSJON · v0.12.0</div>
-    <h1>Negativ testrapport <span>2026-10-12 15:57 · 23 tester</span></h1>
+    <h1>Negativ testrapport <span>2026-10-13 14:30 · 23 tester</span></h1>
   </div>
   <ul><li><a href="#skjema" class="sidenav-link har-brudd">
     <span class="sidenavn">📝 Skjema-validering</span>
@@ -87,16 +87,16 @@
   </a></li><li><a href="#nettleser" class="sidenav-link ok">
     <span class="sidenavn">🌐 Nettleserfunksjoner</span>
     <span class="side-badge">4 tester · ✅ alle bestått</span>
-  </a></li><li><a href="#sesjon" class="sidenav-link har-brudd">
+  </a></li><li><a href="#sesjon" class="sidenav-link ok">
     <span class="sidenavn">🔑 Tilstand og sesjon</span>
-    <span class="side-badge">3 tester · 1 feil/adv.</span>
+    <span class="side-badge">3 tester · ✅ alle bestått</span>
   </a></li></ul>
 </nav>
 <div class="hoveddel">
   <div class="rapport-header">
     <div>
       <h1>Negativ testrapport</h1>
-      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-12 15:57 · 23 tester · 31s · Chromium 147</div>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-13 14:30 · 23 tester · 17s · Chromium 147</div>
     </div>
     <div class="nav-knapper">
       <a href="rapport.html" class="knapp sekundær">Forside</a>
@@ -151,17 +151,17 @@
     </div>
   </div>
   <div class="score-kort">
-    <div class="score-sirkel dårlig">40</div>
+    <div class="score-sirkel dårlig">45</div>
     <div class="score-tekst">
       <strong>Robusthetsscore</strong>
-      <p>11 av 23 tester bestått. 0 feil og 12 advarsler på tvers av 5 testkategorier.</p>
+      <p>12 av 23 tester bestått. 0 feil og 11 advarsler på tvers av 5 testkategorier.</p>
     </div>
   </div>
 
   <div class="kort-grid">
     <div class="kort ok"><div class="tall">23</div><div class="etikett">Tester totalt</div></div>
-    <div class="kort ok"><div class="tall">11</div><div class="etikett">Bestått</div></div>
-    <div class="kort advarsel"><div class="tall">12</div><div class="etikett">Advarsler</div></div>
+    <div class="kort ok"><div class="tall">12</div><div class="etikett">Bestått</div></div>
+    <div class="kort advarsel"><div class="tall">11</div><div class="etikett">Advarsler</div></div>
     <div class="kort ok"><div class="tall">0</div><div class="etikett">Feil</div></div>
   </div>
 
@@ -743,7 +743,7 @@
   </div>
   </div>
   <div class="seksjon" id="sesjon">
-    <div class="seksjon-tittel">🔑 Tilstand og sesjon – 2/3 bestått</div>
+    <div class="seksjon-tittel">🔑 Tilstand og sesjon – 3/3 bestått</div>
     
   <div class="brudd-kort" style="border-left-color:#07604f">
     <div class="brudd-header">
@@ -797,10 +797,10 @@
   </details>
     
   </div>
-  <div class="brudd-kort" style="border-left-color:#b8860b">
+  <div class="brudd-kort" style="border-left-color:#07604f">
     <div class="brudd-header">
       <div>
-        <span class="badge advarsel">⚠️ advarsel</span>
+        <span class="badge bestått">✅ bestått</span>
         <span class="regel-desc">Direkte tilgang til "Min side" uten innlogging</span>
       </div>
     </div>
@@ -809,11 +809,9 @@
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Input</div>
         <div style="color:#374151;word-break:break-all">/minside</div>
       </div>
-      <div style="background:#fff9db;padding:.4rem .6rem">
+      <div style="background:#ecfdf5;padding:.4rem .6rem">
         <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.2rem">Faktisk oppførsel</div>
-        <div style="color:#374151;word-break:break-all">Feil: page.goto: Timeout 12000ms exceeded.
-Call log:
-  - navigating to "https://tilsku</div>
+        <div style="color:#374151;word-break:break-all">Omdirigerte til innlogging: https://login.idporten.no/authorize/selector</div>
       </div>
     </div>
     
@@ -871,7 +869,7 @@ Call log:
           </div>
     </div>
   </details>
-  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-10-12 15:57</footer>
+  <footer>KS Tilskudd · Negativ testing · Playwright · 2026-10-13 14:30</footer>
 </div>
 </body>
 </html>
