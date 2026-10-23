@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<script>if(location.protocol!=='file:'&&!sessionStorage.getItem('ks-auth'))location.replace('logg-inn.html?redir='+encodeURIComponent(location.href))</script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UU-rapport – 2026-10-23 11:58</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,sans-serif;background:#faf6f0;color:#0f0e17;display:flex;min-height:100vh}
+
+  /* Sidebar */
+  .sidemeny{width:272px;min-width:272px;background:#07604f;color:white;padding:0;overflow-y:auto;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .sidemeny-header{padding:1.2rem 1.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidemeny-logo{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.45;margin-bottom:.5rem}
+  .env-badge{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:rgba(255,255,255,.18);color:white;padding:.25rem .7rem;border-radius:100px;margin-top:.5rem}
+  .sidemeny h1{font-size:.95rem;font-weight:600;line-height:1.3}
+  .sidemeny h1 span{display:block;font-size:.72rem;opacity:.45;margin-top:.3rem;font-weight:400}
+  .sidemeny ul{list-style:none;flex:1;overflow-y:auto;padding:.5rem 0}
+  .sidenav-link{display:block;padding:.65rem 1.4rem;text-decoration:none;color:rgba(255,255,255,.65);border-left:3px solid transparent;transition:background .15s,color .15s}
+  .sidenav-link:hover{background:rgba(255,255,255,.07);color:white}
+  .sidenav-link.har-kritiske{border-color:#fc8181}
+  .sidenav-link.har-brudd{border-color:#f3dda2}
+  .sidenav-link.har-advarsel{border-color:#fcd34d}
+  .sidenav-link.ok{border-color:#abd1b1}
+  .sidenavn{display:block;font-size:.84rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .side-url{display:block;font-size:.68rem;opacity:.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:.15rem}
+  .side-badge{display:block;font-size:.68rem;margin-top:.2rem;opacity:.6}
+  .wcag-prinsipp-header{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:.9rem 1.4rem .35rem;margin-top:.25rem;list-style:none}
+
+  /* Main */
+  .hoveddel{flex:1;padding:2.5rem 3rem;overflow-y:auto;max-width:1060px}
+
+  /* Top header */
+  .rapport-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:2px solid #f4ecdf;flex-wrap:wrap}
+  .rapport-header h1{font-size:1.5rem;font-weight:700;color:#0a1355;letter-spacing:-.01em}
+  .rapport-header .meta{font-size:.85rem;color:#6b7280;margin-top:.4rem}
+  .rapport-header .meta a{color:#07604f;text-decoration:none}
+  .rapport-header .meta a:hover{text-decoration:underline}
+  .nav-knapper{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-start}
+  .knapp{display:inline-block;padding:.5rem 1.2rem;background:#0a1355;color:white;border-radius:100px;font-size:.82rem;font-weight:500;text-decoration:none;white-space:nowrap;transition:background .15s}
+  .knapp:hover{background:#2b3285}
+  .knapp.aktiv{background:#07604f;pointer-events:none}
+  .knapp.sekundær{background:transparent;border:1px solid #0a1355;color:#0a1355}
+  .knapp.sekundær:hover{background:#f4ecdf}
+
+  /* Score card */
+  .score-kort{background:white;border:1px solid #f1f0ee;padding:1.8rem 2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .score-sirkel{width:88px;height:88px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:700;flex-shrink:0}
+  .score-sirkel.god{background:#07604f;color:white}
+  .score-sirkel.middels{background:#f3dda2;color:#0a1355}
+  .score-sirkel.dårlig{background:#c53030;color:white}
+  .score-tekst strong{color:#0a1355;font-size:1rem}
+  .score-tekst p{color:#6b7280;font-size:.87rem;margin-top:.35rem;line-height:1.5}
+
+  /* Metric cards */
+  .kort-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:.8rem;margin-bottom:2rem}
+  .kort{background:white;padding:1.2rem 1rem;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .kort.kritisk{border-left-color:#c53030}.kort.advarsel{border-left-color:#b8860b}.kort.ok{border-left-color:#07604f}
+  .kort .tall{font-size:2rem;font-weight:700;margin:.3rem 0;color:#0a1355}
+  .kort .etikett{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:.05em}
+  .kort .undertekst{font-size:.7rem;color:#9ca3af;margin-top:.25rem}
+
+  /* Info-seksjon (Hva er UU-testing?) */
+  .seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .seksjon-tittel{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid #f4ecdf}
+
+  /* Page sections */
+  .side-seksjon{background:white;border:1px solid #f1f0ee;padding:2rem;margin-bottom:1.2rem;box-shadow:0 1px 4px rgba(10,19,85,.06)}
+  .side-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.4rem;padding-bottom:1.2rem;border-bottom:1px solid #f4ecdf;flex-wrap:wrap;gap:.6rem}
+  .side-header h2{font-size:1rem;font-weight:600;color:#0a1355}
+  summary.side-header{list-style:none;cursor:pointer;user-select:none}
+  summary.side-header::-webkit-details-marker{display:none}
+  details.side-seksjon:not([open]) summary.side-header{margin-bottom:0;padding-bottom:0;border-bottom:none}
+  summary.side-header::after{content:'▾ Vis detaljer';font-size:.68rem;color:#9ca3af;white-space:nowrap;align-self:center;flex-shrink:0}
+  details[open] summary.side-header::after{content:'▴ Skjul'}
+  .side-url-link{font-size:.78rem;color:#07604f;text-decoration:none;display:block;margin-top:.2rem}
+  .side-url-link:hover{text-decoration:underline}
+  .side-score-badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:flex-start}
+
+  /* Testdata strip */
+  .testdata-strip{display:flex;gap:.5rem;flex-wrap:wrap;padding:.7rem 0 .9rem;border-bottom:1px solid #f4ecdf;margin-bottom:1rem}
+  .testdata-chip{display:inline-flex;align-items:center;gap:.25rem;background:#f4ecdf;color:#374151;padding:.18rem .65rem;border-radius:100px;font-size:.71rem;font-weight:500}
+
+  /* WCAG sections */
+  .wcag-seksjon{margin-bottom:1.6rem}
+  .wcag-seksjon h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:.9rem;padding-bottom:.4rem;border-bottom:1px solid #f4ecdf}
+  .brudd-kort{background:#faf6f0;border:1px solid #f1f0ee;border-left:4px solid #e5e3de;padding:1rem 1.1rem;margin-bottom:.7rem}
+  .brudd-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem;gap:.5rem;flex-wrap:wrap}
+  .regel-id{font-size:.8rem;margin:0 .4rem;color:#2b3285;font-family:ui-monospace,monospace}
+  .regel-desc{font-size:.84rem;color:#374151}
+  .brudd-teller{font-size:.72rem;color:#9ca3af;white-space:nowrap;flex-shrink:0}
+  .brudd-hjelp{font-size:.82rem;color:#555;margin:.6rem 0;padding:.5rem .8rem;background:#f4ecdf;border-left:3px solid #b8860b}
+  .node-info{background:#f1f0ee;padding:.5rem .7rem;margin:.4rem 0;font-size:.8rem}
+  .node-selector{display:block;color:#2b3285;font-family:ui-monospace,monospace;margin-bottom:.2rem;word-break:break-all;font-size:.78rem}
+  .failure-summary{color:#6b7280;font-size:.77rem;margin-top:.2rem;white-space:pre-wrap}
+
+  /* Screenshots */
+  .skjermdump-gruppe{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:.9rem}
+  .skjermdump-wrapper{background:#f1f0ee;padding:.7rem}
+  .skjermdump-label{font-size:.68rem;color:#6b7280;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+  .skjermdump{width:100%;border:1px solid #e5e3de;cursor:zoom-in;transition:box-shadow .2s;display:block}
+  .skjermdump:hover{box-shadow:0 4px 16px rgba(10,19,85,.15)}
+  .nærbilde{max-height:200px;object-fit:contain;background:white}
+  .helside{max-height:300px;object-fit:cover;object-position:top}
+
+  /* Artifact grid */
+  .artefakt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-top:1.2rem}
+  .artefakt-kort{background:#faf6f0;border:1px solid #f1f0ee;padding:1.2rem 1.4rem}
+  .artefakt-kort h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;margin-bottom:.9rem}
+
+  /* Tables */
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{background:#f4ecdf;text-align:left;padding:.5rem .7rem;font-weight:600;color:#0a1355;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+  td{padding:.45rem .7rem;border-bottom:1px solid #f1f0ee;vertical-align:top}
+
+  /* Badges */
+  .badge{display:inline-block;padding:.15rem .6rem;border-radius:100px;font-size:.7rem;font-weight:600}
+  .badge.critical{background:#fee2e2;color:#c53030}
+  .badge.serious{background:#fde8d4;color:#9a3412}
+  .badge.moderate{background:#f3dda2;color:#713f12}
+  .badge.minor{background:#f1f0ee;color:#4b5563}
+  .badge.dead{background:#f1f0ee;color:#4b5563}
+
+  /* Misc */
+  .overskrift-liste{list-style:none;font-size:.82rem}
+  .overskrift-liste li{padding:.25rem 0}
+  .h-badge{display:inline-block;width:26px;font-size:.7rem;font-weight:700;color:#2b3285}
+  .mangler{color:#c53030;font-weight:600}
+  .ok-tekst{color:#07604f;font-size:.9rem}
+  .ingen{color:#9ca3af;font-style:italic;font-size:.84rem}
+  .wcag-ok{background:#ecfdf5;color:#064e3b;padding:.8rem 1rem;border-left:3px solid #07604f;font-size:.88rem}
+  footer{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.78rem;border-top:1px solid #f1f0ee;margin-top:2rem}
+
+  /* WCAG-kriterie-layout */
+  .prinsipp-gruppe{margin-bottom:.5rem}
+  .prinsipp-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#0a1355;padding:.7rem 0 .4rem;border-bottom:2px solid #f4ecdf;margin-bottom:.6rem;margin-top:2rem}
+  .kriterie-seksjon{background:white;border:1px solid #f1f0ee;padding:1.4rem 1.6rem;margin-bottom:.7rem;box-shadow:0 1px 4px rgba(10,19,85,.05)}
+  .kriterie-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem;margin-bottom:.6rem}
+  .kriterie-nummerrad{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+  .kriterie-num{font-size:.8rem;font-weight:700;color:#2b3285;font-family:ui-monospace,monospace}
+  .level-badge{font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:3px}
+  .level-a{background:#fee2e2;color:#c53030}
+  .level-aa{background:#eff6ff;color:#1d4ed8}
+  .kilde-chip{font-size:.65rem;background:#f4ecdf;color:#713f12;padding:.1rem .5rem;border-radius:100px}
+  .kriterie-navn{font-size:.95rem;font-weight:600;color:#0a1355}
+  .status-badge{display:inline-block;padding:.2rem .7rem;border-radius:100px;font-size:.7rem;font-weight:600}
+  .status-badge.feil{background:#fee2e2;color:#c53030}
+  .status-badge.advarsel{background:#fef3c7;color:#92400e}
+  .status-badge.bestått{background:#ecfdf5;color:#065f46}
+  .ok-rad{font-size:.83rem;color:#065f46;padding:.5rem .7rem;background:#ecfdf5;border-left:3px solid #07604f}
+  .side-rad{margin:.5rem 0;padding:.6rem .8rem;background:#faf6f0;border-left:3px solid #e5e3de}
+  .side-rad-header{margin-bottom:.4rem}
+  .side-lenke{font-size:.83rem;font-weight:600;color:#0a1355;text-decoration:none}
+  .side-lenke:hover{text-decoration:underline}
+  .side-url-kort{display:block;font-size:.7rem;color:#9ca3af;margin-top:.1rem}
+  .brudd-linje{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.8rem;margin:.3rem 0;padding:.25rem 0;border-top:1px solid #f1f0ee}
+  .node-teller{font-size:.72rem;color:#9ca3af;margin-left:auto;white-space:nowrap}
+  .sjekk-liste{display:flex;flex-direction:column;gap:.3rem}
+  .sjekk-rad{display:flex;align-items:center;gap:.6rem;font-size:.82rem;flex-wrap:wrap}
+  .sjekk-status{padding:.15rem .55rem;border-radius:100px;font-size:.7rem;font-weight:600;flex-shrink:0}
+  .sjekk-navn{flex:1}
+  .sjekk-detalj{font-size:.75rem;color:#6b7280;font-style:italic}
+  .sider-liste{display:flex;flex-direction:column;gap:.25rem}
+  .side-url-rad{padding:.4rem .7rem;background:#faf6f0;border-left:3px solid #e5e3de;font-size:.82rem}
+  .side-url-rad a{color:#0a1355;text-decoration:none;font-weight:500}
+  .side-url-rad a:hover{text-decoration:underline}
+  .side-path{display:block;font-size:.72rem;color:#9ca3af}
+</style>
+</head>
+<body>
+<nav class="sidemeny">
+  <div class="sidemeny-header">
+    <div class="sidemeny-logo">KS Tilskudd · UU-tester</div>
+    <div class="env-badge">PRODUKSJON · v0.12.0</div>
+    <h1>Tilgjengelighetsrapport <span>2026-10-23 11:58 · 1 sider</span></h1>
+  </div>
+  <ul><li class="wcag-prinsipp-header">Prinsipp 1: Mulig å oppfatte</li><li><a href="#wcag-1-1-1" class="sidenav-link ok">
+        <span class="sidenavn">1.1.1</span>
+        <span class="side-url">Ikke-tekstlig innhold</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-1-3-1" class="sidenav-link ok">
+        <span class="sidenavn">1.3.1</span>
+        <span class="side-url">Informasjon og relasjoner</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-1-3-4" class="sidenav-link ok">
+        <span class="sidenavn">1.3.4</span>
+        <span class="side-url">Orientering</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-1-4-3" class="sidenav-link ok">
+        <span class="sidenavn">1.4.3</span>
+        <span class="side-url">Kontrast (minimum)</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-1-4-10" class="sidenav-link ok">
+        <span class="sidenavn">1.4.10</span>
+        <span class="side-url">Reflow – 320px / 400 % zoom</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-1-4-12" class="sidenav-link ok">
+        <span class="sidenavn">1.4.12</span>
+        <span class="side-url">Tekstmellomrom</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-1-4-13" class="sidenav-link ok">
+        <span class="sidenavn">1.4.13</span>
+        <span class="side-url">Innhold ved pek eller fokus</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li class="wcag-prinsipp-header">Prinsipp 2: Mulig å betjene</li><li><a href="#wcag-2-1-1" class="sidenav-link har-advarsel">
+        <span class="sidenavn">2.1.1</span>
+        <span class="side-url">Tastatur</span>
+        <span class="side-badge">⚠️ advarsel</span>
+      </a></li><li><a href="#wcag-2-1-2" class="sidenav-link ok">
+        <span class="sidenavn">2.1.2</span>
+        <span class="side-url">Ingen tastaturfelle</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-2-4-1" class="sidenav-link har-advarsel">
+        <span class="sidenavn">2.4.1</span>
+        <span class="side-url">Hoppe over blokker (skiplink)</span>
+        <span class="side-badge">⚠️ advarsel</span>
+      </a></li><li><a href="#wcag-2-4-2" class="sidenav-link ok">
+        <span class="sidenavn">2.4.2</span>
+        <span class="side-url">Sidetittel</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-2-4-3" class="sidenav-link ok">
+        <span class="sidenavn">2.4.3</span>
+        <span class="side-url">Fokusrekkefølge</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-2-4-4" class="sidenav-link ok">
+        <span class="sidenavn">2.4.4</span>
+        <span class="side-url">Formål med lenke (i kontekst)</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-2-4-7" class="sidenav-link ok">
+        <span class="sidenavn">2.4.7</span>
+        <span class="side-url">Synlig fokus</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li class="wcag-prinsipp-header">Prinsipp 3: Mulig å forstå</li><li><a href="#wcag-3-2-1" class="sidenav-link ok">
+        <span class="sidenavn">3.2.1</span>
+        <span class="side-url">Fokus – ingen uventet kontekstendring</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-3-2-2" class="sidenav-link ok">
+        <span class="sidenavn">3.2.2</span>
+        <span class="side-url">Inndata – ingen uventet kontekstendring</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-3-3-1" class="sidenav-link ok">
+        <span class="sidenavn">3.3.1</span>
+        <span class="side-url">Feilidentifikasjon</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li class="wcag-prinsipp-header">Prinsipp 4: Robust</li><li><a href="#wcag-4-1-1" class="sidenav-link ok">
+        <span class="sidenavn">4.1.1</span>
+        <span class="side-url">Parsing</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li><li><a href="#wcag-4-1-2" class="sidenav-link ok">
+        <span class="sidenavn">4.1.2</span>
+        <span class="side-url">Navn, rolle, verdi</span>
+        <span class="side-badge">✅ ok</span>
+      </a></li></ul>
+</nav>
+<div class="hoveddel">
+  <div class="rapport-header">
+    <div>
+      <h1>Tilgjengelighetsrapport</h1>
+      <div class="meta"><a href="https://tilskudd.fiks.ks.no/" target="_blank">https://tilskudd.fiks.ks.no/</a> · 2026-10-23 11:58 · 1 sider testet · 🌐 Chromium 147</div>
+    </div>
+    <div class="nav-knapper">
+      <a href="rapport.html" class="knapp sekundær">Forside</a>
+      <a href="uu-rapport.html" class="knapp aktiv">UU-rapport</a>
+      <a href="monkey-rapport.html" class="knapp sekundær">Monkey-test</a>
+      <a href="sikkerhet-rapport.html" class="knapp sekundær">Sikkerhetstest</a>
+      <a href="negativ-rapport.html" class="knapp sekundær">Negativ test</a>
+      <a href="ytelse-rapport.html" class="knapp sekundær">Ytelsestest</a>
+      <a href="brukerhistorie-rapport.html" class="knapp sekundær">Brukerhistorier</a>
+      <a href="arkiv.html" class="knapp sekundær">Tidligere rapporter</a>
+    </div>
+  </div>
+  <div class="seksjon" style="background:#f4ecdf;border-color:#e8dcc8;margin-bottom:1.5rem">
+    <div class="seksjon-tittel">Hva er UU-testing?</div>
+    <p style="font-size:.88rem;line-height:1.7;color:#374151;margin-bottom:1rem">
+      UU-testing (universell utforming) kontrollerer at applikasjonen er tilgjengelig for alle brukere,
+      inkludert de med nedsatt syn, motorikk eller kognisjon. Testen kjøres automatisk daglig mot
+      alle undersider og rapporterer brudd mot WCAG 2.1 A/AA-standarden.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;font-size:.83rem">
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva testes</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>♿ WCAG 2.1 A/AA-regler (axe-core)</li>
+          <li>🔘 Knapper med manglende label</li>
+          <li>🖼️ Bilder uten alt-tekst</li>
+          <li>📝 Skjemafelt uten label</li>
+          <li>🔗 Døde og ødelagte lenker</li>
+          <li>📱 Reflow ved 320px (1.4.10)</li>
+          <li>📐 Tekstmellomrom-klipping (1.4.12)</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Hva måles</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>Antall WCAG-brudd per side</li>
+          <li>Alvorlighetsgrad (kritisk → lav)</li>
+          <li>HTTP-status på alle lenker</li>
+          <li>Sidestruktur og landmarks</li>
+          <li>Overskriftshierarki (H1–H6)</li>
+        </ul>
+      </div>
+      <div>
+        <strong style="color:#0a1355;display:block;margin-bottom:.3rem">Verktøy og metode</strong>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.25rem;color:#374151">
+          <li>axe-core (WCAG-motor)</li>
+          <li>Playwright (ekte nettleser)</li>
+          <li>Skjermdumper av feilende elementer</li>
+          <li>Opptil 20 undersider per kjøring</li>
+          <li>Kjøres daglig kl. 08:30</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="score-kort">
+    <div class="score-sirkel god">94</div>
+    <div class="score-tekst"><strong>UU-score</strong><p>Basert på WCAG-brudd, døde lenker og manglende labels på tvers av 1 sider. Klikk på skjermdumper for å forstørre.</p></div>
+  </div>
+
+  <div class="kort-grid">
+    <div class="kort ok"><div class="tall">1</div><div class="etikett">Sider testet</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">WCAG-brudd</div><div class="undertekst">0 kritiske · 0 alvorlige</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">Døde lenker</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">Knapper testet</div><div class="undertekst">0 uten label</div></div>
+    <div class="kort ok"><div class="tall">1</div><div class="etikett">Bilder testet</div><div class="undertekst">0 uten alt</div></div>
+    <div class="kort ok"><div class="tall">0</div><div class="etikett">Skjemafelt</div><div class="undertekst">0 uten label</div></div>
+  </div>
+
+  <div style="display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.2rem;margin-bottom:-.2rem">
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=true)" style="background:transparent;border:1px solid #d1d5db;color:#374151;font-size:.75rem;padding:.3rem .85rem;border-radius:100px;cursor:pointer;font-family:inherit;transition:background .15s" onmouseover="this.style.background='#f4ecdf'" onmouseout="this.style.background='transparent'">↕ Åpne alle</button>
+    <button onclick="document.querySelectorAll('details').forEach(d=>d.open=false)" style="background:transparent;border:1px solid #d1d5db;color:#374151;font-size:.75rem;padding:.3rem .85rem;border-radius:100px;cursor:pointer;font-family:inherit;transition:background .15s" onmouseover="this.style.background='#f4ecdf'" onmouseout="this.style.background='transparent'">↕ Lukk alle</button>
+  </div>
+
+  <details style="margin-top:1.5rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
+    <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>📄 Sider analysert (1 sider)</span>
+      <span style="font-size:.75rem;opacity:.5;font-weight:400;text-transform:none;letter-spacing:0">klikk for å utvide ▼</span>
+    </summary>
+    <div style="padding:1.2rem 1.5rem 1.5rem;border-top:1px solid #f4ecdf">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem">
+        <div style="border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff;padding:.8rem">
+          <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#1d4ed8;margin-bottom:.6rem">🌐 Chromium</div>
+          <div style="font-size:.72rem;font-weight:600;color:#0a1355;margin-bottom:.5rem">🔐 Fast bruker (ikke innlogget)</div>
+          <div class="sider-liste">
+            <div class="side-url-rad">
+              <a href="https://tilskudd.fiks.ks.no" target="_blank">KS Tilskudd - Hjem</a>
+              <span class="side-path">/</span>
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </details>
+
+  <div class="prinsipp-gruppe">
+    <div class="prinsipp-label">Prinsipp 1 – Mulig å oppfatte</div>
+    <section class="kriterie-seksjon" id="wcag-1-1-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.1.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Ikke-tekstlig innhold</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-1-3-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.3.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Informasjon og relasjoner</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-1-3-4">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.3.4</span>
+              <span class="level-badge level-aa">AA</span>
+              <span class="kilde-chip">ekstra-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Orientering</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Innhold tilgjengelig i begge orienteringer</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-1-4-3">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.4.3</span>
+              <span class="level-badge level-aa">AA</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Kontrast (minimum)</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-1-4-10">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.4.10</span>
+              <span class="level-badge level-aa">AA</span>
+              <span class="kilde-chip">reflow</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Reflow – 320px / 400 % zoom</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Ingen horisontal rulling ved 320px (400 % zoom)</span><span class="sjekk-detalj">Ingen horisontal rulling ved 320px bredde</span></div><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Innhold ikke avskåret ved 320px</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-1-4-12">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.4.12</span>
+              <span class="level-badge level-aa">AA</span>
+              <span class="kilde-chip">tekstmellomrom</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Tekstmellomrom</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Ingen tekstklipping ved økt linjehøyde og bokstavmellomrom</span></div><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Ingen horisontal overflyt etter økt tekstmellomrom</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-1-4-13">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">1.4.13</span>
+              <span class="level-badge level-aa">AA</span>
+              <span class="kilde-chip">ekstra-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Innhold ved pek eller fokus</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Innhold ved pek eller fokus</span><span class="sjekk-detalj">Ingen tooltip-elementer (title-attributt) funnet</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section>
+  </div><div class="prinsipp-gruppe">
+    <div class="prinsipp-label">Prinsipp 2 – Mulig å betjene</div>
+    <section class="kriterie-seksjon" id="wcag-2-1-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.1.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">tastatur-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">⚠️ Tastatur</h2>
+          </div>
+          <div><span class="status-badge advarsel">0 sider med brudd</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div><div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Interaktive elementer nåbare via Tab</span><span class="sjekk-detalj">3 elementer nådd (3 i DOM)</span></div><div class="sjekk-rad"><span class="sjekk-status" style="background:#fef3c7;color:#92400e">⚠️ advarsel</span><span class="sjekk-navn">Enter aktiverer navigasjonslenke</span><span class="sjekk-detalj">Ingen navigasjonslenke aktivert i de første 15 Tab-stegene</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-2-1-2">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.1.2</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">tastatur-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Ingen tastaturfelle</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Ingen tastaturfelle</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-2-4-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.4.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">tastatur-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">⚠️ Hoppe over blokker (skiplink)</h2>
+          </div>
+          <div><span class="status-badge advarsel">Advarsel</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#fef3c7;color:#92400e">⚠️ advarsel</span><span class="sjekk-navn">Hopplenke til hovedinnhold</span><span class="sjekk-detalj">Første Tab: A &quot;ks tilskudd&quot;</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-2-4-2">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.4.2</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Sidetittel</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-2-4-3">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.4.3</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">tastatur-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Fokusrekkefølge</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Ingen tabindex &gt; 0</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-2-4-4">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.4.4</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Formål med lenke (i kontekst)</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-2-4-7">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">2.4.7</span>
+              <span class="level-badge level-aa">AA</span>
+              <span class="kilde-chip">tastatur-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Synlig fokus</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Synlig fokus på interaktive elementer</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section>
+  </div><div class="prinsipp-gruppe">
+    <div class="prinsipp-label">Prinsipp 3 – Mulig å forstå</div>
+    <section class="kriterie-seksjon" id="wcag-3-2-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">3.2.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">ekstra-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Fokus – ingen uventet kontekstendring</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Fokus utløser ikke uventet kontekstendring</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-3-2-2">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">3.2.2</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">ekstra-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Inndata – ingen uventet kontekstendring</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Inndata utløser ikke uventet kontekstendring</span><span class="sjekk-detalj">Ingen select-elementer funnet</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-3-3-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">3.3.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">ekstra-sjekk</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Feilidentifikasjon</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="sjekk-liste"><div class="sjekk-rad"><span class="sjekk-status" style="background:#ecfdf5;color:#064e3b">✅ bestått</span><span class="sjekk-navn">Feilidentifikasjon – aria-invalid ved ugyldig input</span><span class="sjekk-detalj">Ingen skjema med påkrevde felt på forsiden</span></div></div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section>
+  </div><div class="prinsipp-gruppe">
+    <div class="prinsipp-label">Prinsipp 4 – Robust</div>
+    <section class="kriterie-seksjon" id="wcag-4-1-1">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">4.1.1</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Parsing</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section><section class="kriterie-seksjon" id="wcag-4-1-2">
+        <div class="kriterie-header">
+          <div>
+            <div class="kriterie-nummerrad">
+              <span class="kriterie-num">4.1.2</span>
+              <span class="level-badge level-a">A</span>
+              <span class="kilde-chip">axe-core</span>
+            </div>
+            <h2 class="kriterie-navn">✅ Navn, rolle, verdi</h2>
+          </div>
+          <div><span class="status-badge bestått">Bestått</span></div>
+        </div>
+        <details open style="margin-top:.5rem;border:1px solid #bfdbfe;border-radius:4px;background:#eff6ff">
+          <summary style="cursor:pointer;padding:.6rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#1d4ed8;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+            <span>🌐 Chromium</span>
+            <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+          </summary>
+          <div style="padding:.5rem .75rem .75rem">
+            <details open style="margin-top:.5rem;border:1px solid #e5e3de;border-radius:4px;background:white;box-shadow:0 1px 3px rgba(10,19,85,.04)">
+    <summary style="cursor:pointer;padding:.7rem 1rem;font-size:.71rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>🔐 Fast bruker <code style="font-size:.71rem;font-weight:700;color:#0a1355;background:none;margin-left:.3rem">ikke innlogget</code></span>
+      <span style="font-size:.71rem;opacity:.45;font-weight:400;text-transform:none;letter-spacing:0">klikk for å lukke ▲</span>
+    </summary>
+    <div style="padding:.75rem 1rem 1rem;border-top:1px solid #f4ecdf">
+      <div class="ok-rad">✅ Bestått – ingen brudd funnet</div>
+    </div>
+  </details>
+          </div>
+        </details>
+        
+        
+      </section>
+  </div>
+
+  <details style="margin-top:2rem;border:1px solid #e5e3de;background:white;box-shadow:0 1px 4px rgba(10,19,85,.06)">
+    <summary style="cursor:pointer;padding:1rem 1.5rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;user-select:none;list-style:none;display:flex;justify-content:space-between;align-items:center">
+      <span>⚠️ WCAG 2.1 sjekkliste – Uutilsynet</span>
+      <span style="font-size:.75rem;opacity:.5;font-weight:400;text-transform:none;letter-spacing:0">klikk for å utvide ▼</span>
+    </summary>
+    <div style="padding:1.2rem 1.5rem 1.5rem;border-top:1px solid #f4ecdf">
+      <p style="font-size:.83rem;color:#374151;margin-bottom:1rem;line-height:1.6">
+        Fullstendig dekning mot <strong>Uutilsynets WCAG 2.1-sjekkliste</strong> (48 kriterier). Automatiserte verktøy dekker ~40 % – resten krever manuell testing.
+      </p>
+      <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.2rem;font-size:.82rem">
+        <span style="background:#ecfdf5;color:#07604f;padding:.25rem .8rem;border-radius:100px;font-weight:600">✅ 19 automatisk dekket</span>
+        <span style="background:#f3dda2;color:#713f12;padding:.25rem .8rem;border-radius:100px;font-weight:600">⚠️ 10 delvis dekket</span>
+        <span style="background:#f3f4f6;color:#374151;padding:.25rem .8rem;border-radius:100px;font-weight:600">❌ 19 ikke dekket (manuell)</span>
+      </div>
+      
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 1 – Mulig å oppfatte</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/111-ikke-tekstlig-innhold-niva/87" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.1.1 på uutilsynet.no">1.1.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ikke-tekstlig innhold</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/121-bare-lyd-og-bare-video-forhandsinnspilt-niva/88" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.2.1 på uutilsynet.no">1.2.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bare lyd og bare video (forhåndsinnspilt)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell gjennomgang av media</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/122-teksting-forhandsinnspilt-niva/89" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.2.2 på uutilsynet.no">1.2.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Teksting (forhåndsinnspilt)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell gjennomgang av video</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/125-synstolking-forhandsinnspilt-niva-aa/842" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.2.5 på uutilsynet.no">1.2.5</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Synstolking (forhåndsinnspilt)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell gjennomgang av video</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/131-informasjon-og-relasjoner-niva/90" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.3.1 på uutilsynet.no">1.3.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Informasjon og relasjoner</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (label, heading, landmark)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/132-meningsfylt-rekkefolge-niva/91" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.3.2 på uutilsynet.no">1.3.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Meningsfull rekkefølge</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (delvis – visuell rekkefølge ikke dekket)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/133-sensoriske-egenskaper-niva/92" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.3.3 på uutilsynet.no">1.3.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Sensoriske egenskaper</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/134-visningsretning-niva-aa/141" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.3.4 på uutilsynet.no">1.3.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Orientering</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (portrett + landskap)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/135-identifiser-formal-med-inndata-niva-aa/142" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.3.5 på uutilsynet.no">1.3.5</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Identifiser formål med inndata</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core autocomplete-valid (delvis)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/141-bruk-av-farge-niva/93" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.1 på uutilsynet.no">1.4.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bruk av farge</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell – fargebruk som eneste markør</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/142-styring-av-lyd-niva/94" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.2 på uutilsynet.no">1.4.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Lydkontroll</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell – ingen lyd/video-innhold testet</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/143-kontrast-minimum-niva-aa/95" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.3 på uutilsynet.no">1.4.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Kontrast (minimum)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (color-contrast)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/144-endring-av-tekststorrelse-niva-aa/96" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.4 på uutilsynet.no">1.4.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Endring av tekststørrelse</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Reflow-test dekker zoom delvis; 200 % ikke sjekket</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/145-bilder-av-tekst-niva-aa/97" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.5 på uutilsynet.no">1.4.5</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bilder av tekst</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core oppdager ikke tekst i bilder</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/1410-dynamisk-tilpasning-reflow-niva-aa/144" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.10 på uutilsynet.no">1.4.10</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Dynamisk tilpasning (reflow)</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (320px)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/1411-kontrast-ikke-tekstlig-innhold-niva-aa/145" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.11 på uutilsynet.no">1.4.11</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Kontrast for ikke-tekstlig innhold</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (non-text-contrast)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/1412-tekstavstand-niva-aa/146" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.12 på uutilsynet.no">1.4.12</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tekstmellomrom</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (stilinjeksjon)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/1413-pekerfolsomt-innhold-eller-innhold-ved-tastaturfokus-niva-aa/147" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 1.4.13 på uutilsynet.no">1.4.13</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Innhold ved pek eller fokus</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test – title-attributter sjekket, full atferd krever manuell verifisering</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 2 – Mulig å betjene</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/211-tastatur-niva/98" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.1.1 på uutilsynet.no">2.1.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tastatur</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (Tab-rekkevidden + Enter) – full funksjonstestning krever manuell sjekk</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/212-ingen-tastaturfelle-niva/99" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.1.2 på uutilsynet.no">2.1.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ingen tastaturfelle</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/214-hurtigtaster-som-bestar-av-ett-tegn-niva/782" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.1.4 på uutilsynet.no">2.1.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tegntaster som snarvei</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Tastatursnarveger testes ikke</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/221-justerbar-hastighet-niva/100" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.2.1 på uutilsynet.no">2.2.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Justerbar tidsbegrensning</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Tidsavbrudd testes ikke</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/222-pause-stopp-skjul-niva/101" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.2.2 på uutilsynet.no">2.2.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Pause, stopp, skjul</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Animasjoner og bevegelig innhold testes ikke</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/231-terskelverdi-pa-maksimalt-tre-glimt-niva/102" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.3.1 på uutilsynet.no">2.3.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Tre glimt eller under terskel</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Blinkende innhold analyseres ikke</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/241-hoppe-over-blokker-niva/103" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.1 på uutilsynet.no">2.4.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Hoppe over blokker</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (skiplink)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/242-sidetitler-niva/104" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.2 på uutilsynet.no">2.4.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Sidetittel</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (document-title)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/243-fokusrekkefolge-niva/105" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.3 på uutilsynet.no">2.4.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Fokusrekkefølge</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">tabindex > 0 sjekkes – logisk rekkefølge i flertrinnsskjema krever manuell sjekk</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/244-formal-med-lenke-i-kontekst-niva/106" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.4 på uutilsynet.no">2.4.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Formål med lenke</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (link-name)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/245-flere-mater-niva-aa/107" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.5 på uutilsynet.no">2.4.5</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Flere måter</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering (søk, nettstedskart osv.)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/246-overskrifter-og-ledetekster-niva-aa/108" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.6 på uutilsynet.no">2.4.6</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Overskrifter og ledetekster</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (heading-order) – meningsinnhold ikke vurdert</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/247-synlig-fokus-niva-aa/109" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.4.7 på uutilsynet.no">2.4.7</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Synlig fokus</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/251-pekerbevegelser-niva/148" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.5.1 på uutilsynet.no">2.5.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Pekerbevegelser</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Flerfingergestuser testes ikke</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/252-pekeravbrytelse-niva/149" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.5.2 på uutilsynet.no">2.5.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Avbrytelse ved pekeraktivering</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Testes ikke</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/253-ledetekst-i-navn-niva/150" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.5.3 på uutilsynet.no">2.5.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ledetekst i navn</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (label-content-name-mismatch)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/254-bevegelsesaktivering-niva/151" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 2.5.4 på uutilsynet.no">2.5.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Bevegelsesaktivering</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Testes ikke</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 3 – Mulig å forstå</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/311-sprak-pa-siden-niva/110" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.1.1 på uutilsynet.no">3.1.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Språk på siden</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (html-has-lang, html-lang-valid)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/312-sprak-pa-deler-av-innhold-niva-aa/111" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.1.2 på uutilsynet.no">3.1.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Språk på deler av innhold</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core sjekker lang-attributt delvis</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/321-fokus-niva/112" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.2.1 på uutilsynet.no">3.2.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Fokus</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (Tab utløser ikke uventet navigasjon)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/322-inndata-niva/114" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.2.2 på uutilsynet.no">3.2.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Inndata</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (select-endring utløser ikke uventet navigasjon)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/323-konsekvent-navigering-niva-aa/113" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.2.3 på uutilsynet.no">3.2.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Konsekvent navigasjon</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering på tvers av sider</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/324-konsekvent-identifikasjon-niva-aa/115" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.2.4 på uutilsynet.no">3.2.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Konsekvent identifikasjon</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Manuell vurdering</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/331-identifikasjon-av-feil-niva/116" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.3.1 på uutilsynet.no">3.3.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Identifikasjon av feil</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Egendefinert test (aria-invalid + live-regions) – dekker ikke alle feilscenarier</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/332-ledetekster-eller-instruksjoner-niva/117" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.3.2 på uutilsynet.no">3.3.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Ledetekster og instruksjoner</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (label)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/333-forslag-ved-feil-niva-aa/118" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.3.3 på uutilsynet.no">3.3.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Feilforslag</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Kvalitet på feilmeldinger krever manuell vurdering</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/334-forhindring-av-feil-juridiske-feil-okonomiske-feil-datafeil-niva-aa/119" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 3.3.4 på uutilsynet.no">3.3.4</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Feilforebygging</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">❌</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">Bekreftelse/angringsmulighet testes ikke</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-bottom:1.4rem">
+        <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#0a1355;padding:.4rem 0;border-bottom:2px solid #e5e3de;margin-bottom:.4rem">Prinsipp 4 – Robust</div>
+        <table style="width:100%;border-collapse:collapse;font-size:.81rem">
+          <tbody>
+            
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/411-parsing-oppdeling-niva/120" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 4.1.1 på uutilsynet.no">4.1.1</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Parsing</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (duplicate-id, HTML-validering)</td>
+            </tr>
+            <tr style="background:#fafaf9">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/412-navn-rolle-verdi-niva/121" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 4.1.2 på uutilsynet.no">4.1.2</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Navn, rolle, verdi</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#dbeafe;color:#1e40af">A</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">✅</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core (button-name, aria-*, frame-title)</td>
+            </tr>
+            <tr style="background:white">
+              <td style="padding:.35rem .6rem;font-family:ui-monospace,monospace;font-weight:600;color:#6b21a8;white-space:nowrap;border-bottom:1px solid #f0ece8;width:4rem"><a href="https://www.uutilsynet.no/wcag-standarden/413-statusbeskjeder-niva-aa/152" target="_blank" rel="noopener" style="color:#6b21a8;text-decoration:none;border-bottom:1px dotted #6b21a8" title="Les om 4.1.3 på uutilsynet.no">4.1.3</a></td>
+              <td style="padding:.35rem .6rem;color:#0a1355;border-bottom:1px solid #f0ece8">Statusmeldinger</td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2.5rem"><span style="font-size:.72rem;font-weight:700;padding:.1rem .4rem;border-radius:100px;background:#e0e7ff;color:#3730a3">AA</span></td>
+              <td style="padding:.35rem .6rem;text-align:center;border-bottom:1px solid #f0ece8;width:2rem;font-size:1rem">⚠️</td>
+              <td style="padding:.35rem .6rem;color:#6b7280;border-bottom:1px solid #f0ece8;font-size:.78rem">axe-core sjekker aria-live-regioner delvis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+  <div class="seksjon" style="margin-top:2rem">
+    <div class="seksjon-tittel">Slik beregnes UU-scoren</div>
+    <p style="font-size:.82rem;color:#374151;margin-bottom:.9rem;line-height:1.6">
+      WCAG-brudd telles per <strong>unik regeltype</strong> (ikke per side-forekomst), slik at én feil på ti sider gir samme trekk som én feil på én side. Knapper og lenker har tak på maks 15–20 poengs fradrag.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.82rem;font-family:ui-monospace,monospace;margin-bottom:.9rem">
+      <span style="color:#374151">Kritisk WCAG-regeltype (unik)</span><span style="color:#c53030;font-weight:700">× 15 poeng</span>
+      <span style="color:#374151">Alvorlig WCAG-regeltype (unik)</span><span style="color:#9a3412;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Moderat WCAG-regeltype (unik)</span><span style="color:#713f12;font-weight:700">× 3 poeng</span>
+      <span style="color:#374151">Mindre WCAG-regeltype (unik)</span><span style="color:#6b7280;font-weight:700">× 1 poeng</span>
+      <span style="color:#374151">Død lenke (maks 20 p)</span><span style="color:#c53030;font-weight:700">× 4 poeng</span>
+      <span style="color:#374151">Knapp uten label (maks 15 p)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Bilde uten alt-tekst (maks 10 p)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Skjemafelt uten label (maks 10 p)</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Tastatur-feil (WCAG-brudd)</span><span style="color:#c53030;font-weight:700">× 10 poeng</span>
+      <span style="color:#374151">Tastatur-advarsel</span><span style="color:#9a3412;font-weight:700">× 3 poeng</span>
+      <span style="color:#374151">Reflow-feil (1.4.10)</span><span style="color:#c53030;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Reflow-advarsel</span><span style="color:#9a3412;font-weight:700">× 2 poeng</span>
+      <span style="color:#374151">Tekstmellomrom-feil (1.4.12)</span><span style="color:#9a3412;font-weight:700">× 5 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-feil</span><span style="color:#c53030;font-weight:700">× 8 poeng</span>
+      <span style="color:#374151">Ekstra WCAG-advarsel</span><span style="color:#9a3412;font-weight:700">× 1 poeng</span>
+    </div>
+    <p style="font-size:.78rem;color:#6b7280;font-family:ui-monospace,monospace">Score = maks(0, 100 − sum av trekk) &nbsp;·&nbsp; <span style="color:#07604f;font-weight:600">Grønn ≥ 80</span> &nbsp;·&nbsp; <span style="color:#b8860b;font-weight:600">Gul 50–79</span> &nbsp;·&nbsp; <span style="color:#c53030;font-weight:600">Rød &lt; 50</span></p>
+  </div>
+  <details style="margin-top:2rem;border:1px solid #e5e3de;border-radius:.5rem;padding:1rem 1.2rem;background:#fafaf9">
+    <summary style="cursor:pointer;font-size:.88rem;font-weight:600;color:#374151;user-select:none">Alle tester som kjøres ▾</summary>
+    <div style="margin-top:1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;font-size:.82rem">
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">♿ WCAG / axe-core (per side)</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Bilder uten alt-tekst (1.1.1)</li><li style="color:#374151">· Fargekontrast (1.4.3, 1.4.11)</li><li style="color:#374151">· Skjemafelt uten label (1.3.1)</li><li style="color:#374151">· Knapper uten tilgjengelig navn (4.1.2)</li><li style="color:#374151">· Overskriftshierarki (1.3.1)</li><li style="color:#374151">· Landmarks og regionstruktur (1.3.6)</li><li style="color:#374151">· Lenker uten forståelig tekst (2.4.4)</li><li style="color:#374151">· ARIA-roller og -attributter</li><li style="color:#374151">· Sidespråk (3.1.1)</li><li style="color:#374151">· Fokusmarkering (2.4.7)</li><li style="color:#374151">· Tittel på siden (2.4.2)</li><li style="color:#374151">· … og øvrige axe-core-regler (90+)</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">🔗 Lenker</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Døde lenker (HTTP-statuskode)</li><li style="color:#374151">· Lenker uten synlig tekst</li>
+        </ul>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem;margin-top:1rem">⌨️ Tastaturnavigasjon</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Synlig fokus på interaktive elementer <span style="color:#9ca3af;font-size:.75rem">(WCAG 2.4.7)</span></li><li style="color:#374151">· Ingen tabindex > 0 <span style="color:#9ca3af;font-size:.75rem">(WCAG 2.4.3)</span></li><li style="color:#374151">· Interaktive elementer nåbare via Tab <span style="color:#9ca3af;font-size:.75rem">(WCAG 2.1.1)</span></li><li style="color:#374151">· Ingen tastaturfelle <span style="color:#9ca3af;font-size:.75rem">(WCAG 2.1.2)</span></li><li style="color:#374151">· Hopplenke til hovedinnhold <span style="color:#9ca3af;font-size:.75rem">(WCAG 2.4.1)</span></li><li style="color:#374151">· Enter aktiverer navigasjonslenke <span style="color:#9ca3af;font-size:.75rem">(WCAG 2.1.1)</span></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-weight:600;color:#0a1355;margin-bottom:.4rem">📱 Reflow (1.4.10) · 📐 Tekstmellomrom (1.4.12)</div>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.2rem">
+          <li style="color:#374151">· Ingen horisontal rulling ved 320px (400 % zoom) <span style="color:#9ca3af;font-size:.75rem">(WCAG 1.4.10)</span></li><li style="color:#374151">· Innhold ikke avskåret ved 320px <span style="color:#9ca3af;font-size:.75rem">(WCAG 1.4.10)</span></li><li style="color:#374151">· Ingen tekstklipping ved økt linjehøyde og bokstavmellomrom <span style="color:#9ca3af;font-size:.75rem">(WCAG 1.4.12)</span></li><li style="color:#374151">· Ingen horisontal overflyt etter økt tekstmellomrom <span style="color:#9ca3af;font-size:.75rem">(WCAG 1.4.12)</span></li>
+        </ul>
+      </div>
+    </div>
+  </details>
+  <footer>KS Tilskudd · UU-tester · axe-core + Playwright · 2026-10-23 11:58</footer>
+</div>
+</body>
+</html>
